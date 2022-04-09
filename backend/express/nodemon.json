@@ -1,0 +1,6 @@
+{
+  "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules", "src/routes.ts", "lgmc-api-artifacts", "generated"],
+  "watch": ["src"],
+  "exec": "npm start",
+  "ext": "ts"
+}

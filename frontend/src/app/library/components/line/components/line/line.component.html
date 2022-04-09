@@ -1,0 +1,87 @@
+<div class="full-width bottom-padding-legend" [style.height.px]="chartHeight">
+  <ngx-charts-line-chart
+    [legend]="true"
+    [timeline]="true"
+    [showRefLabels]="true"
+    [results]="results"
+    [animations]="true"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [legendPosition]="position"
+  >
+  </ngx-charts-line-chart>
+</div>
+<div class="p-fluid grid chart-controls">
+  <div class="field col-12 md:col-4">
+          <span class="p-float-label"
+                pTooltip="Device fields to display"
+                tooltipPosition="top"
+          >
+            <p-multiSelect *ngIf="allKpis && _state"
+              id="multiselect"
+              [options]="allKpis"
+              [(ngModel)]="_state.selectedKpis"
+              optionLabel="name"
+              display="chip"
+              (onChange)="changes()"
+            >
+            </p-multiSelect>
+            <label for="multiselect">Fields</label>
+          </span>
+  </div>
+  <div class="field col-12 md:col-4">
+          <span class="p-float-label"
+                pTooltip="Range of values to show"
+                tooltipPosition="top"
+          >
+            <p-calendar *ngIf="_state && _state.dates"
+              id="dates"
+              [(ngModel)]="_state.dates"
+              [showTime]="true"
+              [selectionMode]="'range'"
+              [touchUI]="true"
+              [readonlyInput]="true"
+              (onClose)="changes()"
+            >
+            </p-calendar>
+            <label for="dates">Date range</label>
+          </span>
+  </div>
+  <div class="field col-12 md:col-2 flex-grow-1">
+          <span class="p-float-label"
+                pTooltip="Operation to perform"
+                tooltipPosition="top"
+          >
+            <p-dropdown
+              *ngIf="_state"
+              id="operation"
+              [options]="allAggregationOperations"
+              [(ngModel)]="_state.selectedAggregationOperation"
+              (onChange)="changes()"
+            >
+            </p-dropdown>
+            <label for="operation">Operation</label>
+          </span>
+  </div>
+  <div class="field col-12 md:col-2" *ngIf="allDevicesToCompareWith && allDevicesToCompareWith.length">
+          <span class="p-float-label"
+                pTooltip="Devices to show"
+                tooltipPosition="top"
+          >
+            <p-multiSelect
+              *ngIf="_state"
+              [options]="allDevicesToCompareWith"
+              [(ngModel)]="_state.selectedDevicesToCompareWith"
+              optionLabel="name"
+              id="devices"
+              (onChange)="changes()"
+            >
+            </p-multiSelect>
+             <label for="devices">Devices</label>
+          </span>
+  </div>
+</div>

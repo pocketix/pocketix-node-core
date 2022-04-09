@@ -1,0 +1,90 @@
+:host {
+  --emphasize-font-size: 20px;
+}
+
+/* seems like gutter is broken, use one less column and this hack */
+.gutter-hack {
+  flex-grow: 1;
+}
+
+.chart-controls {
+  padding-top: 15px;
+}
+
+.no-bottom-padding {
+  padding-bottom: 0 !important;
+}
+
+.padding-03 {
+  padding: 0.3rem;
+}
+
+.bullet {
+  height: 150px;
+  width: 285px;
+  flex-grow: 1;
+}
+
+.full-width {
+  width: 100%
+}
+
+.full-height {
+  height: 100%;
+}
+
+.sparkline-column {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* When more than 12 items show y overflow, x axis should flex on small devices */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sparkline-item {
+  overflow: hidden;
+  width: 50%;
+}
+
+.horizontal-flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.not-numeric-data-item {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.p-card-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.emphasize {
+  text-align: center;
+  font-size: var(--emphasize-font-size);
+  width: 100%
+}
+
+.p-card {
+  margin: 15px;
+}
+
+.kpi-value {
+  font-size: var(--emphasize-font-size);
+}
+
+.kpi-units {
+  font-size: var(--emphasize-font-size);
+}
+
+.reload {
+  padding-right: 10px;
+}

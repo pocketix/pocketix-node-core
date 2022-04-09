@@ -1,0 +1,58 @@
+lgmc-g-barchart {
+  display: block;
+  width: 100%;
+}
+
+.strike-trough {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+ul.legend-labels {
+  display: flex;
+  background: var(--surface-a) !important;
+}
+
+li.legend-label.ng-star-inserted span.legend-label-text, span.legend-title-text {
+  font-size: 15px;
+  color: var(--text-color);
+  line-height: 20px;
+}
+
+.tick.ng-star-inserted > * {
+  font-size: 14px !important;
+}
+
+span.active {
+  font-weight: 600;
+}
+
+.chart-legend .legend-label-color {
+  height: 16px;
+  width: 16px;
+  line-height: 20px;
+}
+
+ul.legend-labels {
+  line-height: 100%;
+}
+
+li.legend-label.ng-star-inserted span {
+  display: flex;
+  align-items: center;
+}
+
+ngx-charts-bar-vertical-stacked {
+  width: 100%;
+}
+
+header.legend-title.ng-star-inserted, header.legend-title.ng-star-inserted > span.legend-title-text {
+  overflow: visible;
+}
+
+.empty-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}

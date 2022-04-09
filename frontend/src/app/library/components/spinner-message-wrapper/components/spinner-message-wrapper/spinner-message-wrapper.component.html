@@ -1,0 +1,15 @@
+<div *ngIf="!hasData && !loading" class="empty-placeholder">
+  <span>{{message}}</span>
+</div>
+<div *ngIf="loading" class="empty-placeholder">
+  <ng-content
+    select="[spinner]"
+  >
+  </ng-content>
+</div>
+<ng-container style="{{hasData && !loading ? 'visibility: hidden;' : 'visibility: visible'}}">
+  <ng-content
+  select="[content]"
+  >
+  </ng-content>
+</ng-container>

@@ -1,0 +1,27 @@
+<div class="flex align-items-center full-width" style="padding: 0 15px; justify-content: space-between;">
+  <h5 class="p-card-title full-width">
+    {{name}}
+  </h5>
+  <p-toggleButton
+    pRipple
+    class="padding-04"
+    styleClass="padding-04"
+    onIcon="pi pi-check"
+    offIcon="pi pi-times"
+    iconPos="left"
+    pTooltip="Toggle thresholds"
+    tooltipPosition="left"
+    (onChange)="onSparkLineSwitch($event)"
+  >
+  </p-toggleButton>
+</div>
+<div class="sparkline-graph">
+  <ngx-charts-line-chart
+    [showRefLines]="showReferenceLines"
+    [referenceLines]="referenceLines"
+    [autoScale]="true"
+    [yAxis]="true"
+    [results]="data"
+    [animations]="true">
+  </ngx-charts-line-chart>
+</div>

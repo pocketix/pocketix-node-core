@@ -1,0 +1,17 @@
+<ngx-charts-bar-vertical-stacked
+  *ngIf="!!this.data?.length"
+  #chart
+  [results]="values.visibleData"
+  [xAxis]=true
+  [yAxis]=true
+  [xAxisTicks]="xAxisTicks"
+  [yAxisTicks]="yAxisTicks"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [showXAxisLabel]="this.xAxisLabel !== undefined"
+  [showYAxisLabel]="this.yAxisLabel !== undefined"
+  [legend]=true
+  [scheme]="colorScheme"
+  [legendPosition]="'bottom'"
+  (select)="onSelect($event)">
+</ngx-charts-bar-vertical-stacked>

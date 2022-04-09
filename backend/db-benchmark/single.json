@@ -1,0 +1,23 @@
+{
+  "date": "2021-09-09T09:44:01.892Z",
+  "t1_calibration": 0,
+  "t1_temperature": 18.92,
+  "t2_calibration": 0,
+  "t2_temperature": 20.77,
+  "dhw_calibration": 0.89,
+  "dhw_temperature": 40.95,
+  "boiler_calibration": 0.27,
+  "boiler_temperature": 19.58,
+  "feeder_calibration": 1.64,
+  "feeder_temperature": 18.24,
+  "outside_calibration": -1.8,
+  "outside_temperature": 19.64,
+  "indoor_calibration": 0,
+  "indoor_temperature": "unknown",
+  "return_calibration": 1.46,
+  "return_temperature": 18.69,
+  "ch1_internal_temperature": 22.74,
+  "ch1_internal_normalized": 21.4,
+  "ch2_internal_temperature": 20.77,
+  "ch2_internal_normalized": 19.2
+}

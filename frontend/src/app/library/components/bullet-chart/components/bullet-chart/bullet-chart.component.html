@@ -1,0 +1,117 @@
+<ngx-charts-chart [view]="[width, height]" [showLegend]="false" [animations]="animations" (click)="onClick()"
+                  xmlns:svg="http://www.w3.org/2000/svg">
+  <svg:g class="linear-gauge chart">
+    <!-- Threshold bars -->
+    <svg:g *ngFor="let threshold of thresholds; let i = index" [attr.data-index]="i"
+      ngx-charts-bar
+      [width]="valueScale(threshold)"
+      [height]="20"
+      [x]="margin[3]"
+      [y]="dims.height / 2 + margin[0] - 10"
+      [fill]="otherColors[i]"
+      [data]="emptyData"
+      [orientation]="barOrientation"
+      [roundEdges]="false"
+      [animations]="animations"
+    > </svg:g>
+    <!-- Background bar -->
+    <svg:g
+      ngx-charts-bar
+      class="background-bar"
+      [width]="dims.width"
+      [height]="3"
+      [x]="margin[3]"
+      [y]="dims.height / 2 + margin[0] - 2"
+      [data]="emptyData"
+      [orientation]="barOrientation"
+      [roundEdges]="false"
+      [animations]="animations"
+    > </svg:g>
+    <!-- Value bar -->
+    <svg:g
+      ngx-charts-bar
+      [width]="valueScale(value)"
+      [height]="10"
+      [x]="margin[3]"
+      [y]="dims.height / 2 + margin[0] - 5"
+      [fill]="colors?.getColor(name) || 'black'"
+      [data]="emptyData"
+      [orientation]="barOrientation"
+      [roundEdges]="false"
+      [animations]="animations"
+    > </svg:g>
+    <!-- Previous value ticks -->
+    <svg:line
+      *ngIf="hasPreviousValue"
+      [attr.transform]="transformLine"
+      x1="0"
+      y1="6"
+      x2="0"
+      y2="20"
+      [attr.stroke]="colors?.getColor(name)"
+    />
+    <svg:line
+      *ngIf="hasPreviousValue"
+      [attr.transform]="transformLine"
+      x1="0"
+      y1="-6"
+      x2="0"
+      y2="-20"
+      [attr.stroke]="colors?.getColor(name)"
+    />
+    <!-- Text -->
+    <svg:g [attr.transform]="transform">
+      <svg:g [attr.transform]="valueTranslate">
+        <svg:text
+          #valueTextEl
+          class="value"
+          [style.textAnchor]="'middle'"
+          [attr.transform]="valueTextTransform"
+          alignment-baseline="after-edge"
+          [style]="valueTextStyle"
+        >
+          {{ displayValue }} {{units}}
+        </svg:text>
+      </svg:g>
+      <svg:g [attr.transform]="unitsTranslate">
+        <svg:text
+          #unitsTextEl
+          class="units"
+          [style.textAnchor]="'middle'"
+          [attr.transform]="unitsTextTransform"
+          alignment-baseline="before-edge"
+          [style]="unitsTextStyle"
+        >
+          {{ name }}
+        </svg:text>
+      </svg:g>
+    </svg:g>
+    <svg:g>
+      <!-- Threshold ticks -->
+      <svg:g *ngFor="let threshold of thresholds" [attr.transform]="getTickTranslate(threshold)">
+        <svg:text
+          [style.textAnchor]="'middle'"
+          [style]="ticksTextStyle"
+        >
+          {{threshold}}
+        </svg:text>
+      </svg:g>
+      <!-- Min ticks -->
+      <svg:g [attr.transform]="getTickTranslate(min)">
+        <svg:text
+          [style.textAnchor]="'middle'"
+        >
+          {{min}}
+        </svg:text>
+      </svg:g>
+      <!-- Max ticks -->
+      <svg:g [attr.transform]="getTickTranslate(max)">
+        <svg:text
+          [style.textAnchor]="'middle'"
+        >
+          {{max}}
+        </svg:text>
+      </svg:g>
+    </svg:g>
+  </svg:g>
+</ngx-charts-chart>

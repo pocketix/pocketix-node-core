@@ -1,0 +1,49 @@
+#new-chart {
+  position: relative;
+}
+
+/* helpful https://stackoverflow.com/questions/53421526/d3-js-legend-overlapping-chart-area */
+.legend-labels {
+  display: flex;
+}
+
+.legend-container {
+  display: flex;
+  gap: 1em;
+  padding-left: 50px;
+}
+
+.legend {
+  margin-bottom: 0.5em;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 12%;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 100;
+  display: block;
+  opacity: 0;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.tooltip-active {
+  opacity: 0.8;
+}
+
+.axis {
+  font-size: 16px;
+}
+
+.svg-container {
+  height: calc(100% - 30px);
+}

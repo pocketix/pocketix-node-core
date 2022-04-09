@@ -1,0 +1,8 @@
+.full-width {
+  width: 100%
+}
+
+/* ngx-charts legend sticks out in older versions, cover it with padding */
+.bottom-padding-legend {
+  margin-bottom: 65px;
+}
