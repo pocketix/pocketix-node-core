@@ -1,19 +1,18 @@
 <div class="flex align-items-center full-width" style="padding: 0 15px; justify-content: space-between;">
-  <h5 class="p-card-title full-width">
+  <span class="full-width">
     {{name}}
-  </h5>
-  <p-toggleButton
+  </span>
+  <p-checkbox
     pRipple
-    class="padding-04"
-    styleClass="padding-04"
-    onIcon="pi pi-check"
-    offIcon="pi pi-times"
-    iconPos="left"
+    style="padding-right: 2px;"
+    class="p-button-sm"
     pTooltip="Toggle thresholds"
     tooltipPosition="left"
+    [binary]="true"
     (onChange)="onSparkLineSwitch($event)"
+    [(ngModel)]="state"
   >
-  </p-toggleButton>
+  </p-checkbox>
 </div>
 <div class="sparkline-graph">
   <ngx-charts-line-chart

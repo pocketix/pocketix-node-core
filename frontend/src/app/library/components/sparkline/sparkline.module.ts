@@ -5,6 +5,8 @@ import {ToggleButtonModule} from "primeng/togglebutton";
 import {RippleModule} from "primeng/ripple";
 import {TooltipModule} from "primeng/tooltip";
 import {LineChartModule} from "@swimlane/ngx-charts";
+import {CheckboxModule} from "primeng/checkbox";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -20,7 +22,9 @@ import {LineChartModule} from "@swimlane/ngx-charts";
     ToggleButtonModule,
     RippleModule,
     TooltipModule,
-    LineChartModule
+    LineChartModule,
+    CheckboxModule,
+    FormsModule
   ]
 })
 export class SparklineModule { }

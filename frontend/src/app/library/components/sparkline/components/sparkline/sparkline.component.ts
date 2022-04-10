@@ -12,6 +12,7 @@ export class SparklineComponent implements OnInit {
   @Input() referenceLines?: [{name: string, value: number}];
   @Output() clickOnChart = new EventEmitter<any>();
   showReferenceLines: boolean = false;
+  state: boolean = false;
 
   constructor() { }
 
