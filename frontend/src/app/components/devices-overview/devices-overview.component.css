@@ -1,0 +1,9 @@
+.no-padding-top {
+  padding-top: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}

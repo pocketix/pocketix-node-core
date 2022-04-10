@@ -1,0 +1,45 @@
+<p-panel header="Boilers" [toggleable]="true">
+  <p-card
+    *ngFor="let device of devices"
+    header="{{device.deviceName}}"
+    [style]="{width: '420px'}" styleClass="p-card-shadow"
+  >
+    <ng-template pTemplate="header">
+      <img alt="Card" src="{{device.image}}">
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <div class="flex flex-row justify-content-between">
+        <app-key-value-display key="Device UID" value="{{device.deviceUid}}"></app-key-value-display>
+        <app-key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></app-key-value-display>
+        <app-key-value-display key="Registered" value="{{device.registrationDate | date}}"></app-key-value-display>
+      </div>
+      <p-divider align="left" styleClass="no-padding-bottom">
+        <div class="inline-flex align-items-center">
+          <i class="pi pi-book mr-2"></i>
+          <b>Description</b>
+        </div>
+      </p-divider>
+    </ng-template>
+
+    <ng-template pTemplate="content">
+      <p-scrollPanel styleClass="no-padding-top" [style]="{width: '100%', height: '100px'}">
+        {{device.description}}
+      </p-scrollPanel>
+    </ng-template>
+
+
+    <ng-template pTemplate="footer">
+      <div class="flex flex-row justify-content-between">
+        <p-button
+          label="Statistic Detail"
+          icon="pi pi-chart-line p-button-sm"
+          styleClass="p-button-sm"
+          (onClick)="statisticDetail(device, 'boiler')"
+        >
+        </p-button>
+        <p-button label="Cancel" icon="pi pi-chart-line p-button-sm" styleClass="p-button-secondary p-button-sm"></p-button>
+        <p-button label="Cancel" icon="pi pi-chart-bar p-button-sm" styleClass="p-button-sm"></p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</p-panel>

@@ -10,11 +10,12 @@ import {NgApexchartsModule} from "ng-apexcharts";
 import {TooltipModule} from "primeng/tooltip";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ApiModule} from "../../../generated/api.module";
+import { DashboardAvailabilityComponent } from './dashboard-availability/dashboard-availability.component';
 
 
 
 @NgModule({
-  declarations: [StatisticDeviceDetailDashboard],
+  declarations: [StatisticDeviceDetailDashboard, DashboardAvailabilityComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -25,7 +26,7 @@ import {ApiModule} from "../../../generated/api.module";
     BulletChartModule,
     NgApexchartsModule,
     TooltipModule,
-    ApiModule.forRoot({rootUrl: "http://localhost:3000"})
+    ApiModule.forRoot({rootUrl: "http://192.168.0.50:3000"})
   ],
   exports: [
     StatisticDeviceDetailDashboard

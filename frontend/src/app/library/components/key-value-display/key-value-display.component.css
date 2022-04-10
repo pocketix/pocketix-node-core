@@ -1,0 +1,7 @@
+.key, .value {
+  text-align: center;
+}
+
+.key {
+  color: var(--text-color);
+}

@@ -11,11 +11,21 @@ import {AppRoutingModule} from "./app-routing.module";
 import {DashboardsModule} from "./library/dashboards/components/dashboards.module";
 import {HttpClientModule} from "@angular/common/http";
 import { DeviceDetailDashboardComponent } from './components/device-detail-dashboard/device-detail-dashboard.component';
+import { DevicesOverviewComponent } from './components/devices-overview/devices-overview.component';
+import {PanelModule} from "primeng/panel";
+import {CardModule} from "primeng/card";
+import {ButtonModule} from "primeng/button";
+import { KeyValueDisplayComponent } from './library/components/key-value-display/key-value-display.component';
+import {DividerModule} from "primeng/divider";
+import {StyleClassModule} from "primeng/styleclass";
+import {ScrollPanelModule} from "primeng/scrollpanel";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DeviceDetailDashboardComponent
+    DeviceDetailDashboardComponent,
+    DevicesOverviewComponent,
+    KeyValueDisplayComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +34,13 @@ import { DeviceDetailDashboardComponent } from './components/device-detail-dashb
     AvailabilityModule,
     AppRoutingModule,
     DashboardsModule,
-    HttpClientModule
+    HttpClientModule,
+    PanelModule,
+    CardModule,
+    ButtonModule,
+    DividerModule,
+    StyleClassModule,
+    ScrollPanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]
