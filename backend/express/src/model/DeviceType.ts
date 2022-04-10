@@ -1,6 +1,7 @@
-import {Column, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Device} from "./Device";
 
+@Entity()
 class DeviceType {
     /**
      * ID of the type
