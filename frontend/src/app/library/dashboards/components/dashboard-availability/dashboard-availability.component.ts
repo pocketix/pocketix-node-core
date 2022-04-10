@@ -17,7 +17,7 @@ export class DashboardAvailabilityComponent  {
   @Input() fields: string[] = [];
   @Input() devices?: Device[];
   @Input() bullets: Bullet[] = [];
-  @Input() sparklineMapping = (name: string) => name; // [parameter.mnParameter?.devParName, `${parameter.mnParameter?.label} ${parameter.mnParameter?.unit}`]
+  @Input() sparklineMapping = (name: string) => name;
   @Input() sparklines: string[] = [];
 
   lineState = {
