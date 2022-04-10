@@ -41,67 +41,15 @@
     <div class="p-card">
       <h5 class="p-card-title">Stability</h5>
       <div class="flex flex-wrap">
-        <app-availability
-          [availabilities]="availabilities"
-        >
-        </app-availability>
+
       </div>
     </div>
   </div>
 
   <div class="p-card col-11 gutter-hack">
-    <h5 class="p-card-title">Sensor availability</h5>
-    <div class="flex flex-row">
-      <div class="full-height">
-        <img src="" class="full-width full-height" id="image" alt="image" style="width: 100px;">
-      </div>
-      <div class="p-card-body horizontal-flex-row flex-grow-1">
-        <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item">
-          <h5 class="p-card-title" style="text-align: center">{{item[1]}}</h5>
-          <span class="emphasize align-content-center">{{item[0]}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="p-card col-11 md:col-5 gutter-hack">
-    <h5 class="p-card-title">KPI Thresholds</h5>
-    <div class="p-card-body horizontal-flex-row full-width full-height">
-      <div class="bullet"
-           *ngFor="let bullet of bullets"
-           pTooltip="Thresholds: {{bullet.thresholds[0]}}, {{bullet.thresholds[1]}}"
-           tooltipPosition="top"
-      >
-        <bullet-chart [value]="bullet.value"
-                      [min]="bullet.min"
-                      [max]="bullet.max"
-                      [units]="bullet.units"
-                      [name]="bullet.name"
-                      [thresholds]="bullet.thresholds"
-                      [previousValue]="bullet.previousValue"
-                      valueTextStyle="font-size: 20px;"
-                      unitsTextStyle="font-size: 20px;"
-        >
-        </bullet-chart>
-      </div>
-    </div>
-  </div>
-  <div class="p-card col-11 md:col-5 gutter-hack">
-    <h5 class="p-card-title">Statistics</h5>
-    <div class="p-card-body fadein animation-duration-500 flex flex-wrap full-width full-height flex-column">
-      <div *ngFor="let box of boxData" class="flex-grow-1">
-        <span>
-          {{box.name}}
-        </span>
-        <apx-chart
-          [series]="box.data"
-          [plotOptions]="plotOptions"
-          [chart]="chart"
-          [yaxis]="yAxis"
-          [grid]="grid"
-        >
-        </apx-chart>
-      </div>
-    </div>
+    <app-availability
+      [availabilities]="availabilities"
+    >
+    </app-availability>
   </div>
 </div>
