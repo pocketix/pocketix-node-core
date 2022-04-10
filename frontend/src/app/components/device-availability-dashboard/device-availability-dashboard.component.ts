@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {first, tap} from "rxjs/operators";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-device-availability-dashboard',
   templateUrl: './device-availability-dashboard.component.html',
-  styleUrls: ['./device-availability-dashboard.component.css']
+  styleUrls: ['./device-availability-dashboard.component.css'],
+  providers: [MessageService]
 })
 export class DeviceAvailabilityDashboardComponent implements OnInit {
   private type = "";
