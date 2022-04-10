@@ -7,7 +7,7 @@ import {
 } from "./components/device-availability-dashboard/device-availability-dashboard.component";
 
 export const deviceDetailPath = "details";
-export const deviceAvailabilityPath = "details";
+export const deviceAvailabilityPath = "availability";
 
 const routes: Routes = [
   {path: `${deviceDetailPath}/:type`, component: DeviceDetailDashboardComponent, pathMatch: "full"},
