@@ -1,3 +1,6 @@
+export { ParameterValue } from './models/parameter-value';
+export { ParameterType } from './models/parameter-type';
+export { Device } from './models/device';
 export { OutputData } from './models/output-data';
 export { InfluxQueryResult } from './models/influx-query-result';
 export { SimpleSensors } from './models/simple-sensors';

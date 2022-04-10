@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import {RegisterRoutes} from './routes';
 import {errorHandler} from './utility/errorHandler';
 import {LoggingMiddleware} from './middlewares/LoggingMiddleware';
-import cors from 'cors';
+import {createDatasource} from "./utility/createDatasource";
 
 
 class App {
@@ -15,7 +15,7 @@ class App {
     }
 
     private async config(): Promise<void> {
-        //this.app.use(cors());
+        await createDatasource();
         // Middleware that is registered on all endpoints
         const loggingMiddleware = new LoggingMiddleware();
         if (process.env.INFLUX_LOGGING === 'true') {

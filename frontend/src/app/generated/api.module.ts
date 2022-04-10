@@ -4,6 +4,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { DeviceService } from './services/device.service';
 import { InfluxService } from './services/influx.service';
 import { ApiService } from './services/api.service';
 
@@ -15,6 +16,7 @@ import { ApiService } from './services/api.service';
   exports: [],
   declarations: [],
   providers: [
+    DeviceService,
     InfluxService,
     ApiService,
     ApiConfiguration

@@ -1,7 +1,8 @@
 <app-statistic-device-detail-dashboard
+  *ngIf="device && sparklines && fields"
   [bucket]="bucket"
   [devices]="devices"
-  [device]="devices[0]"
+  [device]="device"
   [fields]="fields"
   [sparklines]="sparklines"
   [bullets]="bullets"

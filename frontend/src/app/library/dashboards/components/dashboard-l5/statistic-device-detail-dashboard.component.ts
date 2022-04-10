@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import {MessageService} from "primeng/api";
 import {ApexAxisChartSeries} from 'ng-apexcharts';
 import {chart, grid, plotOptions, yAxis} from './boxSettings';
-import {Operation, ReadRequestBody} from "../../../../generated/models";
+import {Device, Operation, ParameterValue, ReadRequestBody} from "../../../../generated/models";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApiService} from "../../../../generated/services/api.service";
 import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
@@ -18,28 +18,6 @@ export type Bullet = {
   name: string;
 }
 
-export type ParameterValue = {
-  visibility: number,
-  number?: number,
-  string?: string,
-  parameterType: ParameterType
-}
-
-export type ParameterType = {
-  name: string,
-  label: string,
-  treshold1?: number,
-  treshold2?: number,
-  type: string
-}
-
-export type Device = {
-  deviceName: string;
-  deviceUid: string;
-  parameterValues: ParameterValue[];
-  image?: string
-}
-
 @Component({
   selector: 'app-statistic-device-detail-dashboard',
   templateUrl: './statistic-device-detail-dashboard.component.html',
@@ -49,6 +27,7 @@ export type Device = {
 })
 export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   @Input() device: Device = {
+    description: "", lastSeenDate: "", latitude: 0, longitude: 0, registrationDate: "",
     deviceName: '',
     deviceUid: '',
     parameterValues: []
@@ -210,7 +189,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     from.setDate(from.getDate() - 7);
 
 
-    const otherData = this.device.parameterValues.filter(value => typeof value.number != "number" || value.visibility != 3);
+    const otherData = this.device.parameterValues?.filter(value => typeof value.number != "number" || value.visibility != 3) || [];
 
     this.otherData.push(...otherData.map(param => StatisticDeviceDetailDashboard.parseOtherParams(param)));
     this.kpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
@@ -276,15 +255,15 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   private static parseOtherParams(param: ParameterValue) {
     let field = StatisticDeviceDetailDashboard.getFieldByType(param);
 
-    if (param.parameterType.name.toLowerCase().includes("date") && typeof field === "number") {
+    if (param.type.name.toLowerCase().includes("date") && typeof field === "number") {
       field = new Date(field * 1000).toLocaleString();
     }
 
-    return [field, param.parameterType.label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
+    return [field, param.type.label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
   }
 
   private static getFieldByType(param: ParameterValue) {
-    switch (param.parameterType.type) {
+    switch (param.type.type) {
       case "string":
         return param.string;
       case "number":
@@ -310,9 +289,9 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   }
 
   private getMinMax(field: string, mapping: (name: string) => string) {
-    const parameter = this.device?.parameterValues?.find(parameter => parameter?.parameterType?.name === field);
+    const parameter = this.device?.parameterValues?.find(parameter => parameter?.type?.name === field);
     // sort the thresholds
-    const thresholds = [parameter?.parameterType?.treshold1 || 0, parameter?.parameterType?.treshold2 || 0].sort();
+    const thresholds = [parameter?.type?.threshold1 || 0, parameter?.type?.threshold2 || 0].sort();
 
     const series = thresholds[0] === thresholds[1] ?
       [{value: thresholds[0], name: "Threshold"}] : // Same thresholds clip label and don't look too good
