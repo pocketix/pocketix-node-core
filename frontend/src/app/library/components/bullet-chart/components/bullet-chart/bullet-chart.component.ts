@@ -74,7 +74,7 @@ export class BulletChartComponent extends BaseChartComponent implements AfterVie
   }
 
   update(): void {
-    this.thresholds = this.thresholds.filter(threshold => threshold !== undefined).sort();
+    this.thresholds = this.thresholds.filter(threshold => threshold !== undefined).sort().reverse();
     super.update();
 
     this.hasPreviousValue = this.previousValue !== undefined;
