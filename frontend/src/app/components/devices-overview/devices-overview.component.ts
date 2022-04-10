@@ -13,10 +13,18 @@ export class DevicesOverviewComponent implements OnInit {
 
   constructor(private deviceService: DeviceService, private router: Router) { }
 
-  devices?: Device[];
+  devicesByType?: {[type: string]: Device[]}
 
   ngOnInit(): void {
-    this.deviceService.getAllDevices().subscribe(devices => this.devices = devices);
+    this.deviceService.getAllDevices().subscribe(devices => {
+      this.devicesByType = devices.reduce((previousValue, device) => {
+        if (!previousValue[device.type.name])
+          previousValue[device.type.name] = []
+
+        previousValue[device.type.name].push(device);
+        return previousValue;
+      }, {} as any)
+    });
   }
 
   statisticDetail(device: Device, deviceType: string) {

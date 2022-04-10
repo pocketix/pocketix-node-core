@@ -35,7 +35,9 @@ export class DeviceDetailDashboardComponent implements OnInit {
       ), first()
     ).toPromise();
 
-    this.deviceService.getAllDevices({}).subscribe(
+    this.deviceService.getDevicesByDeviceType({
+      deviceType: this.type
+    }).subscribe(
       devices => this.devices = devices
     );
 

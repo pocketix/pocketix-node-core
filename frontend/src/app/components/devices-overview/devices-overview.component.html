@@ -1,6 +1,7 @@
-<p-panel header="Boilers" [toggleable]="true">
+<!-- IDE issue https://youtrack.jetbrains.com/issue/WEB-51209 -->
+<p-panel *ngFor="let type of devicesByType | keyvalue" header="{{type.key}}" [toggleable]="true">
   <p-card
-    *ngFor="let device of devices"
+    *ngFor="let device of type.value"
     header="{{device.deviceName}}"
     [style]="{width: '420px'}" styleClass="p-card-shadow"
   >

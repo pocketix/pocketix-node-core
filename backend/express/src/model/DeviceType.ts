@@ -12,7 +12,7 @@ class DeviceType {
     /**
      * Devices with current type
      */
-    @OneToMany(() => Device, (device => device.type), {eager: true})
+    @OneToMany(() => Device, (device => device.type))
     devices: Device[];
 
     /**

@@ -64,7 +64,7 @@ class Device {
     /**
      * Device type
      */
-    @ManyToOne(() => DeviceType, (deviceType) => deviceType.devices)
+    @ManyToOne(() => DeviceType, (deviceType) => deviceType.devices, {eager: true})
     type: DeviceType;
 }
 
