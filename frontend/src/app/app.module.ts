@@ -10,10 +10,12 @@ import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "./app-routing.module";
 import {DashboardsModule} from "./library/dashboards/components/dashboards.module";
 import {HttpClientModule} from "@angular/common/http";
+import { DeviceDetailDashboardComponent } from './components/device-detail-dashboard/device-detail-dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DeviceDetailDashboardComponent
   ],
   imports: [
     CommonModule,

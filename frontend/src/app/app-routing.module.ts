@@ -1,9 +1,9 @@
 import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AppComponent} from "./app.component";
+import {DeviceDetailDashboardComponent} from "./components/device-detail-dashboard/device-detail-dashboard.component";
 
 const routes: Routes = [
-	{path: "", component: AppComponent, pathMatch: "full"}
+	{path: "", component: DeviceDetailDashboardComponent, pathMatch: "full"}
 ];
 
 @NgModule({
