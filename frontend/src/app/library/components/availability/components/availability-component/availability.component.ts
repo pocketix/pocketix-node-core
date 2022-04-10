@@ -1,17 +1,22 @@
 import {Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {ModalComponent} from "../modal/modal.component";
 
+export type Availability = {
+  text: string;
+  value: number;
+  target: number;
+}
+
 @Component({
 	selector: 'app-availability',
 	templateUrl: './availability.component.html',
 	styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit {
-	@Input() rawSeries: { [p: string]: [{ name: Date, value: any }] | any[] } = {};
-	@Input() extractor: any;
-	public data: { name: string; value: number; key: string; }[] | undefined;
+  @Input()
+  availabilities!: Availability[];
+
 	public availability: number = 0;
-	private count = 0;
 	showXAxis = true;
 	showYAxis = true;
 	showLegend = true;
@@ -31,9 +36,6 @@ export class AvailabilityComponent implements OnInit {
 		this.modal = this.viewContainerRef.createComponent(factory);
 		let childComponent = this.modal.instance;
 		childComponent.sensor = sensor;
-		let data = this.extractor(sensor)
-		console.log(data)
-		childComponent.sensorData = data;
 		// @ts-ignore
 		childComponent.parentRef = this;
 		childComponent.close = this.remove;

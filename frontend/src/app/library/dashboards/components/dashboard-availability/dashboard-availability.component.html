@@ -23,21 +23,34 @@
       </line>
     </div>
   </div>
-  <div class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column">
-    <h5 class="p-card-title">Statistics</h5>
-    <div class="flex flex-wrap">
-      <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineData">
-        <sparkline
-          [name]="data[0].name"
-          [data]="data"
-          [referenceLines]="sparklineMaxMin[data[0].name]"
+  <div class="max-height-on-lg-screen col-11 lg:col-4 sparkline-column">
+    <div class="p-card">
+      <h5 class="p-card-title">Statistics</h5>
+      <div class="flex flex-wrap">
+        <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineData">
+          <sparkline
+            [name]="data[0].name"
+            [data]="data"
+            [referenceLines]="sparklineMaxMin[data[0].name]"
+          >
+          </sparkline>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-card">
+      <h5 class="p-card-title">Stability</h5>
+      <div class="flex flex-wrap">
+        <app-availability
+          [availabilities]="availabilities"
         >
-        </sparkline>
+        </app-availability>
       </div>
     </div>
   </div>
 
   <div class="p-card col-11 gutter-hack">
+    <h5 class="p-card-title">Sensor availability</h5>
     <div class="flex flex-row">
       <div class="full-height">
         <img src="" class="full-width full-height" id="image" alt="image" style="width: 100px;">

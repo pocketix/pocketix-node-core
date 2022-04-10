@@ -47,6 +47,7 @@ export class DashboardAvailabilityComponent  {
   chart = chart;
   yAxis = yAxis;
   grid = grid;
+  availabilities: any = [];
 
   onReloadSwitch($event: any) {
 

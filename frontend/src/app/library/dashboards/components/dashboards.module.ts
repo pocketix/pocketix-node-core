@@ -11,6 +11,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ApiModule} from "../../../generated/api.module";
 import { DashboardAvailabilityComponent } from './dashboard-availability/dashboard-availability.component';
+import {AvailabilityModule} from "../../components/availability/availability.module";
 
 
 
@@ -26,10 +27,12 @@ import { DashboardAvailabilityComponent } from './dashboard-availability/dashboa
     BulletChartModule,
     NgApexchartsModule,
     TooltipModule,
-    ApiModule.forRoot({rootUrl: "http://192.168.0.50:3000"})
+    ApiModule.forRoot({rootUrl: "http://192.168.0.50:3000"}),
+    AvailabilityModule
   ],
   exports: [
-    StatisticDeviceDetailDashboard
+    StatisticDeviceDetailDashboard,
+    DashboardAvailabilityComponent
   ]
 })
 export class DashboardsModule { }

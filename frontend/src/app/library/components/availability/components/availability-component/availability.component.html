@@ -1,22 +1,19 @@
-<div class="card" style="margin-top: 30px;">
-	<div class="card-body">
-		<h5 class="card-title">Sensor Availability</h5>
-		<div style="display: flex; flex-direction: row; flex-wrap: wrap">
-			<app-availability-linear-gauge *ngFor="let item of data"
-										   [value]="item.value"
-										   [borderValue]="availability"
-										   [units]="item.name"
-										   stringToAdd="%"
-										   (click)="createModal(item.key)"
-			>
-			</app-availability-linear-gauge>
-			<app-availability-linear-gauge [value]="availability"
-										   [borderValue]="availability"
-										   [units]="units"
-										   stringToAdd="%"
-			>
-			</app-availability-linear-gauge>
-		</div>
-	</div>
+<div class="p-card" style="margin-top: 30px;">
+  <h5 class="p-card-title">Sensor Availability</h5>
+  <div class="flex flex-row flex-wrap">
+    <app-availability-linear-gauge *ngFor="let item of availabilities"
+                     [value]="item.value"
+                     [borderValue]="item.target ?? availability"
+                     [units]="item.text"
+                     stringToAdd="%"
+    >
+    </app-availability-linear-gauge>
+    <app-availability-linear-gauge [value]="availability"
+                     [borderValue]="availability"
+                     [units]="units"
+                     stringToAdd="%"
+    >
+    </app-availability-linear-gauge>
+  </div>
 </div>
 

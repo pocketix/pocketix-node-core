@@ -19,13 +19,15 @@ import { KeyValueDisplayComponent } from './library/components/key-value-display
 import {DividerModule} from "primeng/divider";
 import {StyleClassModule} from "primeng/styleclass";
 import {ScrollPanelModule} from "primeng/scrollpanel";
+import { DeviceAvailabilityDashboardComponent } from './components/device-availability-dashboard/device-availability-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DeviceDetailDashboardComponent,
     DevicesOverviewComponent,
-    KeyValueDisplayComponent
+    KeyValueDisplayComponent,
+    DeviceAvailabilityDashboardComponent
   ],
   imports: [
     CommonModule,
