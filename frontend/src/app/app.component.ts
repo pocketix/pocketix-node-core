@@ -27,6 +27,7 @@ export class AppComponent implements OnInit{
         this.device = device;
         this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
         this.sparklines = this.fields;
+        this.fields = this.fields.slice(0, 3);
         this.bullets = this.device.parameterValues?.map(parameterValue => ({
           value: parameterValue.number ?? 0,
           min: parameterValue.type.min ?? 0,
