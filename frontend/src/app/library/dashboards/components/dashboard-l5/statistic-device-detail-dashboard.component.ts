@@ -53,7 +53,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   devicesOptions: any[] = [];
   timer: any;
 
-  boxData = [] as ApexAxisChartSeries[];
+  boxData = [] as {name: string, data: ApexAxisChartSeries }[];
 
   sparklineMaxMin: any = [];
   selectedDevicesToCompareWith: any;
@@ -155,7 +155,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
         const items = StatisticDeviceDetailDashboard.toBoxData(series as any[]);
 
         if (items)
-          previous.push([{data: [{x: name, y: items}]}]);
+          previous.push({name, data: [{data: [{x: name, y: items}]}]});
 
         return previous;
       }, [] as any[]);
@@ -220,7 +220,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
     this.apiService.aggregate({
       operation: this.currentOperation as Operation,
-      aggregateMinutes: 15,
+      aggregateMinutes: 30,
       from,
       to,
       body: {bucket: this.bucket, sensors}

@@ -75,15 +75,20 @@
   </div>
   <div class="p-card col-11 md:col-5 gutter-hack">
     <h5 class="p-card-title">Statistics</h5>
-    <div class="p-card-body grid fadein animation-duration-500 flex flex-wrap full-width full-height">
-      <apx-chart *ngFor="let box of boxData" class="col-12 xl:col-6 flex-grow-1" style="min-width: 300px"
-        [series]="box"
-        [plotOptions]="plotOptions"
-        [chart]="chart"
-        [yaxis]="yAxis"
-        [grid]="grid"
-      >
-      </apx-chart>
+    <div class="p-card-body fadein animation-duration-500 flex flex-wrap full-width full-height flex-column">
+      <div *ngFor="let box of boxData" class="flex-grow-1">
+        <span>
+          {{box.name}}
+        </span>
+        <apx-chart
+          [series]="box.data"
+          [plotOptions]="plotOptions"
+          [chart]="chart"
+          [yaxis]="yAxis"
+          [grid]="grid"
+        >
+        </apx-chart>
+      </div>
     </div>
   </div>
 </div>

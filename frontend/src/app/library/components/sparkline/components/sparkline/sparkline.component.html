@@ -2,17 +2,19 @@
   <span class="full-width">
     {{name}}
   </span>
-  <p-checkbox
-    pRipple
-    style="padding-right: 2px;"
-    class="p-button-sm"
-    pTooltip="Toggle thresholds"
-    tooltipPosition="left"
-    [binary]="true"
-    (onChange)="onSparkLineSwitch($event)"
-    [(ngModel)]="state"
-  >
-  </p-checkbox>
+  <span class="padding-04">
+    <p-checkbox
+      pRipple
+      styleClass="padding-04"
+      class="p-button-sm"
+      pTooltip="Toggle thresholds"
+      tooltipPosition="left"
+      [binary]="true"
+      (onChange)="onSparkLineSwitch($event)"
+      [(ngModel)]="state"
+    >
+    </p-checkbox>
+  </span>
 </div>
 <div class="sparkline-graph">
   <ngx-charts-line-chart
