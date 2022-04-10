@@ -19,9 +19,15 @@
   padding: 0.3rem;
 }
 
+@media screen and (min-width: 992px) {
+  .max-height-on-lg-screen {
+    max-height: 600px;
+  }
+}
+
 .bullet {
   height: 150px;
-  width: 285px;
+  width: 400px;
   flex-grow: 1;
 }
 
@@ -45,7 +51,6 @@
 
 .sparkline-item {
   overflow: hidden;
-  width: 50%;
 }
 
 .horizontal-flex-row {

@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
 <div class="grid">
-  <div class="p-card col-11 lg:col-7 gutter-hack fadeinleft animation-duration-500" style="min-height: 600px; ">
+  <div class="max-height-on-lg-screen p-card col-11 lg:col-7 gutter-hack fadeinleft animation-duration-500" style="min-height: 600px; ">
     <div class="flex justify-content-between">
       <h5 class="p-card-title">{{device?.deviceName || 'Device name'}}</h5>
       <div class="flex align-items-center">
@@ -23,8 +23,8 @@
       </line>
     </div>
   </div>
-  <div class="p-card col-11 lg:col-4 sparkline-column">
-    <div class="fadeinright animation-duration-500 sparkline-item" *ngFor="let data of sparklineData">
+  <div class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column flex flex-wrap">
+    <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineData">
       <sparkline
         [name]="data[0].name"
         [data]="data"

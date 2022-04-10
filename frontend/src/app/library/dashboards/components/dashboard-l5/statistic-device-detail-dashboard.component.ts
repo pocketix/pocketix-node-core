@@ -160,7 +160,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
         return previous;
       }, [] as any[]);
       this.boxData.push(...boxSeries);
-    })
+    }, error => console.log(error))
   }
 
   private static toBoxData(series: any[]) {
@@ -178,7 +178,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   }
 
   private extractDataFromInputs() {
-    this.devices = this.devices?.filter(device => device !== this.device);
+    this.devices = this.devices?.filter(device => device.deviceUid !== this.device.deviceUid);
     this.devicesOptions.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
     const from = new Date();
     from.setDate(from.getDate() - 7);
