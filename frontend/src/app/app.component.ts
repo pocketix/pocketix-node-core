@@ -37,8 +37,11 @@ export class AppComponent implements OnInit{
           units: parameterValue.type.units ?? "",
           name: parameterValue.type.label ?? ""
         })) || [];
+        this.mapping = (field) =>
+          this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
     });
   }
+  mapping?: (string: string) => string
   device?: Device;
   title = 'dip';
   bucket = environment.bucket;
