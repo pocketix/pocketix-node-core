@@ -26,12 +26,7 @@ export type Bullet = {
   providers: [MessageService]
 })
 export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
-  @Input() device: Device = {
-    description: "", lastSeenDate: "", latitude: 0, longitude: 0, registrationDate: "",
-    deviceName: '',
-    deviceUid: '',
-    parameterValues: []
-  };
+  @Input() device!: Device;
   @Input() bucket: string = "";
   @Input() fields: string[] = [];
   @Input() devices?: Device[];
