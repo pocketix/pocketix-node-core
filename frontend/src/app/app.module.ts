@@ -8,7 +8,6 @@ import {
 } from "./library/components/availability/availability.module";
 import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "./app-routing.module";
-import {DashboardsModule} from "./library/dashboards/components/dashboards.module";
 import {HttpClientModule} from "@angular/common/http";
 import { DeviceDetailDashboardComponent } from './components/device-detail-dashboard/device-detail-dashboard.component';
 import { DevicesOverviewComponent } from './components/devices-overview/devices-overview.component';
@@ -20,6 +19,7 @@ import {DividerModule} from "primeng/divider";
 import {StyleClassModule} from "primeng/styleclass";
 import {ScrollPanelModule} from "primeng/scrollpanel";
 import { DeviceAvailabilityDashboardComponent } from './components/device-availability-dashboard/device-availability-dashboard.component';
+import {DashboardsModule} from "./library/dashboards/dashboards.module";
 
 @NgModule({
   declarations: [
