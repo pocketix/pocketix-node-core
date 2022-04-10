@@ -84,12 +84,12 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   private updateSparklines(sparklines: string[]) {
     const {sensors} = this.createSensors(sparklines)
     const from = new Date();
-    from.setDate(from.getDate() - 30);
+    from.setDate(from.getDate() - 3);
     this.apiService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 1440,
+      aggregateMinutes: 144,
       body: {
         bucket: this.bucket,
         sensors,
@@ -138,12 +138,12 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
   private updateBoxPlots(boxPlotFieldNames: string[]) {
     const from = new Date();
-    from.setDate(from.getDate() - 30);
+    from.setDate(from.getDate() - 3);
     this.apiService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 1440,
+      aggregateMinutes: 144,
       body: {
         bucket: this.bucket,
         sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames},
@@ -187,11 +187,23 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     const otherData = this.device.parameterValues?.filter(value => typeof value.number != "number" || value.visibility != 3) || [];
 
     this.otherData.push(...otherData.map(param => StatisticDeviceDetailDashboard.parseOtherParams(param)));
+    this.extractOtherDataFromDeviceDefinition();
     this.kpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
     console.log(this.kpis, this.fields);
     this.lineState.selectedKpis.push(...this.fields.map(field => ({name: this.sparklineMapping(field), field})));
     console.log(this.lineState);
     this.lineState.dates.push(from, new Date());
+  }
+
+  private extractOtherDataFromDeviceDefinition() {
+    this.otherData.push(...[
+      [this.device.deviceUid, "Device Id"],
+      [this.device.deviceName, "Device Name"],
+      [(new Date(this.device.lastSeenDate)).toLocaleString(), "Last seen"],
+      [(new Date(this.device.registrationDate)).toLocaleString(), "Registered at"],
+      [this.device.latitude, "Latitude"],
+      [this.device.longitude, "Longitude"]
+    ]);
   }
 
   private createSensors(fields: string[]) {
@@ -249,12 +261,15 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
   private static parseOtherParams(param: ParameterValue) {
     let field = StatisticDeviceDetailDashboard.getFieldByType(param);
+    return StatisticDeviceDetailDashboard.handleOtherParam(param.type.name, field, param.type.label);
+  }
 
-    if (param.type.name.toLowerCase().includes("date") && typeof field === "number") {
+  private static handleOtherParam(name: string, field: any, label: string) {
+    if (name.toLowerCase().includes("date") && typeof field === "number") {
       field = new Date(field * 1000).toLocaleString();
     }
 
-    return [field, param.type.label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
+    return [field, label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
   }
 
   private static getFieldByType(param: ParameterValue) {
