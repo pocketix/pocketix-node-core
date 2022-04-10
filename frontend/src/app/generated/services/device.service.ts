@@ -86,6 +86,8 @@ export class DeviceService extends BaseService {
   static readonly GetAllDevicesPath = '/devices';
 
   /**
+   * Get all devices
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `getAllDevices()` instead.
    *
@@ -110,6 +112,8 @@ export class DeviceService extends BaseService {
   }
 
   /**
+   * Get all devices
+   *
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `getAllDevices$Response()` instead.
    *
@@ -119,6 +123,64 @@ export class DeviceService extends BaseService {
   }): Observable<Array<Device>> {
 
     return this.getAllDevices$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<Device>>) => r.body as Array<Device>)
+    );
+  }
+
+  /**
+   * Path part for operation getDevicesByDeviceType
+   */
+  static readonly GetDevicesByDeviceTypePath = '/devices/byType/{deviceType}';
+
+  /**
+   * Get devices by specific type
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getDevicesByDeviceType()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDevicesByDeviceType$Response(params: {
+
+    /**
+     * type to filter by
+     */
+    deviceType: string;
+  }): Observable<StrictHttpResponse<Array<Device>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, DeviceService.GetDevicesByDeviceTypePath, 'get');
+    if (params) {
+      rb.path('deviceType', params.deviceType, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<Device>>;
+      })
+    );
+  }
+
+  /**
+   * Get devices by specific type
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getDevicesByDeviceType$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDevicesByDeviceType(params: {
+
+    /**
+     * type to filter by
+     */
+    deviceType: string;
+  }): Observable<Array<Device>> {
+
+    return this.getDevicesByDeviceType$Response(params).pipe(
       map((r: StrictHttpResponse<Array<Device>>) => r.body as Array<Device>)
     );
   }

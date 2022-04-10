@@ -22,9 +22,21 @@ class DeviceController {
         return await this.deviceService.getDevice(deviceUid);
     }
 
+    /**
+     * Get all devices
+     */
     @Get('')
     public async getAllDevices(): Promise<Device[]> {
         return await this.deviceService.getAllDevices();
+    }
+
+    /**
+     * Get devices by specific type
+     * @param deviceType type to filter by
+     */
+    @Get('byType/{deviceType}')
+    public async getDevicesByDeviceType(@Path() deviceType: string) {
+        return await this.deviceService.getDevicesByDeviceType(deviceType);
     }
 }
 
