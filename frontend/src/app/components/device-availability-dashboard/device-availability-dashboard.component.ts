@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {PathParameterAccessor} from "../../utility/PathParameterAccessor";
 import {ActivatedRoute} from "@angular/router";
+import {first, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-device-availability-dashboard',
@@ -14,8 +14,15 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    this.type = await PathParameterAccessor.getPathParameter(this.route, "type") ?? "";
-    this.deviceUid = await PathParameterAccessor.getQueryParameter(this.route, "deviceUid") ?? "";
+    await this.route.params.pipe(tap(
+        parameters => this.type = parameters["type"] ?? ""
+      ), first()
+    ).toPromise();
+
+    await this.route.queryParamMap.pipe(tap(
+        query => this.deviceUid = query.get("deviceUid") ?? ""
+      ), first()
+    ).toPromise();
   }
 
 }
