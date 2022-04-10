@@ -4,7 +4,7 @@ import {Device} from "../../generated/models/device";
 import {environment} from "../../../environments/environment";
 import {Bullet} from "../../library/dashboards/components/dashboard-l5/statistic-device-detail-dashboard.component";
 import {ActivatedRoute} from "@angular/router";
-import {first, tap} from "rxjs/operators";
+import {PathParameterAccessor} from "../../utility/PathParameterAccessor";
 
 @Component({
   selector: 'app-device-detail-dashboard',
@@ -24,16 +24,10 @@ export class DeviceDetailDashboardComponent implements OnInit {
   private type: string = "";
 
   constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
-  async ngOnInit() {
-    await this.route.params.pipe(tap(
-        parameters => this.type = parameters["type"] ?? ""
-      ), first()
-    ).toPromise();
 
-    await this.route.queryParamMap.pipe(tap(
-      query => this.deviceUid = query.get("deviceUid") ?? ""
-      ), first()
-    ).toPromise();
+  async ngOnInit() {
+    this.type = await PathParameterAccessor.getPathParameter(this.route, "type") ?? "";
+    this.deviceUid = await PathParameterAccessor.getQueryParameter(this.route, "deviceUid") ?? "";
 
     this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
