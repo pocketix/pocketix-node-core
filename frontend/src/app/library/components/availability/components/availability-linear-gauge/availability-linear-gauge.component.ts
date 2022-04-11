@@ -12,7 +12,7 @@ export class AvailabilityLinearGaugeComponent implements OnInit {
 	};
 	@Input() value: number = 0;
 	@Input() borderValue: number = 0;
-	@Input() view: [number, number] = [166, 80];
+	@Input() view: [number, number] = [200, 100];
 	@Input() stringToAdd?: string;
 
 	constructor() {
