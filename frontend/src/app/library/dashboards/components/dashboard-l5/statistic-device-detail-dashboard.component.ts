@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import * as d3 from 'd3';
 import {MessageService} from "primeng/api";
 import {ApexAxisChartSeries} from 'ng-apexcharts';
 import {chart, grid, plotOptions, yAxis} from '../../shared/boxSettings';
-import {Device, Operation, ParameterValue, ReadRequestBody} from "../../../../generated/models";
+import {Device, Operation, ReadRequestBody} from "../../../../generated/models";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApiService} from "../../../../generated/services/api.service";
 import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
+import {parseOtherParams, toBoxData} from "../../shared/tranformFunctions";
 
 export type Bullet = {
   value: number;
@@ -31,7 +31,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   @Input() fields: string[] = [];
   @Input() devices?: Device[];
   @Input() bullets: Bullet[] = [];
-  @Input() sparklineMapping = (name: string) => name; // [parameter.mnParameter?.devParName, `${parameter.mnParameter?.label} ${parameter.mnParameter?.unit}`]
+  @Input() sparklineMapping = (name: string) => name;
   @Input() sparklines: string[] = [];
 
   lineState = {
@@ -56,7 +56,6 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   boxData = [] as {name: string, data: ApexAxisChartSeries }[];
 
   sparklineMaxMin: any = [];
-  selectedDevicesToCompareWith: any;
   plotOptions = plotOptions;
   chart = chart;
   yAxis = yAxis;
@@ -152,7 +151,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     }).subscribe(items => {
       const storage = this.createStorage(items, boxPlotFieldNames, this.sparklineMapping);
       const boxSeries = Object.entries(storage[this.device?.deviceUid as string]).reduce((previous, [name, series]) => {
-        const items = StatisticDeviceDetailDashboard.toBoxData(series as any[]);
+        const items = toBoxData(series as any[]);
 
         if (items)
           previous.push({name, data: [{data: [{x: name, y: items}]}]});
@@ -163,30 +162,15 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     }, error => console.log(error))
   }
 
-  private static toBoxData(series: any[]) {
-    const sortedSeries = series.map(item => item.value).sort();
-    const q1 = +(d3.quantile(sortedSeries, .25) as number).toFixed(2);
-    const median = +(d3.quantile(sortedSeries, .5) as number).toFixed(2);
-    const q3 = +(d3.quantile(sortedSeries, .75) as number).toFixed(2);
-    const interQuantileRange = q3 - q1;
-    const min = q1 - 1.5 * interQuantileRange;
-    const max = q1 + 1.5 * interQuantileRange;
-
-    const data = [min.toFixed(2), q1, median, q3, max.toFixed(2)];
-
-    return (max - min) < 0.5 ? undefined : data;
-  }
-
   private extractDataFromInputs() {
     this.devices = this.devices?.filter(device => device.deviceUid !== this.device.deviceUid);
     this.devicesOptions.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
     const from = new Date();
     from.setDate(from.getDate() - 7);
 
-
     const otherData = this.device.parameterValues?.filter(value => typeof value.number != "number" || value.visibility != 3) || [];
 
-    this.otherData.push(...otherData.map(param => StatisticDeviceDetailDashboard.parseOtherParams(param)));
+    this.otherData.push(...otherData.map(param => parseOtherParams(param)));
     this.extractOtherDataFromDeviceDefinition();
     this.kpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
     console.log(this.kpis, this.fields);
@@ -257,29 +241,6 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       return measurement;
 
     return `${[...this.devicesOptions, this.device].find(device => device.deviceUid === id)?.deviceName || id}: ${measurement}`
-  }
-
-  private static parseOtherParams(param: ParameterValue) {
-    let field = StatisticDeviceDetailDashboard.getFieldByType(param);
-    return StatisticDeviceDetailDashboard.handleOtherParam(param.type.name, field, param.type.label);
-  }
-
-  private static handleOtherParam(name: string, field: any, label: string) {
-    if (name.toLowerCase().includes("date") && typeof field === "number") {
-      field = new Date(field * 1000).toLocaleString();
-    }
-
-    return [field, label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
-  }
-
-  private static getFieldByType(param: ParameterValue) {
-    switch (param.type.type) {
-      case "string":
-        return param.string;
-      case "number":
-        return param.number;
-    }
-    return "";
   }
 
   private createStorage(items: InfluxQueryResult, fields: string[], mapping: (name: string) => string): {[sensor: string]: {[field: string]: any[]}} {

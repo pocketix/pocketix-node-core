@@ -1,7 +1,7 @@
 import {ApexChart} from "ng-apexcharts";
 
 const chart = {
-  height: 110,
+  height: 100,
   type: "boxPlot"
 } as ApexChart;
 
@@ -29,7 +29,9 @@ const yAxis = {
 const grid = {
   padding: {
     left: 10,
-    right: 10
+    right: 10,
+    bottom: -15,
+    top: -5
   }
 };
 
