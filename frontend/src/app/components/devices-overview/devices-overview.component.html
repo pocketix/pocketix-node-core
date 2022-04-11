@@ -32,14 +32,25 @@
     <ng-template pTemplate="footer">
       <div class="flex flex-row justify-content-between">
         <p-button
-          label="Statistic Detail"
+          label="Statistic"
           icon="pi pi-chart-line p-button-sm"
           styleClass="p-button-sm"
           (onClick)="statisticDetail(device, type.key)"
         >
         </p-button>
-        <p-button label="Cancel" icon="pi pi-chart-line p-button-sm" styleClass="p-button-secondary p-button-sm"></p-button>
-        <p-button label="Cancel" icon="pi pi-chart-bar p-button-sm" styleClass="p-button-sm"></p-button>
+        <p-button
+          label="Availability"
+          icon="pi pi-chart-line p-button-sm"
+          styleClass="p-button-sm"
+          (onClick)="availabilityDetail(device, type.key)"
+        >
+        </p-button>
+        <p-button
+          label="Categorical"
+          icon="pi pi-chart-bar p-button-sm"
+          styleClass="p-button-sm p-button-secondary"
+        >
+        </p-button>
       </div>
     </ng-template>
   </p-card>

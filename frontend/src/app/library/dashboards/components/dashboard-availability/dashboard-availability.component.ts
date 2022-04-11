@@ -4,7 +4,7 @@ import {Operation} from "../../../../generated/models/operation";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApexAxisChartSeries} from "ng-apexcharts";
 import {Bullet} from "../dashboard-l5/statistic-device-detail-dashboard.component";
-import {chart, grid, plotOptions, yAxis } from '../dashboard-l5/boxSettings';
+import {chart, grid, plotOptions, yAxis } from '../../shared/boxSettings';
 
 @Component({
   selector: 'app-dashboard-availability',

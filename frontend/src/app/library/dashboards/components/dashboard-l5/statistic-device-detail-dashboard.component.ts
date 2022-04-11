@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angul
 import * as d3 from 'd3';
 import {MessageService} from "primeng/api";
 import {ApexAxisChartSeries} from 'ng-apexcharts';
-import {chart, grid, plotOptions, yAxis} from './boxSettings';
+import {chart, grid, plotOptions, yAxis} from '../../shared/boxSettings';
 import {Device, Operation, ParameterValue, ReadRequestBody} from "../../../../generated/models";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApiService} from "../../../../generated/services/api.service";

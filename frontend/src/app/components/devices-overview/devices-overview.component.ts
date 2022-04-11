@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
 import {Router} from "@angular/router";
-import {deviceDetailPath} from "../../app-routing.module";
+import {deviceAvailabilityPath, deviceDetailPath} from "../../app-routing.module";
 
 @Component({
   selector: 'app-devices-overview',
@@ -29,6 +29,12 @@ export class DevicesOverviewComponent implements OnInit {
 
   statisticDetail(device: Device, deviceType: string) {
     this.router.navigate([`/${deviceDetailPath}`, deviceType], {
+      queryParams: {deviceUid: device.deviceUid},
+    })
+  }
+
+  availabilityDetail(device: Device, deviceType: string) {
+    this.router.navigate([`/${deviceAvailabilityPath}`, deviceType], {
       queryParams: {deviceUid: device.deviceUid},
     })
   }
