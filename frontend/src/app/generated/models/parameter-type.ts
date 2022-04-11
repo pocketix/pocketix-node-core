@@ -19,6 +19,11 @@ export interface ParameterType {
   max: number;
 
   /**
+   * Count of measurements per minute
+   */
+  measurementsPerMinute: number;
+
+  /**
    * Type range minimum
    */
   min: number;

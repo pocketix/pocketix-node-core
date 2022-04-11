@@ -58,6 +58,12 @@ class ParameterType {
     max: number;
 
     /**
+     * Count of measurements per minute
+     */
+    @Column({type: "float", default: 4})
+    measurementsPerMinute: number;
+
+    /**
      * Values of current type
      */
     @OneToMany(() => ParameterValue,
