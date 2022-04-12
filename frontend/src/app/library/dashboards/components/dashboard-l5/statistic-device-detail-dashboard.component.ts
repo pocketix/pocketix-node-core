@@ -6,17 +6,14 @@ import {Device, Operation, ReadRequestBody} from "../../../../generated/models";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApiService} from "../../../../generated/services/api.service";
 import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
-import {parseOtherParams, toBoxData} from "../../shared/tranformFunctions";
-
-export type Bullet = {
-  value: number;
-  max: number;
-  min: number;
-  previousValue: number;
-  thresholds: number[];
-  units: string;
-  name: string;
-}
+import {
+  createSensors, extractDataFromDeviceDefinition,
+  minMaxSeries,
+  parseOtherParams,
+  pushOrInsertArray,
+  toBoxData
+} from "../../shared/tranformFunctions";
+import {Bullet} from "../../model/dashboards.model";
 
 @Component({
   selector: 'app-statistic-device-detail-dashboard',
@@ -35,16 +32,15 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   @Input() sparklines: string[] = [];
 
   lineState = {
+    allAggregationOperations: Object.values(Operation).filter(item => isNaN(Number(item)) && item !== 'none'),
     selectedAggregationOperation: Operation.Mean.toString(),
     selectedKpis: [] as { [key: string]: string }[],
     dates: [] as Date[],
-    selectedDevicesToCompareWith: [] as any[]
+    selectedDevicesToCompareWith: [] as any[],
+    results: [],
+    device: this.device
   } as LineState;
 
-  aggregationOperations = Object.values(Operation).filter(item => isNaN(Number(item)) && item !== 'none');
-  currentOperation = Operation.Mean.toString();
-
-  results: any[] = [];
   xAxisLabel: string = 'Date';
   yAxisLabel: string = 'Value';
   sparklineData: any[] = [];
@@ -61,34 +57,27 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   yAxis = yAxis;
   grid = grid;
 
-  constructor(private apiService: ApiService, private messageService: MessageService) {
-  }
+  constructor(private apiService: ApiService, private messageService: MessageService) {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
+    this.lineState.device = this.device;
     this.extractDataFromInputs();
     this.updateMainChart();
-    this.displayImage();
     this.updateSparklines(this.sparklines || []);
     this.updateBoxPlots(this.sparklines || []);
   }
 
-  private displayImage(): void {
-    const image = document.getElementById("image");
-    if (image)
-      image.setAttribute("src", this.device?.image || "");
-  }
-
   private updateSparklines(sparklines: string[]) {
-    const {sensors} = this.createSensors(sparklines)
+    const {sensors} = createSensors(this.device, this.lineState, sparklines);
     const from = new Date();
     from.setDate(from.getDate() - 3);
     this.apiService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 144,
+      aggregateMinutes: 288,
       body: {
         bucket: this.bucket,
         sensors,
@@ -104,10 +93,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
           for (const measurement of sensor) {
             const value = {name: this.getDeviceName(measurement.measurement, measurement.id), series: measurement.series};
 
-            if (sparklineData[measurement.measurement])
-              sparklineData[measurement.measurement].push(value);
-            else
-              sparklineData[measurement.measurement] = [value];
+            pushOrInsertArray(measurement.measurement, sparklineData, value)
           }
         }
         this.sparklineData = Object.values(sparklineData);
@@ -120,7 +106,6 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   private updatePreviousValue(storage: { [sensor: string]: { [field: string]: any[]; }; }) {
     const data = Object.entries(storage).filter(([key, _]) => key !== this.device?.deviceUid);
 
-    console.log(this.lineState);
     if (!data.length) {
       this.bullets.forEach(bullet => bullet.previousValue = bullet.value);
       return;
@@ -142,7 +127,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 144,
+      aggregateMinutes: 288,
       body: {
         bucket: this.bucket,
         sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames},
@@ -173,37 +158,21 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     this.otherData.push(...otherData.map(param => parseOtherParams(param)));
     this.extractOtherDataFromDeviceDefinition();
     this.kpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
-    console.log(this.kpis, this.fields);
     this.lineState.selectedKpis.push(...this.fields.map(field => ({name: this.sparklineMapping(field), field})));
-    console.log(this.lineState);
     this.lineState.dates.push(from, new Date());
   }
 
   private extractOtherDataFromDeviceDefinition() {
-    this.otherData.push(...[
-      [this.device.deviceUid, "Device Id"],
-      [this.device.deviceName, "Device Name"],
-      [(new Date(this.device.lastSeenDate)).toLocaleString(), "Last seen"],
-      [(new Date(this.device.registrationDate)).toLocaleString(), "Registered at"],
-      [this.device.latitude, "Latitude"],
-      [this.device.longitude, "Longitude"]
-    ]);
-  }
-
-  private createSensors(fields: string[]) {
-    const sensorIds = this.lineState.selectedDevicesToCompareWith.map(item => item.id);
-    const sensors = Object.fromEntries(sensorIds.map(deviceUid => [deviceUid as string, fields]));
-    sensors[this.device?.deviceUid as string] = fields;
-    return {fields, sensorIds, sensors}
+    this.otherData.push(...extractDataFromDeviceDefinition(this.device));
   }
 
   private updateMainChart() {
-    const {fields, sensorIds, sensors} = this.createSensors(this.lineState.selectedKpis.map(kpi => kpi.field));
+    const {fields, sensorIds, sensors} = createSensors(this.device, this.lineState, this.lineState.selectedKpis.map(kpi => kpi.field));
     const from = this.lineState.dates[0].toISOString();
     const to = this.lineState.dates[this.lineState.dates.length - 1].toISOString();
 
     this.apiService.aggregate({
-      operation: this.currentOperation as Operation,
+      operation: this.lineState.selectedAggregationOperation as Operation,
       aggregateMinutes: 30,
       from,
       to,
@@ -211,7 +180,8 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     }).subscribe(items => {
       if (items?.data) {
         const storage = this.createStorage(items, fields, this.sparklineMapping);
-        this.results = this.handleMultipleLines(sensorIds, storage);
+        this.lineState.results = this.handleMultipleLines(sensorIds, storage);
+        console.log(this.lineState);
       } else {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }
@@ -260,14 +230,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   }
 
   private getMinMax(field: string, mapping: (name: string) => string) {
-    const parameter = this.device?.parameterValues?.find(parameter => parameter?.type?.name === field);
-    // sort the thresholds
-    const thresholds = [parameter?.type?.threshold1 || 0, parameter?.type?.threshold2 || 0].sort();
-
-    const series = thresholds[0] === thresholds[1] ?
-      [{value: thresholds[0], name: "Threshold"}] : // Same thresholds clip label and don't look too good
-      [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
-
+    const series = minMaxSeries(this.device, field);
     return this.sparklineMaxMin[mapping(field)] = series;
   }
 

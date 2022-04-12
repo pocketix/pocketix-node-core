@@ -16,7 +16,7 @@ export class AvailabilityComponent implements OnInit {
   @Input()
   availabilities!: Availability[];
 
-	public availability: number = 0;
+	availability?: number;
 	showXAxis = true;
 	showYAxis = true;
 	showLegend = true;
@@ -27,8 +27,8 @@ export class AvailabilityComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+    this.availability = this.availabilities.reduce((sum, availability) => sum + availability.value, 0) / this.availabilities.length;
 	}
-
 
 	createModal(sensor: string) {
 		console.log(sensor);

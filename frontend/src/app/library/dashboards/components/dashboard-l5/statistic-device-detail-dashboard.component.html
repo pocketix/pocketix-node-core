@@ -11,8 +11,6 @@
     </div>
     <div class="p-card-body no-bottom-padding">
       <line *ngIf="kpis"
-        [results]="results"
-        [allAggregationOperations]="aggregationOperations"
         [allKpis]="kpis"
         [yAxisLabel]="yAxisLabel"
         [xAxisLabel]="xAxisLabel"
@@ -40,7 +38,7 @@
   <div class="p-card col-11 gutter-hack">
     <div class="flex flex-row">
       <div class="full-height">
-        <img class="full-width full-height" id="image" alt="image" style="width: 100px;">
+        <img class="full-width full-height" id="image" alt="image" style="width: 100px;" [src]="device.image">
       </div>
       <div class="p-card-body horizontal-flex-row flex-grow-1">
         <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item">

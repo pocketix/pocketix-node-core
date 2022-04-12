@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
 import {environment} from "../../../environments/environment";
-import {Bullet} from "../../library/dashboards/components/dashboard-l5/statistic-device-detail-dashboard.component";
 import {ActivatedRoute} from "@angular/router";
 import {first, tap} from "rxjs/operators";
+import {Bullet} from "../../library/dashboards/model/dashboards.model";
 
 @Component({
   selector: 'app-device-detail-dashboard',

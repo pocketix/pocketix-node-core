@@ -1,9 +1,10 @@
 <div class="full-width bottom-padding-legend" [style.height.px]="chartHeight">
   <ngx-charts-line-chart
+    *ngIf="_state"
     [legend]="true"
     [timeline]="true"
     [showRefLabels]="true"
-    [results]="results"
+    [results]="_state.results"
     [animations]="true"
     [showXAxisLabel]="showXAxisLabel"
     [showYAxisLabel]="showYAxisLabel"
@@ -59,7 +60,7 @@
             <p-dropdown
               *ngIf="_state"
               id="operation"
-              [options]="allAggregationOperations"
+              [options]="_state.allAggregationOperations"
               [(ngModel)]="_state.selectedAggregationOperation"
               (onChange)="changes()"
             >

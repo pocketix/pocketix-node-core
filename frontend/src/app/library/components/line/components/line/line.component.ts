@@ -5,11 +5,9 @@ import {LineState} from "../../model/line.model";
 @Component({
   selector: 'line',
   templateUrl: './line.component.html',
-  styleUrls: ['./line.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./line.component.css']
 })
 export class LineComponent implements OnInit {
-  @Input() results: any;
   @Input() yAxisLabel: any;
   @Input() xAxisLabel: any;
   @Input() allKpis: any;

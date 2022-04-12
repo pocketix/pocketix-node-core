@@ -3,9 +3,9 @@ import {Device} from "../../../../generated/models/device";
 import {Operation} from "../../../../generated/models/operation";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApexAxisChartSeries} from "ng-apexcharts";
-import {Bullet} from "../dashboard-l5/statistic-device-detail-dashboard.component";
 import {chart, grid, plotOptions, yAxis } from '../../shared/boxSettings';
 import {Availability} from "../../../components/availability/components/availability-component/availability.component";
+import {Bullet} from "../../model/dashboards.model";
 
 @Component({
   selector: 'app-dashboard-availability',
@@ -25,7 +25,8 @@ export class DashboardAvailabilityComponent  {
     selectedAggregationOperation: Operation.Mean.toString(),
     selectedKpis: [] as { [key: string]: string }[],
     dates: [] as Date[],
-    selectedDevicesToCompareWith: [] as any[]
+    selectedDevicesToCompareWith: [] as any[],
+    device: this.device
   } as LineState;
 
   aggregationOperations = Object.values(Operation).filter(item => isNaN(Number(item)) && item !== 'none');

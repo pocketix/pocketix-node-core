@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import {ParameterValue} from "../../../generated/models/parameter-value";
+import {Device} from "../../../generated/models/device";
+import {LineState} from "../../components/line/model/line.model";
 
 const toBoxData = (series: any[]) => {
   const sortedSeries = series.map(item => item.value).sort();
@@ -38,4 +40,39 @@ const getFieldByType = (param: ParameterValue) => {
   return "";
 }
 
-export {toBoxData, parseOtherParams, handleOtherParam, getFieldByType};
+const pushOrInsertArray = (key: string, object: any, value: any) => {
+  if (object[key])
+    return object[key].push(value);
+  else
+    return object[key] = [value];
+};
+
+const minMaxSeries = (device: Device, field: string) => {
+  const parameter = device?.parameterValues?.find(parameter => parameter?.type?.name === field);
+  // sort the thresholds
+  const thresholds = [parameter?.type?.threshold1 || 0, parameter?.type?.threshold2 || 0].sort();
+
+  return thresholds[0] === thresholds[1] ?
+    [{value: thresholds[0], name: "Threshold"}] : // Same thresholds clip label and don't look too good
+    [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
+}
+
+const createSensors = (device: Device, lineState: LineState, fields: string[]) => {
+  const sensorIds = lineState.selectedDevicesToCompareWith.map(item => item.id);
+  const sensors = Object.fromEntries(sensorIds.map(deviceUid => [deviceUid as string, fields]));
+  sensors[device?.deviceUid as string] = fields;
+  return {fields, sensorIds, sensors}
+}
+
+const extractDataFromDeviceDefinition = (device: Device) => {
+  return [
+    [device.deviceUid, "Device Id"],
+    [device.deviceName, "Device Name"],
+    [(new Date(device.lastSeenDate)).toLocaleString(), "Last seen"],
+    [(new Date(device.registrationDate)).toLocaleString(), "Registered at"],
+    [device.latitude, "Latitude"],
+    [device.longitude, "Longitude"]
+  ]
+}
+
+export {toBoxData, parseOtherParams, handleOtherParam, getFieldByType, pushOrInsertArray, minMaxSeries, createSensors, extractDataFromDeviceDefinition};
