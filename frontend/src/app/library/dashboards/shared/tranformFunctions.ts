@@ -3,8 +3,8 @@ import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
 import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
-import {SeriesType} from "@swimlane/ngx-charts";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {BulletsState} from "../model/dashboards.model";
 
 const toBoxData = (series: any[]) => {
   const sortedSeries = series.map(item => item.value).sort();
@@ -101,6 +101,23 @@ const extractDataFromDeviceDefinition = (device: Device) => {
   ]
 }
 
+const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: string]: { [field: string]: any[]; }; }) => {
+  const data = Object.entries(storage).filter(([key, _]) => key !== bulletsState.device?.deviceUid);
+
+  if (!data.length) {
+    bulletsState.data.forEach(bullet => bullet.previousValue = bullet.value);
+    return;
+  }
+
+  const takePreviousValuesFromStorage = data[0][1];
+
+  bulletsState.data.forEach(bullet => {
+    const items = takePreviousValuesFromStorage[`${bullet.name} ${bullet.units}`];
+    const lastItem = items[items.length - 1];
+    bullet.previousValue = lastItem.value;
+  });
+}
+
 export {
   toBoxData,
   parseOtherParams,
@@ -111,5 +128,6 @@ export {
   createSensors,
   extractDataFromDeviceDefinition,
   createStorage,
+  updatePreviousValue,
   Storage
 };

@@ -1,3 +1,5 @@
+import {Device} from "../../../generated/models/device";
+
 type Bullet = {
   value: number;
   max: number;
@@ -8,4 +10,9 @@ type Bullet = {
   name: string;
 }
 
-export {Bullet};
+type BulletsState = {
+  data: Bullet[];
+  device: Device;
+}
+
+export {Bullet, BulletsState};

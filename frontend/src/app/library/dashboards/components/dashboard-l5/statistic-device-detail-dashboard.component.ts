@@ -11,9 +11,9 @@ import {
   extractDataFromDeviceDefinition,
   parseOtherParams,
   pushOrInsertArray,
-  toBoxData
+  toBoxData, updatePreviousValue
 } from "../../shared/tranformFunctions";
-import {Bullet} from "../../model/dashboards.model";
+import {Bullet, BulletsState} from "../../model/dashboards.model";
 
 @Component({
   selector: 'app-statistic-device-detail-dashboard',
@@ -52,6 +52,11 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
   boxData = [] as {name: string, data: ApexAxisChartSeries }[];
 
+  bulletsState = {
+    data: [],
+    device: this.device
+  } as BulletsState
+
   sparklineMaxMin: any = [];
   plotOptions = plotOptions;
   chart = chart;
@@ -64,6 +69,8 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.lineState.device = this.device;
+    this.bulletsState.device = this.device;
+    this.bulletsState.data = this.bullets;
     this.extractDataFromInputs();
     this.updateMainChart();
     this.updateSparklines(this.sparklines || []);
@@ -88,7 +95,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       if (items?.data) {
         const {storage, thresholdLines} = createStorage(this.lineState, items, sparklines, this.sparklineMapping);
         this.sparklineMaxMin = thresholdLines;
-        this.updatePreviousValue(storage);
+        updatePreviousValue(this.bulletsState,storage);
         const parsedStorage = Object.entries(storage).map(([id, data]) => Object.entries(data).map(([measurement, series]) => ({id, measurement, series})));
         const sparklineData = {} as any;
         for (const sensor of parsedStorage) {
@@ -102,23 +109,6 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       } else {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }
-    });
-  }
-
-  private updatePreviousValue(storage: { [sensor: string]: { [field: string]: any[]; }; }) {
-    const data = Object.entries(storage).filter(([key, _]) => key !== this.device?.deviceUid);
-
-    if (!data.length) {
-      this.bullets.forEach(bullet => bullet.previousValue = bullet.value);
-      return;
-    }
-
-    const takePreviousValuesFromStorage = data[0][1];
-
-    this.bullets.forEach(bullet => {
-      const items = takePreviousValuesFromStorage[`${bullet.name} ${bullet.units}`];
-      const lastItem = items[items.length - 1];
-      bullet.previousValue = lastItem.value;
     });
   }
 
