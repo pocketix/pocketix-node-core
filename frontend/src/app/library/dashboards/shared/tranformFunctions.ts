@@ -2,6 +2,9 @@ import * as d3 from "d3";
 import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
+import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
+import {SeriesType} from "@swimlane/ngx-charts";
+import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
 const toBoxData = (series: any[]) => {
   const sortedSeries = series.map(item => item.value).sort();
@@ -40,6 +43,29 @@ const getFieldByType = (param: ParameterValue) => {
   return "";
 }
 
+type Storage = { [sensor: string]: { [field: string]: any[] } };
+
+const createStorage = (lineState: LineState,
+                       items: InfluxQueryResult,
+                       fields: string[],
+                       mapping: (name: string) => string): { thresholdLines: { [p: string]: DataItem[] }; storage: Storage} => {
+  const storage = Object.fromEntries(
+    [...lineState.selectedDevicesToCompareWith.map((device: { id: any; }) => device.id), lineState.device.deviceUid].map(key =>
+      [key, Object.fromEntries(fields.map(field => [mapping(field), []]))]
+    )
+  );
+
+  const thresholdLines = {} as {[field: string]: {value: number, name: string}[]};
+
+  items.data.forEach((item: { [x: string]: any; sensor: string | number; time: string | number | Date; }) => {
+    fields.forEach(field => {
+      thresholdLines[mapping(field)] = minMaxSeries(lineState.device, field)
+      storage[item.sensor][mapping(field)].push({value: Number(item[field]).toFixed(2), name: new Date(item.time)});
+    })
+  });
+  return {storage, thresholdLines};
+}
+
 const pushOrInsertArray = (key: string, object: any, value: any) => {
   if (object[key])
     return object[key].push(value);
@@ -75,4 +101,15 @@ const extractDataFromDeviceDefinition = (device: Device) => {
   ]
 }
 
-export {toBoxData, parseOtherParams, handleOtherParam, getFieldByType, pushOrInsertArray, minMaxSeries, createSensors, extractDataFromDeviceDefinition};
+export {
+  toBoxData,
+  parseOtherParams,
+  handleOtherParam,
+  getFieldByType,
+  pushOrInsertArray,
+  minMaxSeries,
+  createSensors,
+  extractDataFromDeviceDefinition,
+  createStorage,
+  Storage
+};

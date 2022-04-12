@@ -5,10 +5,10 @@ import {chart, grid, plotOptions, yAxis} from '../../shared/boxSettings';
 import {Device, Operation, ReadRequestBody} from "../../../../generated/models";
 import {LineState} from "../../../components/line/model/line.model";
 import {ApiService} from "../../../../generated/services/api.service";
-import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
 import {
-  createSensors, extractDataFromDeviceDefinition,
-  minMaxSeries,
+  createSensors,
+  createStorage,
+  extractDataFromDeviceDefinition,
   parseOtherParams,
   pushOrInsertArray,
   toBoxData
@@ -86,7 +86,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       } as ReadRequestBody
     }).subscribe(items => {
       if (items?.data) {
-        const {storage, thresholdLines} = this.createStorage(this.lineState, items, sparklines, this.sparklineMapping);
+        const {storage, thresholdLines} = createStorage(this.lineState, items, sparklines, this.sparklineMapping);
         this.sparklineMaxMin = thresholdLines;
         this.updatePreviousValue(storage);
         const parsedStorage = Object.entries(storage).map(([id, data]) => Object.entries(data).map(([measurement, series]) => ({id, measurement, series})));
@@ -136,9 +136,9 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       } as ReadRequestBody
     }).subscribe(items => {
-      const {storage} = this.createStorage(this.lineState, items, boxPlotFieldNames, this.sparklineMapping);
+      const {storage} = createStorage(this.lineState, items, boxPlotFieldNames, this.sparklineMapping);
       const boxSeries = Object.entries(storage[this.device?.deviceUid as string]).reduce((previous, [name, series]) => {
-        const items = toBoxData(series as any[]);
+        const items = toBoxData(series);
 
         if (items)
           previous.push({name, data: [{data: [{x: name, y: items}]}]});
@@ -182,7 +182,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       body: {bucket: this.bucket, sensors}
     }).subscribe(items => {
       if (items?.data) {
-        const {storage} = this.createStorage(this.lineState, items, fields, this.sparklineMapping);
+        const {storage} = createStorage(this.lineState, items, fields, this.sparklineMapping);
         this.lineState.results = this.handleMultipleLines(sensorIds, storage);
         console.log(this.lineState);
       } else {
@@ -217,24 +217,6 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       id: this.device.deviceUid,
       name: this.device.deviceName
     }].find(device => device.id === id)?.name || id}: ${measurement}`
-  }
-
-  private createStorage(lineState: LineState, items: InfluxQueryResult, fields: string[], mapping: (name: string) => string): { thresholdLines: { [p: string]: { value: number; name: string }[] }; storage: {[sensor: string]: {[field: string]: any[]}}} {
-    const storage = Object.fromEntries(
-      [...lineState.selectedDevicesToCompareWith.map((device: { id: any; }) => device.id), lineState.device.deviceUid].map(key =>
-        [key, Object.fromEntries(fields.map(field => [mapping(field), []]))]
-      )
-    );
-
-    const thresholdLines = {} as {[field: string]: {value: number, name: string}[]};
-
-    items.data.forEach((item: { [x: string]: any; sensor: string | number; time: string | number | Date; }) => {
-      fields.forEach(field => {
-        thresholdLines[mapping(field)] = minMaxSeries(lineState.device, field)
-        storage[item.sensor][mapping(field)].push({value: Number(item[field]).toFixed(2), name: new Date(item.time)});
-      })
-    });
-    return {storage, thresholdLines};
   }
 
   onReloadSwitch($event: any) {
