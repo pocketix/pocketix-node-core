@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {first, tap} from "rxjs/operators";
 import {MessageService} from "primeng/api";
+import {Device} from "../../generated/models/device";
+import {environment} from "../../../environments/environment";
+import {Bullet} from "../../library/dashboards/model/dashboards.model";
+import {DeviceService} from "../../generated/services/device.service";
 
 @Component({
   selector: 'app-device-availability-dashboard',
@@ -10,12 +14,19 @@ import {MessageService} from "primeng/api";
   providers: [MessageService]
 })
 export class DeviceAvailabilityDashboardComponent implements OnInit {
-  private type = "";
-  private deviceUid = "";
+  mapping?: (string: string) => string
+  device?: Device;
+  title = 'dip';
+  bucket = environment.bucket;
+  devices: Device[] = [];
+  fields?: string[];
+  sparklines?: string[];
+  bullets: Bullet[] = [];
+  private deviceUid: string = "";
+  private type: string = "";
 
-  constructor(private route: ActivatedRoute) { }
-
-  async ngOnInit(): Promise<void> {
+  constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
+  async ngOnInit() {
     await this.route.params.pipe(tap(
         parameters => this.type = parameters["type"] ?? ""
       ), first()
@@ -25,6 +36,31 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
         query => this.deviceUid = query.get("deviceUid") ?? ""
       ), first()
     ).toPromise();
-  }
 
+    this.deviceService.getDevicesByDeviceType({
+      deviceType: this.type
+    }).subscribe(
+      devices => this.devices = devices
+    );
+
+    this.deviceService.getDeviceById({
+      deviceUid: this.deviceUid
+    }).subscribe(device => {
+      this.device = device;
+      this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
+      this.sparklines = this.fields;
+      this.fields = this.fields.slice(0, 3);
+      this.bullets = this.device.parameterValues?.map(parameterValue => ({
+        value: parameterValue.number ?? 0,
+        min: parameterValue.type.min ?? 0,
+        max: parameterValue.type.max ?? 0,
+        previousValue: parameterValue.number ?? 0,
+        thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
+        units: parameterValue.type.units ?? "",
+        name: parameterValue.type.label ?? ""
+      })) || [];
+      this.mapping = (field) =>
+        this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
+    });
+  }
 }

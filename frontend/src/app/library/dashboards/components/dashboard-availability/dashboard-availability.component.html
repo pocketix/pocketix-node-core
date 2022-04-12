@@ -1,25 +1,18 @@
 <p-toast></p-toast>
 
-<div class="grid">
-  <div class="max-height-on-lg-screen p-card col-11 lg:col-7 gutter-hack fadeinleft animation-duration-500" style="min-height: 600px; ">
-    <div class="flex justify-content-between">
-      <h5 class="p-card-title">{{device?.deviceName || 'Device name'}}</h5>
-      <div class="flex align-items-center">
-        <label for="reload" class="reload">Automatic reload:</label>
-        <p-inputSwitch id="reload" (onChange)="onReloadSwitch($event)"></p-inputSwitch>
-      </div>
-    </div>
-    <div class="p-card-body no-bottom-padding">
-      <line *ngIf="kpis"
-            [yAxisLabel]="yAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [(state)]="lineState"
-            (onChanges)="onMainGraphChange()"
-      >
-      </line>
-    </div>
-  </div>
-  <div class="max-height-on-lg-screen col-11 lg:col-4 gutter-hack no-padding flex flex-column">
+<app-main-chart-template
+  (onReloadSwitchEventEmitter)="onReloadSwitch($event)"
+>
+  <line
+    chart
+    *ngIf="lineState.results"
+    [yAxisLabel]="yAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [(state)]="lineState"
+    (onChanges)="onMainGraphChange()"
+  >
+  </line>
+  <div rightColumn class="max-height-on-lg-screen col-11 lg:col-4 gutter-hack no-padding flex flex-column">
     <div class="col p-card flex-grow-1">
       <span class="p-card-title">Stability</span>
       <div class="p-card-body flex flex-column flex-wrap">
@@ -42,18 +35,20 @@
     <div class="col p-card flex-grow-1">
       <span class="p-card-title">Statistics</span>
       <div class="p-card-body flex flex-wrap">
-        <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineData">
+        <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
           <sparkline
             [name]="data[0].name"
             [data]="data"
-            [referenceLines]="sparklineMaxMin[data[0].name]"
+            [referenceLines]="sparklineState.minMax[data[0].name]"
           >
           </sparkline>
         </div>
       </div>
     </div>
   </div>
+</app-main-chart-template>
 
+<div class="grid">
   <div class="col-11 gutter-hack p-card">
     <app-availability
       [availabilities]="availabilities"
