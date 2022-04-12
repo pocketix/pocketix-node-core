@@ -12,11 +12,12 @@ import {SparklineModule} from "../components/sparkline/sparkline.module";
 import {BulletChartModule} from "../components/bullet-chart/bullet-chart.module";
 import {ApiModule} from "../../generated/api.module";
 import {AvailabilityModule} from "../components/availability/availability.module";
+import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
 
 
 
 @NgModule({
-  declarations: [StatisticDeviceDetailDashboard, DashboardAvailabilityComponent],
+  declarations: [StatisticDeviceDetailDashboard, DashboardAvailabilityComponent, BaseDashboardComponent],
   imports: [
     BrowserAnimationsModule,
     CommonModule,

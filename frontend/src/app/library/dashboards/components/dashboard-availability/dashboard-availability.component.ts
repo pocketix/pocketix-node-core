@@ -6,13 +6,14 @@ import {ApexAxisChartSeries} from "ng-apexcharts";
 import {chart, grid, plotOptions, yAxis } from '../../shared/boxSettings';
 import {Availability} from "../../../components/availability/components/availability-component/availability.component";
 import {Bullet} from "../../model/dashboards.model";
+import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 
 @Component({
   selector: 'app-dashboard-availability',
   templateUrl: './dashboard-availability.component.html',
   styleUrls: ['./dashboard-availability.component.css']
 })
-export class DashboardAvailabilityComponent  {
+export class DashboardAvailabilityComponent extends BaseDashboardComponent  {
   @Input() device!: Device;
   @Input() bucket: string = "";
   @Input() fields: string[] = [];

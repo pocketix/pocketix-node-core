@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
 @Component({
   selector: 'sparkline',
@@ -9,7 +9,7 @@ import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 export class SparklineComponent implements OnInit {
   @Input() name?: string;
   @Input() data?: Series;
-  @Input() referenceLines?: [{name: string, value: number}];
+  @Input() referenceLines?: DataItem[];
   @Output() clickOnChart = new EventEmitter<any>();
   showReferenceLines: boolean = false;
   state: boolean = false;

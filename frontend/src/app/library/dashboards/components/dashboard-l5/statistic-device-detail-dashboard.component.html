@@ -22,11 +22,11 @@
   <div class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column">
     <h5 class="p-card-title">Statistics</h5>
     <div class="flex flex-wrap">
-      <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineData">
+      <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
         <sparkline
           [name]="data[0].name"
           [data]="data"
-          [referenceLines]="sparklineMaxMin[data[0].name]"
+          [referenceLines]="sparklineState.minMax[data[0].name]"
         >
         </sparkline>
       </div>

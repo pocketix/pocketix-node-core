@@ -83,15 +83,29 @@ const minMaxSeries = (device: Device, field: string) => {
     [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
 }
 
-const createSensors = (device: Device, lineState: LineState, fields: string[]) => {
+const createSensors = (lineState: LineState, fields: string[]) => {
   const sensorIds = lineState.selectedDevicesToCompareWith.map(item => item.id);
   const sensors = Object.fromEntries(sensorIds.map(deviceUid => [deviceUid as string, fields]));
-  sensors[device?.deviceUid as string] = fields;
+  sensors[lineState.device?.deviceUid as string] = fields;
   return {fields, sensorIds, sensors}
 }
 
+const getDeviceName = (lineState: LineState, measurement: string, id: string) => {
+  if (!lineState.selectedDevicesToCompareWith.length)
+    return measurement;
+
+  return `${[...lineState.allDevices, {
+    id: lineState.device.deviceUid,
+    name: lineState.device.deviceName
+  }].find(device => device.id === id)?.name || id}: ${measurement}`
+}
+
 const extractDataFromDeviceDefinition = (device: Device) => {
+  const otherParameters = device?.parameterValues?.filter(value => typeof value.number != "number" || value.visibility != 3) ?? [];
+  const data = otherParameters.map(parseOtherParams);
+
   return [
+    ...data,
     [device.deviceUid, "Device Id"],
     [device.deviceName, "Device Name"],
     [(new Date(device.lastSeenDate)).toLocaleString(), "Last seen"],
@@ -118,6 +132,43 @@ const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: str
   });
 }
 
+const handleMultipleLines = (lineState: LineState, sensorIds: any[], storage: Storage) => {
+  if (!sensorIds.length) {
+    return Object.entries(storage[lineState.device.deviceUid as string]).map(([name, series]) => ({
+      name: name,
+      series: series
+    }));
+  }
+
+  return Object.entries(storage).map(([id, fieldStorage]) => {
+    return Object.entries(fieldStorage).map(([measurement, series]) =>
+      ({name: getDeviceName(lineState, measurement, id), series: series})
+    )
+  }).reduce((previousValue, currentValue) => {
+    previousValue.push(...currentValue);
+    return previousValue;
+  }, [] as any[]);
+}
+
+function storageToSparklines(lineState: LineState, storage: Storage) {
+  const parsedStorage = Object.entries(storage).map(([id, data]) =>
+    Object.entries(data).map(([measurement, series]) => ({id, measurement, series}))
+  );
+
+  const sparklineData = {} as any;
+  for (const sensor of parsedStorage) {
+    for (const measurement of sensor) {
+      const value = {
+        name: getDeviceName(lineState, measurement.measurement, measurement.id),
+        series: measurement.series
+      };
+
+      pushOrInsertArray(measurement.measurement, sparklineData, value)
+    }
+  }
+  return sparklineData;
+}
+
 export {
   toBoxData,
   parseOtherParams,
@@ -129,5 +180,8 @@ export {
   extractDataFromDeviceDefinition,
   createStorage,
   updatePreviousValue,
+  getDeviceName,
+  handleMultipleLines,
+  storageToSparklines,
   Storage
 };
