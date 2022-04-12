@@ -1,25 +1,15 @@
 <p-toast></p-toast>
-
-<div class="grid">
-  <div class="max-height-on-lg-screen p-card col-11 lg:col-7 gutter-hack fadeinleft animation-duration-500" style="min-height: 600px; ">
-    <div class="flex justify-content-between">
-      <h5 class="p-card-title">{{device?.deviceName || 'Device name'}}</h5>
-      <div class="flex align-items-center">
-        <label for="reload" class="reload">Automatic reload:</label>
-        <p-inputSwitch id="reload" (onChange)="onReloadSwitch($event)"></p-inputSwitch>
-      </div>
-    </div>
-    <div class="p-card-body no-bottom-padding">
-      <line *ngIf="lineState.results"
+<app-main-chart-template>
+  <line
+    chart
+    *ngIf="lineState.results"
         [yAxisLabel]="yAxisLabel"
         [xAxisLabel]="xAxisLabel"
         [(state)]="lineState"
         (onChanges)="onMainGraphChange()"
-      >
-      </line>
-    </div>
-  </div>
-  <div class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column">
+  >
+  </line>
+  <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column">
     <h5 class="p-card-title">Statistics</h5>
     <div class="flex flex-wrap">
       <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
@@ -32,7 +22,8 @@
       </div>
     </div>
   </div>
-</div>
+</app-main-chart-template>
+
 <div class="grid">
   <div class="p-card col-11 gutter-hack">
     <div class="flex flex-row">

@@ -20,15 +20,4 @@ export class StatisticDeviceDetailDashboard extends BaseDashboardComponent imple
     super.ngAfterViewInit();
     this.otherData.push(...extractDataFromDeviceDefinition(this.device));
   }
-
-  onReloadSwitch($event: any) {
-    if ($event.checked) {
-      return this.timer = setInterval(() => this.updateMainChart(), 5000);
-    }
-    return clearInterval(this.timer);
-  }
-
-  onMainGraphChange() {
-    this.updateMainChart();
-  }
 }

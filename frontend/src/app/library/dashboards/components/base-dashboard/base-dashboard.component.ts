@@ -165,4 +165,15 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  onReloadSwitch($event: any) {
+    if ($event.checked) {
+      return this.timer = setInterval(() => this.updateMainChart(), 5000);
+    }
+    return clearInterval(this.timer);
+  }
+
+  onMainGraphChange() {
+    this.updateMainChart();
+  }
 }

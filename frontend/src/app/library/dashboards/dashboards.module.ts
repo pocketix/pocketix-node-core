@@ -13,6 +13,7 @@ import {BulletChartModule} from "../components/bullet-chart/bullet-chart.module"
 import {ApiModule} from "../../generated/api.module";
 import {AvailabilityModule} from "../components/availability/availability.module";
 import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
+import {MainChartTemplateModule} from "../components/main-chart-template/components/main-chart-template.module";
 
 
 
@@ -29,7 +30,8 @@ import { BaseDashboardComponent } from './components/base-dashboard/base-dashboa
     NgApexchartsModule,
     TooltipModule,
     ApiModule.forRoot({rootUrl: "http://192.168.0.50:3000"}),
-    AvailabilityModule
+    AvailabilityModule,
+    MainChartTemplateModule,
   ],
   exports: [
     StatisticDeviceDetailDashboard,
