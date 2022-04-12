@@ -10,11 +10,9 @@
       </div>
     </div>
     <div class="p-card-body no-bottom-padding">
-      <line *ngIf="kpis"
-        [allKpis]="kpis"
+      <line *ngIf="lineState.results"
         [yAxisLabel]="yAxisLabel"
         [xAxisLabel]="xAxisLabel"
-        [allDevicesToCompareWith]="devicesOptions"
         [(state)]="lineState"
         (onChanges)="onMainGraphChange()"
       >

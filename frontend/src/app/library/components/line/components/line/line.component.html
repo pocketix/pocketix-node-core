@@ -22,9 +22,9 @@
                 pTooltip="Device fields to display"
                 tooltipPosition="top"
           >
-            <p-multiSelect *ngIf="allKpis && _state"
+            <p-multiSelect *ngIf="_state"
               id="multiselect"
-              [options]="allKpis"
+              [options]="_state.allKpis"
               [(ngModel)]="_state.selectedKpis"
               optionLabel="name"
               display="chip"
@@ -68,14 +68,14 @@
             <label for="operation">Operation</label>
           </span>
   </div>
-  <div class="field col-12 md:col-2" *ngIf="allDevicesToCompareWith && allDevicesToCompareWith.length">
+  <div class="field col-12 md:col-2" *ngIf="_state">
           <span class="p-float-label"
                 pTooltip="Devices to show"
                 tooltipPosition="top"
           >
             <p-multiSelect
               *ngIf="_state"
-              [options]="allDevicesToCompareWith"
+              [options]="_state.allDevices"
               [(ngModel)]="_state.selectedDevicesToCompareWith"
               optionLabel="name"
               id="devices"

@@ -11,11 +11,8 @@
     </div>
     <div class="p-card-body no-bottom-padding">
       <line *ngIf="kpis"
-            [allAggregationOperations]="aggregationOperations"
-            [allKpis]="kpis"
             [yAxisLabel]="yAxisLabel"
             [xAxisLabel]="xAxisLabel"
-            [allDevicesToCompareWith]="devicesOptions"
             [(state)]="lineState"
             (onChanges)="onMainGraphChange()"
       >

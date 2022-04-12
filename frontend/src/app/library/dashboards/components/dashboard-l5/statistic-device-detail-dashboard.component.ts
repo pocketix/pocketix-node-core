@@ -34,9 +34,11 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   lineState = {
     allAggregationOperations: Object.values(Operation).filter(item => isNaN(Number(item)) && item !== 'none'),
     selectedAggregationOperation: Operation.Mean.toString(),
-    selectedKpis: [] as { [key: string]: string }[],
-    dates: [] as Date[],
-    selectedDevicesToCompareWith: [] as any[],
+    allKpis: [],
+    selectedKpis: [],
+    dates: [],
+    allDevices: [],
+    selectedDevicesToCompareWith: [],
     results: [],
     device: this.device
   } as LineState;
@@ -45,8 +47,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
   yAxisLabel: string = 'Value';
   sparklineData: any[] = [];
   otherData: any[] = [];
-  kpis: any[] = [];
-  devicesOptions: any[] = [];
+  kpis: any[] = []
   timer: any;
 
   boxData = [] as {name: string, data: ApexAxisChartSeries }[];
@@ -85,7 +86,8 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       } as ReadRequestBody
     }).subscribe(items => {
       if (items?.data) {
-        const storage = this.createStorage(items, sparklines, this.sparklineMapping);
+        const {storage, thresholdLines} = this.createStorage(this.lineState, items, sparklines, this.sparklineMapping);
+        this.sparklineMaxMin = thresholdLines;
         this.updatePreviousValue(storage);
         const parsedStorage = Object.entries(storage).map(([id, data]) => Object.entries(data).map(([measurement, series]) => ({id, measurement, series})));
         const sparklineData = {} as any;
@@ -134,7 +136,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       } as ReadRequestBody
     }).subscribe(items => {
-      const storage = this.createStorage(items, boxPlotFieldNames, this.sparklineMapping);
+      const {storage} = this.createStorage(this.lineState, items, boxPlotFieldNames, this.sparklineMapping);
       const boxSeries = Object.entries(storage[this.device?.deviceUid as string]).reduce((previous, [name, series]) => {
         const items = toBoxData(series as any[]);
 
@@ -149,7 +151,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
   private extractDataFromInputs() {
     this.devices = this.devices?.filter(device => device.deviceUid !== this.device.deviceUid);
-    this.devicesOptions.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
+    this.lineState.allDevices.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
     const from = new Date();
     from.setDate(from.getDate() - 7);
 
@@ -157,7 +159,8 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
 
     this.otherData.push(...otherData.map(param => parseOtherParams(param)));
     this.extractOtherDataFromDeviceDefinition();
-    this.kpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
+
+    this.lineState.allKpis.push(...this.sparklines.map((field) => ({name: this.sparklineMapping(field), field: field})));
     this.lineState.selectedKpis.push(...this.fields.map(field => ({name: this.sparklineMapping(field), field})));
     this.lineState.dates.push(from, new Date());
   }
@@ -179,7 +182,7 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
       body: {bucket: this.bucket, sensors}
     }).subscribe(items => {
       if (items?.data) {
-        const storage = this.createStorage(items, fields, this.sparklineMapping);
+        const {storage} = this.createStorage(this.lineState, items, fields, this.sparklineMapping);
         this.lineState.results = this.handleMultipleLines(sensorIds, storage);
         console.log(this.lineState);
       } else {
@@ -210,28 +213,28 @@ export class StatisticDeviceDetailDashboard implements OnInit, AfterViewInit {
     if (!this.lineState.selectedDevicesToCompareWith.length)
       return measurement;
 
-    return `${[...this.devicesOptions, this.device].find(device => device.deviceUid === id)?.deviceName || id}: ${measurement}`
+    return `${[...this.lineState.allDevices, {
+      id: this.device.deviceUid,
+      name: this.device.deviceName
+    }].find(device => device.id === id)?.name || id}: ${measurement}`
   }
 
-  private createStorage(items: InfluxQueryResult, fields: string[], mapping: (name: string) => string): {[sensor: string]: {[field: string]: any[]}} {
+  private createStorage(lineState: LineState, items: InfluxQueryResult, fields: string[], mapping: (name: string) => string): { thresholdLines: { [p: string]: { value: number; name: string }[] }; storage: {[sensor: string]: {[field: string]: any[]}}} {
     const storage = Object.fromEntries(
-      [...this.lineState.selectedDevicesToCompareWith.map((device: { id: any; }) => device.id), this.device?.deviceUid].map(key =>
+      [...lineState.selectedDevicesToCompareWith.map((device: { id: any; }) => device.id), lineState.device.deviceUid].map(key =>
         [key, Object.fromEntries(fields.map(field => [mapping(field), []]))]
       )
     );
 
+    const thresholdLines = {} as {[field: string]: {value: number, name: string}[]};
+
     items.data.forEach((item: { [x: string]: any; sensor: string | number; time: string | number | Date; }) => {
       fields.forEach(field => {
-        this.getMinMax(field, mapping);
+        thresholdLines[mapping(field)] = minMaxSeries(lineState.device, field)
         storage[item.sensor][mapping(field)].push({value: Number(item[field]).toFixed(2), name: new Date(item.time)});
       })
     });
-    return storage;
-  }
-
-  private getMinMax(field: string, mapping: (name: string) => string) {
-    const series = minMaxSeries(this.device, field);
-    return this.sparklineMaxMin[mapping(field)] = series;
+    return {storage, thresholdLines};
   }
 
   onReloadSwitch($event: any) {

@@ -10,9 +10,6 @@ import {LineState} from "../../model/line.model";
 export class LineComponent implements OnInit {
   @Input() yAxisLabel: any;
   @Input() xAxisLabel: any;
-  @Input() allKpis: any;
-  @Input() allAggregationOperations: any;
-  @Input() allDevicesToCompareWith: any;
   @Input() chartHeight = 400;
 
   @Output() onChanges: EventEmitter<any> = new EventEmitter<any>();
