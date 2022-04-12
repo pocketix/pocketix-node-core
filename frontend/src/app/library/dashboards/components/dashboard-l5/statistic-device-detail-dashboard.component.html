@@ -1,5 +1,7 @@
 <p-toast></p-toast>
-<app-main-chart-template>
+<app-main-chart-template
+  (onReloadSwitchEventEmitter)="onReloadSwitch($event)"
+>
   <line
     chart
     *ngIf="lineState.results"
