@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {first, tap} from "rxjs/operators";
 import {MessageService} from "primeng/api";
@@ -6,6 +6,11 @@ import {Device} from "../../generated/models/device";
 import {environment} from "../../../environments/environment";
 import {Bullet} from "../../library/dashboards/model/dashboards.model";
 import {DeviceService} from "../../generated/services/device.service";
+import {
+  Availability
+} from "../../library/components/availability/components/availability-component/availability.component";
+import {InfluxService} from "../../generated/services/influx.service";
+import {Operation} from "../../generated/models/operation";
 
 @Component({
   selector: 'app-device-availability-dashboard',
@@ -16,7 +21,6 @@ import {DeviceService} from "../../generated/services/device.service";
 export class DeviceAvailabilityDashboardComponent implements OnInit {
   mapping?: (string: string) => string
   device?: Device;
-  title = 'dip';
   bucket = environment.bucket;
   devices: Device[] = [];
   fields?: string[];
@@ -24,8 +28,10 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
   bullets: Bullet[] = [];
   private deviceUid: string = "";
   private type: string = "";
+  availabilities?: Availability[];
 
-  constructor(private deviceService: DeviceService, private route: ActivatedRoute) { }
+  constructor(private deviceService: DeviceService, private route: ActivatedRoute, private influxService: InfluxService) { }
+
   async ngOnInit() {
     await this.route.params.pipe(tap(
         parameters => this.type = parameters["type"] ?? ""
@@ -48,7 +54,8 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
     }).subscribe(device => {
       this.device = device;
       this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
-      this.sparklines = this.fields;
+      const all = this.fields;
+      this.sparklines = this.fields.slice(0, 2);
       this.fields = this.fields.slice(0, 3);
       this.bullets = this.device.parameterValues?.map(parameterValue => ({
         value: parameterValue.number ?? 0,
@@ -61,6 +68,35 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
       })) || [];
       this.mapping = (field) =>
         this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
+
+      const monthBack = new Date();
+      monthBack.setDate(monthBack.getDate() -30);
+
+      if (all) {
+        this.influxService.aggregate({
+          operation: Operation.Count,
+          from: monthBack.toISOString(),
+          to: (new Date()).toISOString(),
+          aggregateMinutes: 1440,
+          body: {
+            bucket: environment.bucket,
+            sensors: {[this.deviceUid]: all},
+          }
+        }).subscribe(stats => {
+            const data = stats.data.reduce(
+              (previous, item) => {
+                all.forEach(field => previous[field] += item[field] as number);
+                return previous;
+              }, Object.fromEntries(all.map(item => [item, 0]))
+            );
+
+            this.availabilities = Object.entries(data).map(([name, value]) => ({
+              text: this.mapping ? this.mapping(name) : name,
+              value: Math.round(value / (4 * 30 * 1440) * 10000) / 100
+            })) as Availability[];
+          }
+        );
+      }
     });
   }
 }

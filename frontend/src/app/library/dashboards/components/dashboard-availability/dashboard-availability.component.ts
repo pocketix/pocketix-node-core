@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {Availability} from "../../../components/availability/components/availability-component/availability.component";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 
@@ -8,19 +8,8 @@ import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component
   styleUrls: ['./dashboard-availability.component.css']
 })
 export class DashboardAvailabilityComponent extends BaseDashboardComponent implements AfterViewInit {
-  availabilities: Availability[] = [{
-    text: "a",
-    value: 100,
-    target: 40
-  }, {
-    text: "a",
-    value: 100,
-    target: 40
-  }, {
-    text: "a",
-    value: 100,
-    target: 40
-  }];
+  @Input()
+  availabilities: Availability[] = [];
 
   ngAfterViewInit(): void {
     super.ngAfterViewInit();

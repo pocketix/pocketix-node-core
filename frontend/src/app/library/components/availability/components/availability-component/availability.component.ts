@@ -1,4 +1,11 @@
-import {Component, ComponentFactoryResolver, Input, OnInit, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ComponentFactoryResolver,
+  Input,
+  ViewContainerRef
+} from '@angular/core';
 import {ModalComponent} from "../modal/modal.component";
 
 export type Availability = {
@@ -10,9 +17,10 @@ export type Availability = {
 @Component({
 	selector: 'app-availability',
 	templateUrl: './availability.component.html',
-	styleUrls: ['./availability.component.css']
+	styleUrls: ['./availability.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AvailabilityComponent implements OnInit {
+export class AvailabilityComponent implements AfterViewInit {
   @Input()
   availabilities!: Availability[];
 
@@ -26,8 +34,12 @@ export class AvailabilityComponent implements OnInit {
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 
-	ngOnInit(): void {
-    this.availability = this.availabilities.reduce((sum, availability) => sum + availability.value, 0) / this.availabilities.length;
+	ngAfterViewInit(): void {
+    console.log(this.availabilities)
+    this.availability = Math.round(this.availabilities.reduce(
+      (sum, availability) => sum + availability.value, 0
+    ) / this.availabilities.length * 100) / 100;
+    console.log(this.availability);
 	}
 
 	createModal(sensor: string) {
