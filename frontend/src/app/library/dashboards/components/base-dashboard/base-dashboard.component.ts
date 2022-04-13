@@ -92,8 +92,7 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
       aggregateMinutes: 288,
       body: {
         bucket: this.bucket,
-        sensors,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        sensors
       } as ReadRequestBody
     }).subscribe(items => {
       if (items?.data) {
@@ -118,8 +117,7 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
       aggregateMinutes: 288,
       body: {
         bucket: this.bucket,
-        sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames},
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames}
       } as ReadRequestBody
     }).subscribe(items => {
       const {storage} = createStorage(this.lineState, items, boxPlotFieldNames, this.sparklineMapping);
