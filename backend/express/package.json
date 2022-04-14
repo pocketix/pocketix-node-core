@@ -42,6 +42,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-validator": "^6.14.0",
+    "mysql": "^2.18.1",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "swagger-express-ts": "^1.1.0",

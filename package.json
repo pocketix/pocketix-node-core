@@ -3,7 +3,6 @@
   "workspaces": [
     "backend/db-benchmark",
     "backend/InfluxDataBase",
-	"backend/express",
 	"frontend"
   ],
   "version": "1.0.0",

@@ -14,6 +14,7 @@ import {ApiModule} from "../../generated/api.module";
 import {AvailabilityModule} from "../components/availability/availability.module";
 import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
 import {MainChartTemplateModule} from "../components/main-chart-template/components/main-chart-template.module";
+import {environment} from "../../../environments/environment";
 
 
 
@@ -29,7 +30,7 @@ import {MainChartTemplateModule} from "../components/main-chart-template/compone
     BulletChartModule,
     NgApexchartsModule,
     TooltipModule,
-    ApiModule.forRoot({rootUrl: "http://192.168.0.50:3000"}),
+    ApiModule.forRoot({rootUrl: environment.api}),
     AvailabilityModule,
     MainChartTemplateModule,
   ],

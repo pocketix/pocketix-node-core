@@ -55,7 +55,7 @@ export class DeviceAvailabilityDashboardComponent implements OnInit {
       this.device = device;
       this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
       const all = this.fields;
-      this.sparklines = this.fields.slice(0, 2);
+      this.sparklines = this.fields.slice(0, 4);
       this.fields = this.fields.slice(0, 3);
       this.bullets = this.device.parameterValues?.map(parameterValue => ({
         value: parameterValue.number ?? 0,
