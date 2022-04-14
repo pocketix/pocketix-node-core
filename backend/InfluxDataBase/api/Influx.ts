@@ -48,7 +48,7 @@ class Influx implements IInflux {
      */
     constructor(url: string, org: string, token: string, bucket: string, host: string = 'host1') {
         const agent = this.createAgent(url);
-        this.client = new InfluxDB({url, token, transportOptions: {agent}, timeout: 1000000000});
+        this.client = new InfluxDB({url, token, transportOptions: {agent}, timeout: this.timeout});
         this.hostProperty = host;
         this.org = org;
         this.bucketProperty = bucket;
@@ -88,7 +88,8 @@ class Influx implements IInflux {
 
     private readonly client;
     private readonly org: string;
-    private readonly keepAliveDuration: number = 60 * 100000; // 15 seconds
+    private readonly timeout = 15000 // 15 seconds
+    private readonly keepAliveDuration: number = this.timeout * 2;
     private hostProperty: string;
     private bucketProperty: string;
     private measurementDefaultProperty = 'deviceUid';
@@ -487,7 +488,7 @@ class Influx implements IInflux {
         return new agent({
             keepAlive: true,
             keepAliveMsecs: this.keepAliveDuration,
-            timeout: 1000000000000000000000000000000
+            timeout: this.timeout
         });
     }
 }
