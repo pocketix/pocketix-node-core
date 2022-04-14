@@ -1,11 +1,12 @@
-import { DataSource } from "typeorm";
+import {DataSource} from "typeorm";
 import {Container} from "typedi";
 
 const createDatasource = async () => {
     const dataSource = new DataSource({
-        type: "postgres",
+        // @ts-ignore
+        type: process.env.POSTGRES_DATABASE_TYPE,
         host: process.env.POSTGRES_HOST,
-        port: 5432,
+        port: parseInt(process.env.POSTGRES_PORT, 10),
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_NAME,

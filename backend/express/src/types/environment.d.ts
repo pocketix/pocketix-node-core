@@ -19,6 +19,8 @@ declare global {
             POSTGRES_PASSWORD: string;
             POSTGRES_HOST: string;
             POSTGRES_NAME: string;
+            POSTGRES_DATABASE_TYPE: string,
+            POSTGRES_DATABASE_PORT: string
         }
     }
 }
