@@ -5,13 +5,16 @@ import {DevicesOverviewComponent} from "./components/devices-overview/devices-ov
 import {
   DeviceAvailabilityDashboardComponent
 } from "./components/device-availability-dashboard/device-availability-dashboard.component";
+import {CategoricalDashboardComponent} from "./components/categorical-dashboard/categorical-dashboard.component";
 
 export const deviceDetailPath = "details";
 export const deviceAvailabilityPath = "availability";
+export const deviceCategoricalPath = "categorical"
 
 const routes: Routes = [
   {path: `${deviceDetailPath}/:type`, component: DeviceDetailDashboardComponent, pathMatch: "full"},
   {path: `${deviceAvailabilityPath}/:type`, component: DeviceAvailabilityDashboardComponent, pathMatch: "full"},
+  {path: `${deviceCategoricalPath}/:type`, component: CategoricalDashboardComponent, pathMatch: "full"},
   {path: "", component: DevicesOverviewComponent}
 ];
 
