@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
 <app-main-chart-template
+  [deviceName]="device.deviceName"
   (onReloadSwitchEventEmitter)="onReloadSwitch($event)"
 >
   <line
