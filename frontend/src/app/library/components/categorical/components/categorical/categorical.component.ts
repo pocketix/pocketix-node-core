@@ -14,7 +14,7 @@ import {Color, LegendPosition} from "@swimlane/ngx-charts";
   styleUrls: ['./categorical.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class Categorical implements OnInit, OnChanges {
+export class Categorical implements OnChanges {
 
   constructor(private influxService: InfluxService) {
   }
@@ -72,6 +72,7 @@ export class Categorical implements OnInit, OnChanges {
     if (changes?.defaultKPIs && !this.currentDayFields?.length)
       this.currentDayFields = this.defaultKPIs || [];
 
+    this.pastDaysSwitchDataWeekStart.setDate(this.pastDaysSwitchDataWeekEnd.getDate() - 7);
     this.updateDay();
   }
 
@@ -79,7 +80,6 @@ export class Categorical implements OnInit, OnChanges {
     this.currentDayDataLoading = true;
     const startOfDay = new Date(this.currentDayDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(this.currentDayDate.setHours(23, 59, 59, 999));
-    console.log(startOfDay, endOfDay);
 
     this.influxService.aggregate({
       operation: this.currentOperation as Operation,
@@ -91,7 +91,6 @@ export class Categorical implements OnInit, OnChanges {
         sensors: {[this.deviceUid]: this.currentDayFields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      console.log(items);
       this.currentDayData = this.itemsToBarChart(items, (time) => (new Date(time)).getHours().toString());
     });
 
@@ -124,7 +123,6 @@ export class Categorical implements OnInit, OnChanges {
     };
 
     const data = items?.data as OutputData[];
-    console.log(data);
     return data.map(item => ({
       name: dateTransformer(item.time),
       series: this.currentDayFields.map(parameter => createNgxNameValuePair(item, parameter.name))
@@ -159,6 +157,7 @@ export class Categorical implements OnInit, OnChanges {
 
   private switchInDays() {
     this.pastDaysSwitchDataLoading = true;
+    console.log(this.pastDaysSwitchDataWeekStart, this.pastDaysSwitchDataWeekEnd);
 
     this.influxService.aggregate({
       operation: Operation.Sum,
@@ -187,14 +186,9 @@ export class Categorical implements OnInit, OnChanges {
     if (!this.currentDayFields?.length) {
       return;
     }
-    console.log("sdaishdiau")
 
     this.loadDataForBarCharts();
     this.switchInDays();
-  }
-
-  ngOnInit(): void {
-    this.pastDaysSwitchDataWeekStart.setDate(this.pastDaysSwitchDataWeekStart.getDate() - 7);
   }
 
   private createPastDaysSwitchDataTicks() {
