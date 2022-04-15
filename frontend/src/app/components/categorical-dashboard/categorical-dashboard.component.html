@@ -1,1 +1,8 @@
-<p>categorical-dashboard works!</p>
+<dashboard-categorical
+  *ngIf="deviceUid"
+  [deviceUid]="deviceUid"
+  [optionsKPI]="parameterTypes"
+  [defaultKPIs]="defaults"
+>
+
+</dashboard-categorical>

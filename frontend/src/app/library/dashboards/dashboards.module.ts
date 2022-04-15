@@ -15,11 +15,17 @@ import {AvailabilityModule} from "../components/availability/availability.module
 import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
 import {MainChartTemplateModule} from "../components/main-chart-template/components/main-chart-template.module";
 import {environment} from "../../../environments/environment";
-
+import {DashboardCategoricalComponent} from "./components/dashboard-categorical/dashboard-categorical.component";
+import {CategoricalModule} from "../components/categorical/categorical.module";
 
 
 @NgModule({
-  declarations: [StatisticDeviceDetailDashboard, DashboardAvailabilityComponent, BaseDashboardComponent],
+  declarations: [
+    StatisticDeviceDetailDashboard,
+    DashboardAvailabilityComponent,
+    BaseDashboardComponent,
+    DashboardCategoricalComponent
+  ],
   imports: [
     BrowserAnimationsModule,
     CommonModule,
@@ -33,10 +39,12 @@ import {environment} from "../../../environments/environment";
     ApiModule.forRoot({rootUrl: environment.api}),
     AvailabilityModule,
     MainChartTemplateModule,
+    CategoricalModule,
   ],
   exports: [
     StatisticDeviceDetailDashboard,
-    DashboardAvailabilityComponent
+    DashboardAvailabilityComponent,
+    DashboardCategoricalComponent
   ]
 })
 export class DashboardsModule { }

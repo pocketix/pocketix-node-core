@@ -1,0 +1,29 @@
+.top-margin {
+  margin-top: 50px;
+}
+
+.space-for-floating-label {
+  margin-bottom: 30px;
+}
+
+#currentDayCalendar {
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.header-padding {
+  padding-bottom: 15px
+}
+
+.chart-height {
+  height: 300px;
+  margin-bottom: 65px;
+}
+
+.smaller-chart-height {
+  height: 100px;
+  margin-bottom: 50px;
+}

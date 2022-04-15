@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import {BarchartValues} from '../../model/barchart.model';
 import {Series} from '@swimlane/ngx-charts/lib/models/chart-data.model';
+import {LegendPosition} from "@swimlane/ngx-charts";
 
 @Component({
   selector: 'barchart',
@@ -26,20 +27,22 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
   public values: BarchartValues = {} as BarchartValues;
   @Input() data: Series[] = [];
   @Output() clickOnChart = new EventEmitter<any>();
-  @ViewChild('chart') chartElement;
+  @ViewChild('chart') chartElement: { chartElement: { nativeElement: { querySelector: (arg0: string) => { (): any; new(): any; querySelectorAll: { (arg0: string): Iterable<unknown> | ArrayLike<unknown>; new(): any; }; }; }; }; } | undefined;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() colorScheme: any;
 
-  @Input() legendMapping: {};
-  @Input() xAxisLabel?: string;
-  @Input() yAxisLabel?: string;
-  @Input() fillToNValues: number;
-  @Input() xAxisTicks?: any[];
-  @Input() yAxisTicks?: any[];
+  @Input() legendMapping: {} | undefined;
+  @Input() xAxisLabel!: string;
+  @Input() yAxisLabel!: string;
+  @Input() fillToNValues: number | undefined;
+  @Input() xAxisTicks: any[] = [];
+  @Input() yAxisTicks: any[] = [];
   @Input() fillTicks = false;
 
-  @Input() sortFunction: (a: Series, b: Series) => number;
+  @Input() sortFunction: ((a: Series, b: Series) => number) | undefined;
+
+  position = LegendPosition.Below;
 
   private static fromEntries(iterable: Iterable<any>) {
     return Array.from(iterable).reduce((target, [key, value]) => {
@@ -67,7 +70,7 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
     const data = this.data ? [...this.data] : [];
 
-    if (this.fillTicks) {
+    if (this.fillTicks && this.xAxisTicks) {
       this.xAxisTicks.forEach(tick => {
         if (!data.find(series => series.name === tick)) {
           data.push({name: tick, series: []} as Series);
@@ -117,10 +120,11 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
       }))
     }));
 
-    const legend = Array.from(this.chartElement.chartElement.nativeElement.querySelector('.legend-labels').querySelectorAll('.legend-label-text'));
+    const legend = Array.from(this?.chartElement?.chartElement?.nativeElement?.querySelector('.legend-labels')?.querySelectorAll('.legend-label-text') || []);
 
     Object.entries(this.values.currentlyShown).forEach(([item, status]) => {
-        const currentElement = legend.find((span: HTMLElement) => span.innerHTML.includes(item.toString())) as HTMLElement;
+        // @ts-ignore
+      const currentElement = legend.find((span: HTMLElement) => span.innerHTML.includes(item.toString())) as HTMLElement;
 
         if (!!currentElement) {
           status ? currentElement.classList.remove('strike-trough') : currentElement.classList.add('strike-trough');

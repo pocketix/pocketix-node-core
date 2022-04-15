@@ -1,0 +1,137 @@
+<div class="p-fluid grid">
+  <div class="full-width">
+    <h2 class="space-for-floating-label">{{'lgmc-gui-device.day-details.daydetails'}}</h2>
+    <div class="p-fluid grid">
+      <div class="p-field col-12 md:col-4">
+          <span class="p-float-label">
+            <p-multiSelect
+              inputId="currentDay"
+              [options]="optionsKPI"
+              [(ngModel)]="currentDayFields"
+              optionLabel="label"
+              (onChange)="updateDay()">
+            </p-multiSelect>
+            <label for="currentDay">{{'lgmc-gui-device.day-details.kpi'}}</label>
+          </span>
+      </div>
+      <div class="p-field col-12 md:col-4">
+          <span class="p-float-label">
+            <p-calendar inputId="currentDayCalendar" [showIcon]="true" [(ngModel)]="currentDayDate" (onSelect)="updateDay()"></p-calendar>
+            <label for="currentDayCalendar">{{'lgmc-gui-device.day-details.dayview'}}</label>
+          </span>
+      </div>
+      <div class="p-field col-12 md:col-4">
+          <span class="p-float-label">
+            <p-dropdown
+              inputId="currentDayAggregationSelect"
+              [options]="aggregationOperations"
+              [(ngModel)]="currentOperation"
+              (onChange)="updateDay()">
+            </p-dropdown>
+            <label for="currentDayAggregationSelect">{{'lgmc-gui-device.day-details.aggregation'}}</label>
+          </span>
+      </div>
+    </div>
+
+    <h3>{{'lgmc-gui-device.day-details.hoursStat'}}</h3>
+    <spinner-message-wrapper
+      [loading]="currentDayDataLoading"
+      [hasData]="!!currentDayData.length"
+      class="chart-height"
+    >
+      <barchart
+        content
+        class="chart-height"
+        [colorScheme]="colorScheme"
+        [data]="currentDayData"
+        [xAxisLabel]="labelHours"
+        [yAxisLabel]="labelSwitchCount"
+        [xAxisTicks]="hourTicks"
+        [sortFunction]="sort"
+        [fillTicks]="true"
+      >
+      </barchart>
+      <p-progressSpinner
+        spinner
+        strokeWidth="5"
+        fill="#EEEEEE"
+        animationDuration=".5s"
+      >
+      </p-progressSpinner>
+    </spinner-message-wrapper>
+    
+    <div class="full-width" style="height: 220px;">
+      <h3>{{'lgmc-gui-device.day-details.switchCompDay'}}</h3>
+      <div class="full-width">
+        <spinner-message-wrapper
+          [loading]="currentDayDataLoading"
+          [hasData]="!!currentDayData.length"
+          class="smaller-chart-height"
+        >
+          <ngx-charts-bar-horizontal-stacked
+            class="smaller-chart-height"
+            content
+            *ngIf="currentDayData.length"
+            [scheme]="colorScheme"
+            [results]="currentDaySwitchComposition"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="labelSwitchCount"
+            [yAxisLabel]="labelDays"
+            [legendPosition]="position"
+            [legend]="showLegend">
+          </ngx-charts-bar-horizontal-stacked>
+          <p-progressSpinner
+            spinner
+            strokeWidth="5"
+            fill="#EEEEEE"
+            animationDuration=".5s"
+          >
+          </p-progressSpinner>
+        </spinner-message-wrapper>
+        <div *ngIf="!currentDaySwitchComposition.length" class="empty-placeholder">
+          <span>{{'lgmc-gui-device.day-details.nodata'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="full-width">
+    <h2>{{'lgmc-gui-device.day-details.switchDays'}}</h2>
+    <div class="p-grid p-fluid header-padding">
+      <div class="p-inputgroup">
+        <button type="button" pButton pRipple label="Previous" (click)="switchInDaysMove(-1)"></button>
+        <input type="text" id="switch-in-days-start" pInputText value="{{pastDaysSwitchDataWeekStart.toLocaleDateString()}}">
+        <input type="text" id="switch-in-days-end" pInputText value="{{pastDaysSwitchDataWeekEnd.toLocaleDateString()}}">
+        <button type="button" pButton pRipple label="Next" (click)="switchInDaysMove(1)"></button>
+      </div>
+    </div>
+    <spinner-message-wrapper
+      [loading]="pastDaysSwitchDataLoading"
+      [hasData]="!!pastDaysSwitchData.length"
+      class="chart-height"
+    >
+      <barchart
+        content
+        class="chart-height"
+        [colorScheme]="colorScheme"
+        [fillTicks]="true"
+        [xAxisLabel]="labelDays"
+        [yAxisLabel]="labelSwitchCount"
+        [data]="pastDaysSwitchData"
+        [xAxisTicks]="pastDaysSwitchDataTicks"
+        [sortFunction]="sortDates"
+      >
+      </barchart>
+      <p-progressSpinner
+        spinner
+        strokeWidth="5"
+        fill="#EEEEEE"
+        animationDuration=".5s"
+      >
+      </p-progressSpinner>
+    </spinner-message-wrapper>
+  </div>
+</div>

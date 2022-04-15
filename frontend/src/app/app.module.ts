@@ -21,6 +21,7 @@ import {ScrollPanelModule} from "primeng/scrollpanel";
 import { DeviceAvailabilityDashboardComponent } from './components/device-availability-dashboard/device-availability-dashboard.component';
 import {DashboardsModule} from "./library/dashboards/dashboards.module";
 import { CategoricalDashboardComponent } from './components/categorical-dashboard/categorical-dashboard.component';
+import {CategoricalModule} from "./library/components/categorical/categorical.module";
 
 @NgModule({
   declarations: [
@@ -31,21 +32,22 @@ import { CategoricalDashboardComponent } from './components/categorical-dashboar
     DeviceAvailabilityDashboardComponent,
     CategoricalDashboardComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    RouterModule,
-    AvailabilityModule,
-    AppRoutingModule,
-    DashboardsModule,
-    HttpClientModule,
-    PanelModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    StyleClassModule,
-    ScrollPanelModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        RouterModule,
+        AvailabilityModule,
+        AppRoutingModule,
+        DashboardsModule,
+        HttpClientModule,
+        PanelModule,
+        CardModule,
+        ButtonModule,
+        DividerModule,
+        StyleClassModule,
+        ScrollPanelModule,
+        CategoricalModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
