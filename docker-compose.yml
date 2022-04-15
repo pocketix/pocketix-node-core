@@ -1,6 +1,67 @@
 version: "3.9"
+
 services:
   express:
     build:
-      context: backend/express
+      context: backend
       dockerfile: Dockerfile
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    networks:
+      - network
+    links:
+      - postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:14.2
+    restart: unless-stopped
+    hostname: postgres
+    environment:
+      - POSTGRES_DB=home
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    expose:
+      - "4200"
+    ports:
+      - "4200:4200"
+    networks:
+      - network
+    depends_on:
+      - express
+
+  nginx:
+    image: nginx:mainline-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge

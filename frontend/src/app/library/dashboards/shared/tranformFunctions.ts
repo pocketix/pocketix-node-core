@@ -2,9 +2,9 @@ import * as d3 from "d3";
 import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
-import {InfluxQueryResult} from "influx-aws-lambda/api/influxTypes";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {BulletsState} from "../model/dashboards.model";
+import {InfluxQueryResult} from "../../../generated/models/influx-query-result";
 
 const toBoxData = (series: any[]) => {
   const sortedSeries = series.map(item => item.value).sort();
