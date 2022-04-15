@@ -1,4 +1,4 @@
-import {Sensors} from 'influx-aws-lambda/api/influxTypes';
+import {Sensors} from '../../../InfluxDataBase/api/influxTypes';
 
 /**
  * Interface representing the body of a read request

@@ -1,4 +1,4 @@
-import {InfluxQueryInput, InfluxQueryResult, InputData} from 'influx-aws-lambda/api/influxTypes';
+import {InfluxQueryInput, InfluxQueryResult, InputData} from '../../../../InfluxDataBase/api/influxTypes';
 
 /**
  * Simple service that wraps the 'Influx' class into an injectable service

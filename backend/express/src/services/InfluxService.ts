@@ -1,4 +1,4 @@
-import {Influx} from 'influx-aws-lambda/api/Influx';
+import {Influx} from '../../../InfluxDataBase/api/Influx';
 import { Service } from 'typedi';
 import {
     ComparisonOperator,
@@ -6,7 +6,7 @@ import {
     InfluxQueryResult,
     InputData,
     SingleSimpleValue
-} from 'influx-aws-lambda/api/influxTypes';
+} from '../../../InfluxDataBase/api/influxTypes';
 
 /**
  * Simple service that wraps the 'Influx' class into an injectable service

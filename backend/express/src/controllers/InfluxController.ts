@@ -17,7 +17,7 @@ import {
     InfluxQueryInputParam,
     InfluxQueryResult,
     Operation, SingleSimpleValue
-} from 'influx-aws-lambda/api/influxTypes';
+} from '../../../InfluxDataBase/api/influxTypes';
 import {fromDateBeforeToDate} from '../validators/fromDateBeforeToDate';
 import {ExitValidator} from '../middlewares/ExitValidator';
 import {Request as ExpressRequest} from 'express';

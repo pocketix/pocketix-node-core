@@ -50,6 +50,8 @@
     "ts-json-schema-generator": "^0.98.0",
     "tsoa": "^4.0.0-beta.0",
     "typedi": "^0.10.0",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm-naming-strategies": "^4.1.0",
+	"@influxdata/influxdb-client": "^1.20.0",
+	"@influxdata/influxdb-client-apis": "^1.18.0"
   }
 }

@@ -1,7 +1,7 @@
 import {Container} from 'typedi';
 import {InfluxService} from '../services/InfluxService';
 import {NextFunction, Request, Response} from 'express';
-import {InputData} from 'influx-aws-lambda/api/influxTypes';
+import {InputData} from '../../../InfluxDataBase/api/influxTypes';
 import {Ipware, IpwareCallOptions, IpwareIpInfo} from '@fullerstack/nax-ipware';
 
 /**

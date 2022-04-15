@@ -1,4 +1,4 @@
-import {InputData} from 'influx-aws-lambda/api/influxTypes';
+import {InputData} from '../../../InfluxDataBase/api/influxTypes';
 
 interface WriteRequestBody {
     bucket: string;
