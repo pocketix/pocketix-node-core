@@ -16,6 +16,7 @@ export class SwitchDisplayComponent implements OnInit {
   data!: OutputData[];
   @Input()
   states?: SingleSimpleValue[] = [];
+  status = "boiler_status"
 
   constructor() { }
 
@@ -41,11 +42,11 @@ export class SwitchDisplayComponent implements OnInit {
   private drawCustomChart() {
     this.changesStart = new Date(this.data[0].time);
     this.changesEnd = new Date(this.data[this.data.length - 1].time);
+    const status = this.status;
 
-    const margin = {top: 10, right: 30, bottom: 20, left: 60};
+    const margin = {top: 0, right: 10, bottom: 30, left: 10};
     const width = 460 - margin.left - margin.right;
     const height = 80 - margin.top - margin.bottom;
-    const devices = ["boiler"]
     const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
     const mainElement = d3.select("#new-chart");
 
@@ -124,7 +125,7 @@ export class SwitchDisplayComponent implements OnInit {
     }
 
     const yAxis = d3.scaleBand()
-      .domain(devices)
+      .domain([status])
       .range([height, 0])
       .padding(0.2);
 
@@ -136,12 +137,6 @@ export class SwitchDisplayComponent implements OnInit {
       .attr("class", "axis")
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(xAxis).tickSizeOuter(0).ticks(5));
-
-    svg.append("g")
-      .attr("class", "axis")
-      .call(d3.axisLeft(yAxis));
-
-    const status = "boiler_status"
 
     const changes = this.data.map((change, index) => [
       change[status].toString() as string,
@@ -183,14 +178,14 @@ export class SwitchDisplayComponent implements OnInit {
     registerEvents(test.append("rect")
       .attr("x", d => xAxis(d[0]))
       // @ts-ignore
-      .attr("y", d => yAxis(d.data.sensor as unknown as string) || null)
+      .attr("y", yAxis(status))
       .attr("height", 35)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0])));
 
     test.append("foreignObject")
       .attr("x", data => xAxis(data[0]))
       // @ts-ignore
-      .attr("y", d => yAxis(d.data.sensor as unknown as string) || null)
+      .attr("y", yAxis(status))
       .attr("height", 35)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0]))
       .attr("text-anchor", "middle")
