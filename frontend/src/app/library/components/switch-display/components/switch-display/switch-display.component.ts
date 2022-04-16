@@ -62,7 +62,7 @@ export class SwitchDisplayComponent implements OnInit {
 
     const color = d3.scaleOrdinal()
       .domain(Object.keys(states))
-      .range(['#e41a1c', '#377eb8', '#4daf4a']);
+      .range(['#5AA454', '#C7B42C', '#AAAAAA']);
 
     const legendContainer = mainElement
       .append("div")
