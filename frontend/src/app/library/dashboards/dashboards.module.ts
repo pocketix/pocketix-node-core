@@ -18,6 +18,7 @@ import {environment} from "../../../environments/environment";
 import {DashboardCategoricalComponent} from "./components/dashboard-categorical/dashboard-categorical.component";
 import {CategoricalModule} from "../components/categorical/categorical.module";
 import {KeyValueDisplayModule} from "../components/key-value-display/key-value-display.module";
+import {SwitchDisplayModule} from "../components/switch-display/switch-display.module";
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {KeyValueDisplayModule} from "../components/key-value-display/key-value-d
     AvailabilityModule,
     MainChartTemplateModule,
     CategoricalModule,
-    KeyValueDisplayModule
+    KeyValueDisplayModule,
+    SwitchDisplayModule
   ],
   exports: [
     StatisticDeviceDetailDashboard,

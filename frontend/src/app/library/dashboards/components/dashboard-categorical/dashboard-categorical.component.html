@@ -17,7 +17,17 @@
       </div>
     </div>
     <div>
-
+      <h3>
+        State changes
+      </h3>
+      <div style="width: 100%">
+        <app-switch-display
+          *ngIf="data"
+          [data]="data"
+          [states]="states"
+        >
+        </app-switch-display>
+      </div>
     </div>
   </div>
 

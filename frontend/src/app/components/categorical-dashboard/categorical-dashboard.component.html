@@ -1,8 +1,11 @@
 <dashboard-categorical
-  *ngIf="device"
+  *ngIf="device && states && data"
   [device]="device"
   [optionsKPI]="parameterTypes"
   [defaultKPIs]="defaults"
+  [keyValue]="keyValue"
+  [data]="data"
+  [states]="states"
 >
 
 </dashboard-categorical>

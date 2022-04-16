@@ -1,54 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import * as d3 from "d3";
+import {OutputData} from "../../../../../generated/models/output-data";
+import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
+
+type Chages = OutputData | {time: Date, start: Date, stop: Date};
 
 @Component({
   selector: 'app-switch-display',
   templateUrl: './switch-display.component.html',
-  styleUrls: ['./switch-display.component.css']
+  styleUrls: ['./switch-display.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SwitchDisplayComponent implements OnInit {
+  @Input()
+  data!: OutputData[];
+  @Input()
+  states?: SingleSimpleValue[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.drawCustomChart();
   }
 
-  changes = [
-    {
-      _result: 0,
-      table: 0,
-      time: '2022-03-20T09:38:25.599Z',
-      doorState: 'open',
-      deviceUid: 'dooooor'
-    },
-    {
-      _result: 0,
-      table: 0,
-      time: '2022-03-20T10:38:25.599Z',
-      doorState: 'closed',
-      deviceUid: 'dooooor'
-    },
-    {
-      _result: 0,
-      table: 0,
-      time: '2022-03-20T11:38:25.599Z',
-      doorState: 'open',
-      deviceUid: 'dooooor'
-    },
-    {
-      _result: 0,
-      table: 0,
-      time: '2022-03-20T12:38:25.599Z',
-      doorState: 'closed',
-      deviceUid: 'dooooor'
-    }
-  ];
-
-  changesStart = new Date('2022-03-20T09:38:25.599Z');
-  changesEnd = new Date('2022-03-20T12:38:25.599Z')
+  changesStart!: Date;
+  changesEnd!: Date;
 
   private getChangesDate(index: number): Date {
-    if (index > this.changes.length) {
+    if (index > this.data.length) {
       return this.changesEnd;
     }
 
@@ -56,15 +35,18 @@ export class SwitchDisplayComponent implements OnInit {
       return this.changesStart;
     }
 
-    return new Date(this.changes[index].time);
+    return new Date(this.data[index].time);
   }
 
   private drawCustomChart() {
-    const margin = {top: 10, right: 30, bottom: 20, left: 70};
+    this.changesStart = new Date(this.data[0].time);
+    this.changesEnd = new Date(this.data[this.data.length - 1].time);
+
+    const margin = {top: 10, right: 30, bottom: 20, left: 60};
     const width = 460 - margin.left - margin.right;
-    const height = 100 - margin.top - margin.bottom;
-    const devices = ["dooooor"]
-    const states = {open: [], closed: []} as {open: any[], closed: any[]};
+    const height = 80 - margin.top - margin.bottom;
+    const devices = ["boiler"]
+    const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
     const mainElement = d3.select("#new-chart");
 
     const appendTo = mainElement.append("div").attr("class", "svg-container");
@@ -121,7 +103,7 @@ export class SwitchDisplayComponent implements OnInit {
       const boundingBox = item.target.parentElement.parentElement.getBoundingClientRect();
       tooltip
         .html(`<div style="display: flex; flex-direction: column;">
-                        <h4 style="padding: 0; margin: 0">Status:${data.doorState}</h4>
+                        <h4 style="padding: 0; margin: 0">Status:${data[status]}</h4>
                         <span>Start:</span>
                         <span>${data.start.toLocaleString()}
                         </span>
@@ -159,16 +141,22 @@ export class SwitchDisplayComponent implements OnInit {
       .attr("class", "axis")
       .call(d3.axisLeft(yAxis));
 
-    const data = this.changes.map((change, index) => [change.doorState, {
-      ...change,
-      time: new Date(change.time),
-      start: this.getChangesDate(index - 1),
-      stop: this.getChangesDate(index)
-    }]).reduce((previousValue, [status, rest]) => {
-      // @ts-ignore
+    console.log(this.data);
+    const status = "boiler_status"
+
+    const changes = this.data.map((change, index) => [
+      change[status].toString() as string,
+      this.outputDataToChanges(change, index)
+    ] as [string, Chages]);
+
+    console.log(changes);
+
+    const data = changes.reduce((previousValue, [status, rest]) => {
       previousValue[status].push(rest);
       return previousValue;
     }, states);
+
+    console.log(data);
     const stackedData = Object.entries(data).map(([key, items]) => {
       const array = items.map(item => {
         const value = [item.start, item.stop];
@@ -180,6 +168,7 @@ export class SwitchDisplayComponent implements OnInit {
       array.key = key;
       return array;
     });
+    console.log(stackedData);
 
     const registerEvents = (element: any) => element.on("mouseover", mouseOver)
       .on("mousemove", mouseMove)
@@ -199,15 +188,15 @@ export class SwitchDisplayComponent implements OnInit {
     registerEvents(test.append("rect")
       .attr("x", d => xAxis(d[0]))
       // @ts-ignore
-      .attr("y", d => yAxis(d.data.deviceUid as unknown as string) || null)
-      .attr("height", 50)
+      .attr("y", d => yAxis(d.data.sensor as unknown as string) || null)
+      .attr("height", 35)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0])));
 
     test.append("foreignObject")
       .attr("x", data => xAxis(data[0]))
       // @ts-ignore
-      .attr("y", d => yAxis(d.data.deviceUid as unknown as string) || null)
-      .attr("height", 50)
+      .attr("y", d => yAxis(d.data.sensor as unknown as string) || null)
+      .attr("height", 35)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0]))
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
@@ -215,14 +204,24 @@ export class SwitchDisplayComponent implements OnInit {
       .style("pointer-events", "none")
       .append("p")
       // @ts-ignore
-      .text((d) => d.data.doorState)
+      .text((d) => d.data[status].toString())
       .style("width", "100%")
       .style("text-align", "center")
-      .style("pointer-events", "none");
+      .style("pointer-events", "none")
+      .style("margin-top", "8px");
   }
 
   private getLegendBarColorClassName (color: string) {
     return `legend-bar-${color}`;
+  }
+
+  private outputDataToChanges(change: OutputData, index: number): Chages {
+    return {
+      ...change,
+      time: new Date(change.time),
+      start: this.getChangesDate(index - 1),
+      stop: this.getChangesDate(index)
+    };
   }
 
   resize(svg: any, aspect: number = 4) {
