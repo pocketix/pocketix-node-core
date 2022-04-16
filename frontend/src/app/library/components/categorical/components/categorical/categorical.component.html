@@ -10,13 +10,13 @@
               optionLabel="label"
               (onChange)="updateDay()">
             </p-multiSelect>
-            <label for="currentDay">{{'lgmc-gui-device.day-details.kpi'}}</label>
+            <label for="currentDay">Field</label>
           </span>
       </div>
       <div class="p-field col-12 md:col-4">
           <span class="p-float-label">
             <p-calendar inputId="currentDayCalendar" [showIcon]="true" [(ngModel)]="currentDayDate" (onSelect)="updateDay()"></p-calendar>
-            <label for="currentDayCalendar">{{'lgmc-gui-device.day-details.dayview'}}</label>
+            <label for="currentDayCalendar">Current day</label>
           </span>
       </div>
       <div class="p-field col-12 md:col-4">
@@ -27,12 +27,12 @@
               [(ngModel)]="currentOperation"
               (onChange)="updateDay()">
             </p-dropdown>
-            <label for="currentDayAggregationSelect">{{'lgmc-gui-device.day-details.aggregation'}}</label>
+            <label for="currentDayAggregationSelect">Aggregation</label>
           </span>
       </div>
     </div>
 
-    <h3>{{'lgmc-gui-device.day-details.hoursStat'}}</h3>
+    <h3>Hourly statistics</h3>
     <spinner-message-wrapper
       [loading]="currentDayDataLoading"
       [hasData]="!!currentDayData.length"
@@ -43,8 +43,8 @@
         class="chart-height"
         [colorScheme]="colorScheme"
         [data]="currentDayData"
-        [xAxisLabel]="labelHours"
-        [yAxisLabel]="labelSwitchCount"
+        xAxisLabel=Hours
+        yAxisLabel=Value
         [xAxisTicks]="hourTicks"
         [sortFunction]="sort"
         [fillTicks]="true"
@@ -60,7 +60,7 @@
     </spinner-message-wrapper>
 
     <div class="full-width" style="height: 220px;">
-      <h3>{{'lgmc-gui-device.day-details.switchCompDay'}}</h3>
+      <h3>Day composition</h3>
       <div class="full-width">
         <spinner-message-wrapper
           [loading]="currentDayDataLoading"
@@ -78,8 +78,8 @@
             [yAxis]="showYAxis"
             [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="labelSwitchCount"
-            [yAxisLabel]="labelDays"
+            xAxisLabel=Count
+            yAxisLabel=Today
             [legendPosition]="position"
             [legend]="showLegend">
           </ngx-charts-bar-horizontal-stacked>
@@ -92,13 +92,13 @@
           </p-progressSpinner>
         </spinner-message-wrapper>
         <div *ngIf="!currentDaySwitchComposition.length" class="empty-placeholder">
-          <span>{{'lgmc-gui-device.day-details.nodata'}}</span>
+          <span>No data</span>
         </div>
       </div>
     </div>
   </div>
   <div class="full-width">
-    <h2>{{'lgmc-gui-device.day-details.switchDays'}}</h2>
+    <h2>Past days statistic</h2>
     <div class="p-grid p-fluid header-padding">
       <div class="p-inputgroup">
         <button type="button" pButton pRipple label="Previous" (click)="switchInDaysMove(-1)"></button>
@@ -117,8 +117,8 @@
         class="chart-height"
         [colorScheme]="colorScheme"
         [fillTicks]="true"
-        [xAxisLabel]="labelDays"
-        [yAxisLabel]="labelSwitchCount"
+        xAxisLabel=Count
+        yAxisLabel=Hours
         [data]="pastDaysSwitchData"
         [xAxisTicks]="pastDaysSwitchDataTicks"
         [sortFunction]="sortDates"
