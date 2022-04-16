@@ -67,20 +67,12 @@
   flex-direction: column;
 }
 
-.p-card-title {
-  margin-top: 0.5rem;
-  margin-bottom: 0;
-}
-
 .emphasize {
   text-align: center;
   font-size: var(--emphasize-font-size);
   width: 100%
 }
 
-.p-card {
-  margin: 15px;
-}
 
 .kpi-value {
   font-size: var(--emphasize-font-size);

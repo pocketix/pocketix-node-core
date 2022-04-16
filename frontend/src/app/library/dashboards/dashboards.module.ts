@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ToastModule} from "primeng/toast";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {NgApexchartsModule} from "ng-apexcharts";
@@ -12,11 +12,12 @@ import {SparklineModule} from "../components/sparkline/sparkline.module";
 import {BulletChartModule} from "../components/bullet-chart/bullet-chart.module";
 import {ApiModule} from "../../generated/api.module";
 import {AvailabilityModule} from "../components/availability/availability.module";
-import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
+import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard.component';
 import {MainChartTemplateModule} from "../components/main-chart-template/components/main-chart-template.module";
 import {environment} from "../../../environments/environment";
 import {DashboardCategoricalComponent} from "./components/dashboard-categorical/dashboard-categorical.component";
 import {CategoricalModule} from "../components/categorical/categorical.module";
+import {KeyValueDisplayModule} from "../components/key-value-display/key-value-display.module";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {CategoricalModule} from "../components/categorical/categorical.module";
     AvailabilityModule,
     MainChartTemplateModule,
     CategoricalModule,
+    KeyValueDisplayModule
   ],
   exports: [
     StatisticDeviceDetailDashboard,
@@ -47,4 +49,5 @@ import {CategoricalModule} from "../components/categorical/categorical.module";
     DashboardCategoricalComponent
   ]
 })
-export class DashboardsModule { }
+export class DashboardsModule {
+}

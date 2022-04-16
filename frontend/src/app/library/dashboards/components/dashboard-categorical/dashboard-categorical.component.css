@@ -1,1 +1,5 @@
 @import "../../styles/styles.css";
+
+.space-for-floating-label {
+  margin-bottom: 30px;
+}

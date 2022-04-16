@@ -11,6 +11,9 @@ export class DashboardCategoricalComponent implements OnInit {
   @Input() device!: Device;
   @Input() optionsKPI: ParameterType[] = [];
   @Input() defaultKPIs?: ParameterType[];
+  keyValue = [{key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"},
+    {key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"},
+    {key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"}, {key: "abcv", value: "bfas"}];
 
   constructor() { }
 

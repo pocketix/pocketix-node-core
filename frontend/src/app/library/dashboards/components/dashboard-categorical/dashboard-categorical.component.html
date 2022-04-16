@@ -2,21 +2,33 @@
   <div class="p-card flex-grow-1 col-11 xl:col-4">
     <span class="p-card-title">
       {{device.deviceName}}
-    </span>
+      </span>
     <div class="p-card-body">
+      <div class="grid">
+        <app-key-value-display
+          class="md:col-4 col-12"
+          *ngFor="let item of keyValue"
+          [key]="item.key"
+          [value]="item.value"
+          [keySize]="30"
+          [valueSize]="24"
+        >
+        </app-key-value-display>
+      </div>
+    </div>
+    <div>
 
     </div>
   </div>
 
   <div class="p-card flex-grow-1 col-11 xl:col-4">
-    <div class="p-card-body">
-      <categorical
-        [deviceUid]="device.deviceUid"
-        [defaultKPIs]="defaultKPIs"
-        [optionsKPI]="optionsKPI"
-      >
+    <div class="p-card-title space-for-floating-label no-top-margin">{{'lgmc-gui-device.day-details.daydetails'}}</div>
+    <categorical
+      [deviceUid]="device.deviceUid"
+      [defaultKPIs]="defaultKPIs"
+      [optionsKPI]="optionsKPI"
+    >
 
-      </categorical>
-    </div>
+    </categorical>
   </div>
 </div>

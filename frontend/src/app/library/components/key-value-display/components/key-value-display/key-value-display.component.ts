@@ -10,6 +10,10 @@ export class KeyValueDisplayComponent implements OnInit {
   key!: string;
   @Input()
   value!: string;
+  @Input()
+  keySize: number = 16;
+  @Input()
+  valueSize: number = 16;
 
   constructor() { }
 
