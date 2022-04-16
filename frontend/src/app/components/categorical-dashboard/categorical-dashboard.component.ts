@@ -48,8 +48,12 @@ export class CategoricalDashboardComponent implements OnInit {
     });
 
     const to = new Date();
-    const from = new Date()
-    from.setDate(from.getDate() - 7);
+    const startDay = new Date();
+    startDay.setHours(0, 0, 0,0);
+    const sevenDaysBack = new Date()
+    const thirtyDaysBack = new Date();
+    sevenDaysBack.setDate(startDay.getDate() - 7);
+    thirtyDaysBack.setDate(startDay.getDate() - 30);
 
     this.influxService.filterDistinctValue({
       isString: false,
@@ -59,11 +63,36 @@ export class CategoricalDashboardComponent implements OnInit {
           bucket: environment.bucket,
           operation: Operation._,
           param: {
-            to: to.toISOString(), from: from.toISOString(), sensors: {boiler: ["boiler_status"]}
+            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: ["boiler_status"]}
           }
         },
         values: this.states
       },
     }).subscribe(data => this.data = data.data);
+
+    const fields = ["boiler_temperature", "outside_temperature"];
+
+    this.influxService.parameterAggregationWithMultipleStarts({
+      body: {
+        starts: [startDay.toISOString(), sevenDaysBack.toISOString(), thirtyDaysBack.toISOString()],
+        data: {
+          bucket: environment.bucket,
+          operation: Operation.Mean,
+          param: { sensors: {boiler: fields} }
+        }
+      }
+    }).subscribe(
+      data => {
+        const sortedData = data.data.sort((first, second) =>
+          new Date(first.time) < new Date(second.time) ? -1 : 1)
+
+        const storage = Object.fromEntries(fields.map(field => [field, [] as (number | string)[]]));
+        const keyValue: { key: string; value: string | number; }[] = [];
+
+        sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
+        Object.entries(storage).forEach(([field, array]) => array.map(item => keyValue.push({key: field, value: item})));
+        console.log(keyValue);
+      }
+    );
   }
 }

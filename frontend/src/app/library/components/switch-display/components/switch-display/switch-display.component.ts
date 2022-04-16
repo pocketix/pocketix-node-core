@@ -141,7 +141,6 @@ export class SwitchDisplayComponent implements OnInit {
       .attr("class", "axis")
       .call(d3.axisLeft(yAxis));
 
-    console.log(this.data);
     const status = "boiler_status"
 
     const changes = this.data.map((change, index) => [
@@ -149,14 +148,11 @@ export class SwitchDisplayComponent implements OnInit {
       this.outputDataToChanges(change, index)
     ] as [string, Chages]);
 
-    console.log(changes);
-
     const data = changes.reduce((previousValue, [status, rest]) => {
       previousValue[status].push(rest);
       return previousValue;
     }, states);
 
-    console.log(data);
     const stackedData = Object.entries(data).map(([key, items]) => {
       const array = items.map(item => {
         const value = [item.start, item.stop];
@@ -168,7 +164,6 @@ export class SwitchDisplayComponent implements OnInit {
       array.key = key;
       return array;
     });
-    console.log(stackedData);
 
     const registerEvents = (element: any) => element.on("mouseover", mouseOver)
       .on("mousemove", mouseMove)
