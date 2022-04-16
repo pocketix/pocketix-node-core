@@ -87,11 +87,16 @@ export class CategoricalDashboardComponent implements OnInit {
           new Date(first.time) < new Date(second.time) ? -1 : 1)
 
         const storage = Object.fromEntries(fields.map(field => [field, [] as (number | string)[]]));
-        const keyValue: { key: string; value: string | number; }[] = [];
+        const keyValue: { key: string; value: string; }[] = [];
 
         sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
-        Object.entries(storage).forEach(([field, array]) => array.map(item => keyValue.push({key: field, value: item})));
-        console.log(keyValue);
+        Object.entries(storage).forEach(([field, array]) => array.map(
+          item => keyValue.push({
+            key: field,
+            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item
+          })
+        ));
+        this.keyValue = keyValue;
       }
     );
   }
