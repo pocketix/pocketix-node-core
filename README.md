@@ -14,4 +14,4 @@ The project has the following structure:
    - `src/app/generated` - Artefacts generated from the `express` application but compatible with `influx-lambda`
  - `doc/thesis` - Thesis LaTeX files (in Czech)
 
-Each part of the monorepo has its own `README.md` describing the usage or results gained from this part
+Each important part of the monorepo has its own `README.md` describing the usage or results gained from this part
