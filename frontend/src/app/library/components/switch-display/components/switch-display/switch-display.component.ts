@@ -52,7 +52,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     const margin = {top: 0, right: 10, bottom: 30, left: 10};
     const width = 460 - margin.left - margin.right;
-    const height = 80 - margin.top - margin.bottom;
+    const height = 70 - margin.top - margin.bottom;
     const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
     const mainElement = d3.select(this.chart?.nativeElement);
 
@@ -185,14 +185,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .attr("x", d => xAxis(d[0]))
       // @ts-ignore
       .attr("y", yAxis(status))
-      .attr("height", 35)
+      .attr("height", 30)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0])));
 
     test.append("foreignObject")
       .attr("x", data => xAxis(data[0]))
       // @ts-ignore
       .attr("y", yAxis(status))
-      .attr("height", 35)
+      .attr("height", 30)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0]))
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
@@ -204,7 +204,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .style("width", "100%")
       .style("text-align", "center")
       .style("pointer-events", "none")
-      .style("margin-top", "8px");
+      .style("margin-top", "6px");
   }
 
   private getLegendBarColorClassName (color: string) {

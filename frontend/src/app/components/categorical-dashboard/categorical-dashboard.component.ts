@@ -9,6 +9,7 @@ import {InfluxService} from "../../generated/services/influx.service";
 import {SingleSimpleValue} from "../../generated/models/single-simple-value";
 import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
+import { Bullet } from 'app/library/dashboards/model/dashboards.model';
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -26,6 +27,7 @@ export class CategoricalDashboardComponent implements OnInit {
   data?: OutputData[];
   states = [0, 1, 2] as SingleSimpleValue[];
   switchFields?: string[] = [];
+  bullets?: Bullet[];
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
@@ -46,6 +48,16 @@ export class CategoricalDashboardComponent implements OnInit {
       this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
       this.parameterTypes = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
       this.defaults = this.parameterTypes.slice(0,3);
+
+      this.bullets = this.device.parameterValues?.map(parameterValue => ({
+        value: parameterValue.number ?? 0,
+        min: parameterValue.type.min ?? 0,
+        max: parameterValue.type.max ?? 0,
+        previousValue: parameterValue.number ?? 0,
+        thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
+        units: parameterValue.type.units ?? "",
+        name: parameterValue.type.label ?? ""
+      })) || [];
     });
 
     const to = new Date();

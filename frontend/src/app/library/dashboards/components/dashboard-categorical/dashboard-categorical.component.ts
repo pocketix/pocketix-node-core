@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ParameterType} from "../../../../generated/models/parameter-type";
 import {Device} from "../../../../generated/models/device";
 import {OutputData} from "../../../../generated/models/output-data";
+import {Bullet} from "../../model/dashboards.model";
 
 @Component({
   selector: 'dashboard-categorical',
@@ -16,6 +17,7 @@ export class DashboardCategoricalComponent implements OnInit {
   @Input() data?: OutputData[];
   @Input() states?: (string | number)[];
   @Input() fields?: string[];
+  @Input() bullets?: Bullet[];
 
   constructor() { }
 
