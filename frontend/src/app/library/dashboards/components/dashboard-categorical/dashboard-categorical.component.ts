@@ -15,6 +15,7 @@ export class DashboardCategoricalComponent implements OnInit {
   @Input() keyValue?: {key: string, value: string}[] = [];
   @Input() data?: OutputData[];
   @Input() states?: (string | number)[];
+  @Input() fields?: string[];
 
   constructor() { }
 

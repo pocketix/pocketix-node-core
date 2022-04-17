@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
@@ -11,16 +11,19 @@ type Chages = OutputData | {time: Date, start: Date, stop: Date};
   styleUrls: ['./switch-display.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SwitchDisplayComponent implements OnInit {
+export class SwitchDisplayComponent implements AfterViewInit {
   @Input()
   data!: OutputData[];
   @Input()
   states?: SingleSimpleValue[] = [];
-  status = "boiler_status"
+  @Input()
+  status!:string;
+
+  @ViewChild('chart') chart?: ElementRef;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.drawCustomChart();
   }
 
@@ -40,15 +43,18 @@ export class SwitchDisplayComponent implements OnInit {
   }
 
   private drawCustomChart() {
-    this.changesStart = new Date(this.data[0].time);
-    this.changesEnd = new Date(this.data[this.data.length - 1].time);
     const status = this.status;
+    const filtered = this.data.filter(item => item[status] !== null);
+    this.data = filtered;
+    console.log(filtered);
+    this.changesStart = new Date(filtered[0].time);
+    this.changesEnd = new Date(filtered[filtered.length - 1].time);
 
     const margin = {top: 0, right: 10, bottom: 30, left: 10};
     const width = 460 - margin.left - margin.right;
     const height = 80 - margin.top - margin.bottom;
     const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
-    const mainElement = d3.select("#new-chart");
+    const mainElement = d3.select(this.chart?.nativeElement);
 
     const appendTo = mainElement.append("div").attr("class", "svg-container");
 
@@ -138,7 +144,7 @@ export class SwitchDisplayComponent implements OnInit {
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(xAxis).tickSizeOuter(0).ticks(5));
 
-    const changes = this.data.map((change, index) => [
+    const changes = filtered.map((change, index) => [
       change[status].toString() as string,
       this.outputDataToChanges(change, index)
     ] as [string, Chages]);

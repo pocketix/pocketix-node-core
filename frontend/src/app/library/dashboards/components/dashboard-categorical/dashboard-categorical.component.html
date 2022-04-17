@@ -20,11 +20,11 @@
       <h3>
         State changes
       </h3>
-      <div style="width: 100%">
-        <app-switch-display
-          *ngIf="data"
+      <div style="width: 100%" *ngIf="data">
+        <app-switch-display *ngFor="let field of fields"
           [data]="data"
           [states]="states"
+          [status]="field"
         >
         </app-switch-display>
       </div>

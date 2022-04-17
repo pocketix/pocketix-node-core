@@ -25,6 +25,7 @@ export class CategoricalDashboardComponent implements OnInit {
   keyValue?: {key: string, value: string}[] = [];
   data?: OutputData[];
   states = [0, 1, 2] as SingleSimpleValue[];
+  switchFields?: string[] = [];
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
@@ -55,6 +56,9 @@ export class CategoricalDashboardComponent implements OnInit {
     sevenDaysBack.setDate(startDay.getDate() - 7);
     thirtyDaysBack.setDate(startDay.getDate() - 30);
 
+    const fields = ["boiler_temperature", "outside_temperature"];
+    this.switchFields = ["boiler_status", "out_pomp1"];
+
     this.influxService.filterDistinctValue({
       isString: false,
       shouldCount: false,
@@ -63,14 +67,15 @@ export class CategoricalDashboardComponent implements OnInit {
           bucket: environment.bucket,
           operation: Operation._,
           param: {
-            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: ["boiler_status"]}
+            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: this.switchFields}
           }
         },
         values: this.states
       },
-    }).subscribe(data => this.data = data.data);
-
-    const fields = ["boiler_temperature", "outside_temperature"];
+    }).subscribe(data => {
+      console.log(data);
+      this.data = data.data
+    });
 
     this.influxService.parameterAggregationWithMultipleStarts({
       body: {
