@@ -14,14 +14,15 @@ services:
     links:
       - postgres
     depends_on:
-      postgres:
-        condition: service_healthy
-      influxdb:
-        condition: service_healthy
+      - postgres
+      - influxdb
     restart: unless-stopped
 
   postgres:
     image: postgres:14.2
+    build:
+      context: backend
+      dockerfile: PostgreDockerfile
     restart: unless-stopped
     hostname: postgres
     environment:
