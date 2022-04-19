@@ -1,0 +1,447 @@
+{
+    "$id": "Api",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "ComparisonOperator": {
+            "description": "Comparison operators\neq - equal =\nlt - less than <\ngt - greater than >\nleq - less or equal <=\ngeq - greater or equal >=",
+            "enum": [
+                "eq",
+                "geq",
+                "gt",
+                "leq",
+                "lt"
+            ],
+            "type": "string"
+        },
+        "Device": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "properties": {
+                "description": {
+                    "description": "Human friendly device description",
+                    "type": "string"
+                },
+                "deviceName": {
+                    "description": "Human friendly device name",
+                    "type": "string"
+                },
+                "deviceUid": {
+                    "description": "Device identifier or serial number",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Device image",
+                    "type": "string"
+                },
+                "lastSeenDate": {
+                    "description": "Device Last seen at",
+                    "type": "string"
+                },
+                "latitude": {
+                    "description": "Device latitude coordinate",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "Device longitude coordinate",
+                    "type": "number"
+                },
+                "parameterValues": {
+                    "description": "Last device parameter values",
+                    "items": {
+                        "$ref": "Api#/definitions/ParameterValue"
+                    },
+                    "type": "array"
+                },
+                "registrationDate": {
+                    "description": "Device registered at",
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "Api#/definitions/DeviceType",
+                    "description": "Device type"
+                }
+            },
+            "required": [
+                "description",
+                "deviceName",
+                "deviceUid",
+                "lastSeenDate",
+                "latitude",
+                "longitude",
+                "registrationDate",
+                "type"
+            ],
+            "type": "object"
+        },
+        "DeviceType": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "properties": {
+                "devices": {
+                    "description": "Devices with current type",
+                    "items": {
+                        "$ref": "Api#/definitions/Device"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "description": "ID of the type",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "Name of the type",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "devices",
+                "id",
+                "name"
+            ],
+            "type": "object"
+        },
+        "InfluxQueryInput": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "description": "Input data to influx",
+            "properties": {
+                "bucket": {
+                    "description": "Bucket to query from",
+                    "type": "string"
+                },
+                "operation": {
+                    "$ref": "Api#/definitions/Operation",
+                    "description": "Operation to execute"
+                },
+                "param": {
+                    "$ref": "Api#/definitions/InfluxQueryInputParam",
+                    "description": "Data to query by"
+                }
+            },
+            "required": [
+                "bucket",
+                "operation",
+                "param"
+            ],
+            "type": "object"
+        },
+        "InfluxQueryInputParam": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "description": "Data used for querying the selected bucket",
+            "properties": {
+                "aggregateMinutes": {
+                    "description": "Amount of minutes to aggregate by\nFor example if the queried range has 1 hour and aggregateMinutes is set to 10 the aggregation will result in 6 points",
+                    "type": "number"
+                },
+                "from": {
+                    "description": "Start of the querying window",
+                    "type": "string"
+                },
+                "sensors": {
+                    "anyOf": [
+                        {
+                            "$ref": "Api#/definitions/SensorsWithFields"
+                        },
+                        {
+                            "description": "Simple definition, returns all available sensor fields",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "description": "Sensors to be queried"
+                },
+                "timezone": {
+                    "description": "Timezone override default UTC.\nFor more details why and how this affects queries see: https://www.influxdata.com/blog/time-zones-in-flux/.\nIn most cases you can ignore this and some edge aggregations can be influenced.\nIf you need a precise result or the aggregation uses high amount of minutes provide the target time zone.",
+                    "type": "string"
+                },
+                "to": {
+                    "description": "End of the querying window",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "sensors"
+            ],
+            "type": "object"
+        },
+        "InfluxQueryResult": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "description": "Result from InfluxDB",
+            "properties": {
+                "data": {
+                    "description": "Array of OutputData",
+                    "items": {
+                        "$ref": "Api#/definitions/OutputData"
+                    },
+                    "type": "array"
+                },
+                "error": {
+                    "description": "Error if any",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Returned status",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "data",
+                "status"
+            ],
+            "type": "object"
+        },
+        "InputData": {
+            "additionalProperties": {},
+            "defaultProperties": [],
+            "description": "Interface representing data to be stored in InfluxDB",
+            "properties": {
+                "tst": {
+                    "description": "Timestamp, either as JavaScript Date object or as a number representing unix timestamp",
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "required": [
+                "tst"
+            ],
+            "type": "object"
+        },
+        "Operation": {
+            "description": "Aggregation operations that can be used.\nThe '' type represents default aggregation (when used with aggregateMinutes) or no aggregation (when used without).",
+            "enum": [
+                "",
+                "count",
+                "integral",
+                "last",
+                "mean",
+                "median",
+                "mode",
+                "none",
+                "quantile",
+                "reduce",
+                "skew",
+                "spread",
+                "stddev",
+                "sum",
+                "timeWeightedAvg"
+            ],
+            "type": "string"
+        },
+        "OutputData": {
+            "additionalProperties": {
+                "type": [
+                    "string",
+                    "number"
+                ]
+            },
+            "defaultProperties": [],
+            "description": "Interface representing single data point from InfluxDB",
+            "properties": {
+                "result": {
+                    "description": "Result metadata, indicated what aggregate was used",
+                    "type": "string"
+                },
+                "sensor": {
+                    "description": "Sensor that the current sample belongs to",
+                    "type": "string"
+                },
+                "table": {
+                    "description": "Table number metadata",
+                    "type": "number"
+                },
+                "time": {
+                    "description": "Time of the current data sample",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "result",
+                "sensor",
+                "table",
+                "time"
+            ],
+            "type": "object"
+        },
+        "ParameterType": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "properties": {
+                "id": {
+                    "description": "Type identifier",
+                    "type": "number"
+                },
+                "label": {
+                    "description": "Type human friendly name",
+                    "type": "string"
+                },
+                "max": {
+                    "description": "Type range maximum",
+                    "type": "number"
+                },
+                "measurementsPerMinute": {
+                    "description": "Count of measurements per minute",
+                    "type": "number"
+                },
+                "min": {
+                    "description": "Type range minimum",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "Type name",
+                    "type": "string"
+                },
+                "threshold1": {
+                    "description": "First (minimum) threshold",
+                    "type": "number"
+                },
+                "threshold2": {
+                    "description": "Second (maximum) threshold",
+                    "type": "number"
+                },
+                "type": {
+                    "description": "Type name",
+                    "type": "string"
+                },
+                "units": {
+                    "description": "Type measured in units",
+                    "type": "string"
+                },
+                "values": {
+                    "description": "Values of current type",
+                    "items": {
+                        "$ref": "Api#/definitions/ParameterValue"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id",
+                "label",
+                "max",
+                "measurementsPerMinute",
+                "min",
+                "name",
+                "type",
+                "units",
+                "values"
+            ],
+            "type": "object"
+        },
+        "ParameterValue": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "properties": {
+                "device": {
+                    "$ref": "Api#/definitions/Device",
+                    "description": "Device associated with this device"
+                },
+                "id": {
+                    "description": "Parameter Value identifier",
+                    "type": "number"
+                },
+                "number": {
+                    "description": "Numerical value if exists",
+                    "type": "number"
+                },
+                "string": {
+                    "description": "String value if exists",
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "Api#/definitions/ParameterType",
+                    "description": "Type of current parameter"
+                },
+                "visibility": {
+                    "description": "Visibility class",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "device",
+                "id",
+                "type",
+                "visibility"
+            ],
+            "type": "object"
+        },
+        "ReadRequestBody": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "description": "Interface representing the body of a read request",
+            "properties": {
+                "bucket": {
+                    "description": "Bucket to read from",
+                    "type": "string"
+                },
+                "sensors": {
+                    "anyOf": [
+                        {
+                            "$ref": "Api#/definitions/SensorsWithFields"
+                        },
+                        {
+                            "description": "Simple definition, returns all available sensor fields",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "description": "Sensors to read"
+                },
+                "timezone": {
+                    "description": "Timezone override",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "bucket",
+                "sensors"
+            ],
+            "type": "object"
+        },
+        "SensorsWithFields": {
+            "additionalProperties": {
+                "items": {
+                    "type": "string"
+                },
+                "type": "array"
+            },
+            "defaultProperties": [],
+            "description": "Return only the requested sensor fields",
+            "type": "object"
+        },
+        "SingleSimpleValue": {
+            "type": [
+                "string",
+                "number"
+            ]
+        },
+        "WriteRequestBody": {
+            "additionalProperties": false,
+            "defaultProperties": [],
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "data": {
+                    "items": {
+                        "$ref": "Api#/definitions/InputData"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "bucket",
+                "data"
+            ],
+            "type": "object"
+        }
+    }
+}
+

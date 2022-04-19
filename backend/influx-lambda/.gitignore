@@ -1,0 +1,31 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Build directories
+.webpack
+.build
+
+coverage
+npm-debug.log*
+yarn-error.log
+server.js*
+.DS_Store
+dist
+env.yml
+
+# Editor settings
+.idea
+.vscode
+
+# Ignore compiled js files only
+*.js
+*.js.map
+!jest.config.js
+!webpack.config.js
+!source-map-install.js
+
+package-lock.json

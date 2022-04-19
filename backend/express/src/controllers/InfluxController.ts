@@ -137,17 +137,15 @@ class InfluxController extends Controller {
 
     /**
      * Filter distinct value in data.sensors
-     * @param data Input data
      * @param isString if data field is string type
      * @param shouldCount should be only counted and not returned
-     * @param values field values and their mapping
+     * @param body Input data and value mapping
      */
     @Post('filterDistinctValue')
-    public async filterDistinctValue(@BodyProp() data: InfluxQueryInput,
-                                     @Query() isString: boolean,
+    public async filterDistinctValue(@Query() isString: boolean,
                                      @Query() shouldCount: boolean,
-                                     @BodyProp() values: SingleSimpleValue[]): Promise<InfluxQueryResult> {
-        return await this.influxService.filterDistinctValue(data, isString, shouldCount, values);
+                                     @Body() body: {data: InfluxQueryInput, values: SingleSimpleValue[]}): Promise<InfluxQueryResult> {
+        return await this.influxService.filterDistinctValue(body.data, isString, shouldCount, body.values);
     }
 }
 

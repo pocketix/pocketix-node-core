@@ -14,7 +14,8 @@
     "start": "npm run build && ts-node ./src/server.ts",
     "dev": "nodemon",
     "stage": "npm run build && ts-node ./src/server.ts",
-    "generate": "npm run build && ng-openapi-gen --input src/swagger.json --output ../../frontend/src/app/generated"
+    "generate": "npm run build && ng-openapi-gen --input src/swagger.json --output ../../frontend/src/app/generated",
+	"schema": "typescript-json-schema \"../../frontend/src/app/generated/models/*.ts\" \"*\" --defaultProps true --noExtraProps true --required true --id Api -o \"../influx-lambda/src/Api.json\""
   },
   "keywords": [],
   "author": "",
