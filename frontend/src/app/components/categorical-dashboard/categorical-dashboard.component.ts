@@ -68,6 +68,10 @@ export class CategoricalDashboardComponent implements OnInit {
     sevenDaysBack.setDate(startDay.getDate() - 7);
     thirtyDaysBack.setDate(startDay.getDate() - 30);
 
+    const twoHoursBack = new Date();
+    twoHoursBack.setHours(twoHoursBack.getHours() - 2);
+
+
     const fields = ["boiler_temperature", "outside_temperature"];
     this.switchFields = ["boiler_status", "out_pomp1"];
 
@@ -79,7 +83,7 @@ export class CategoricalDashboardComponent implements OnInit {
           bucket: environment.bucket,
           operation: Operation._,
           param: {
-            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: this.switchFields}
+            to: to.toISOString(), from: twoHoursBack.toISOString(), sensors: {boiler: this.switchFields}
           }
         },
         values: this.states

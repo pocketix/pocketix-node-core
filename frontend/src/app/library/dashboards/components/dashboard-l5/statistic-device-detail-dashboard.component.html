@@ -31,7 +31,7 @@
   <div class="p-card col-11 gutter-hack">
     <div class="flex flex-row">
       <div class="full-height">
-        <img class="full-width full-height" id="image" alt="image" style="width: 100px;" [src]="device.image">
+        <img class="full-width full-height" id="image" alt="image" style="max-width: 90px; max-height: 90px;" [src]="device.image">
       </div>
       <div class="p-card-body horizontal-flex-row flex-grow-1">
         <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item">
@@ -44,8 +44,9 @@
 
   <div class="p-card col-11 md:col-5 gutter-hack">
     <h5 class="p-card-title">KPI Thresholds</h5>
-    <div class="p-card-body horizontal-flex-row full-width full-height">
-      <div class="bullet"
+    <div class="full-width full-height grid">
+      <div class="col col-12 xl:col-4"
+           style="height: 130px;"
            *ngFor="let bullet of bullets"
            pTooltip="Thresholds: {{bullet.thresholds[0]}}, {{bullet.thresholds[1]}}"
            tooltipPosition="top"
@@ -66,8 +67,8 @@
   </div>
   <div class="p-card col-11 md:col-5 gutter-hack">
     <h5 class="p-card-title">Statistics</h5>
-    <div class="p-card-body fadein animation-duration-500 flex flex-wrap full-width full-height flex-column">
-      <div *ngFor="let box of boxData" class="flex-grow-1">
+    <div class="p-card-body fadein animation-duration-500 full-width full-height grid">
+      <div *ngFor="let box of boxData" class="col col-12 xl:col-6">
         <span>
           {{box.name}}
         </span>
