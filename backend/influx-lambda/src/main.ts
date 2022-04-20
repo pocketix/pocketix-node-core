@@ -12,7 +12,6 @@ const headers = {
 // This in fact does not require allowSyntheticDefaultImports to work.
 // Webpack packs the JSON data directly into the output file and adds default export.
 // The allowSyntheticDefaultImports flag is set to true just to avoid IDE errors.
-import all from "./Api.json";
 import {IInflux} from "../../InfluxDataBase/api/IInflux"
 import {Influx} from "../../InfluxDataBase/api/Influx";
 import {
@@ -32,25 +31,6 @@ const influx: IInflux = new Influx(
     process.env.BUCKET || ""
 );
 
-// Validation
-import Ajv, {JSONSchemaType, ValidateFunction} from "ajv";
-
-/**
- * Get schema from common JSON definition file
- * @param schema schema to read from
- * @param target schema to get
- */
-const getFromAllJsonSchemaAsType = <T>(schema, target) => {
-    return schema.definitions[target] as unknown as JSONSchemaType<T>
-}
-
-// Global instance of the validator
-const ajv = new Ajv({allErrors: true});
-// Register all schemas
-const allSchemas = ajv.addSchema(all);
-// Compile schemas one by one and create
-const allRequestBodySchema: JSONSchemaType<ReadRequestBody> = getFromAllJsonSchemaAsType(all, "ReadRequestBody");
-const readRequestBodyValidator = allSchemas.compile<ReadRequestBody>(allRequestBodySchema);
 
 /**
  * Convert incoming request
@@ -99,15 +79,10 @@ const createResponse = (results, code = 400) => {
  * @param validator ajv validator to run on body
  */
 const isNotValidMethodAndValidBody = (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>,
-                                validator: ValidateFunction,
                                 methods: string[] = ["POST"]) => {
     // Check the http method and return unsupported method if invalid
     if (!methods.includes(event.httpMethod.toUpperCase())) {
         return createResponse({status: -1, error: "Unsupported method"}, 405);
-    }
-
-    if(!validator(JSON.parse(event.body as string))) {
-        return createResponse({status: -1, error: validator.errors})
     }
 
     return false;
@@ -118,7 +93,7 @@ const isNotValidMethodAndValidBody = (event: APIGatewayProxyEventBase<APIGateway
  */
 export const statistics: APIGatewayProxyHandler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    const errorOrFalse = isNotValidMethodAndValidBody(event, readRequestBodyValidator)
+    const errorOrFalse = isNotValidMethodAndValidBody(event)
 
     if (errorOrFalse)
         return errorOrFalse;
