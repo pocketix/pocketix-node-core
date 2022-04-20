@@ -12,6 +12,8 @@ WORKDIR /usr/src/app/backend/express
 
 RUN npm install
 
+COPY ./express/.env.docker ./express/.env
+
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
