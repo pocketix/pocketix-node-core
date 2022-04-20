@@ -143,11 +143,11 @@ export const aggregate: APIGatewayProxyHandler = async (event, context) => {
 
 export const differenceBetweenFirstAndLast: APIGatewayProxyHandler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
+    const request = JSON.parse(JSON.stringify(event));
+    const body = JSON.parse(request.body);
+    const results = await influx.differenceBetweenFirstAndLast(body);
 
-    const request = convertRequest(event);
-    const results = await influx.differenceBetweenFirstAndLast(request);
-
-    return createResponse(results)
+    return createResponse(results);
 }
 
 export const lastOccurenceOfValue: APIGatewayProxyHandler = async (event, context) => {
@@ -159,15 +159,16 @@ export const lastOccurenceOfValue: APIGatewayProxyHandler = async (event, contex
 
     const results = await influx.lastOccurrenceOfValue(requestBody.input, operator, requestBody.value);
 
-    return createResponse(results)
+    return createResponse(results);
 }
 
 export const parameterAggregationWithMultipleStarts: APIGatewayProxyHandler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
-    const requestBody = JSON.parse(JSON.stringify(event)) as {starts: [], input: InfluxQueryInput};
+    const json = JSON.parse(JSON.stringify(event));
+    const requestBody = JSON.parse(json.body);
 
-    const results = await influx.parameterAggregationWithMultipleStarts(requestBody.input, requestBody.starts);
+    const results = await influx.parameterAggregationWithMultipleStarts(requestBody.data, requestBody.starts);
 
     return createResponse(results)
 }
@@ -175,9 +176,9 @@ export const parameterAggregationWithMultipleStarts: APIGatewayProxyHandler = as
 export const filterDistinctValue: APIGatewayProxyHandler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
-    const requestBody = JSON.parse(JSON.stringify(event)) as {data: InfluxQueryInput, values: SingleSimpleValue[]};
-    const isString = event.pathParameters?.isString === "true";
-    const shouldCount = event.pathParameters?.shouldCount === "true";
+    const requestBody = JSON.parse(JSON.parse(JSON.stringify(event)).body) as {data: InfluxQueryInput, values: SingleSimpleValue[]};
+    const isString = event.pathParameters?.isString === "true" || false;
+    const shouldCount = event.pathParameters?.shouldCount === "true" || false;
 
     const results = await influx.filterDistinctValue(requestBody.data, isString, shouldCount, requestBody.values);
 

@@ -75,3 +75,33 @@ functions:
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 29 # optional, in seconds, default is 6
+
+  differenceBetweenFirstAndLast:
+    handler: src/main.differenceBetweenFirstAndLast
+    events:
+      - http:
+          path: differenceBetweenFirstAndLast
+          method: post
+          cors: true
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 29 # optional, in seconds, default is 6
+
+  parameterAggregationWithMultipleStarts:
+    handler: src/main.parameterAggregationWithMultipleStarts
+    events:
+      - http:
+          path: parameterAggregationWithMultipleStarts
+          method: post
+          cors: true
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 29 # optional, in seconds, default is 6
+
+  filterDistinctValue:
+    handler: src/main.filterDistinctValue
+    events:
+      - http:
+          path: filterDistinctValue
+          method: post
+          cors: true
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 29 # optional, in seconds, default is 6
