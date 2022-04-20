@@ -15,7 +15,6 @@
         },
         "Device": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "properties": {
                 "description": {
                     "description": "Human friendly device description",
@@ -75,7 +74,6 @@
         },
         "DeviceType": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "properties": {
                 "devices": {
                     "description": "Devices with current type",
@@ -102,7 +100,6 @@
         },
         "InfluxQueryInput": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "description": "Input data to influx",
             "properties": {
                 "bucket": {
@@ -127,7 +124,6 @@
         },
         "InfluxQueryInputParam": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "description": "Data used for querying the selected bucket",
             "properties": {
                 "aggregateMinutes": {
@@ -169,7 +165,6 @@
         },
         "InfluxQueryResult": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "description": "Result from InfluxDB",
             "properties": {
                 "data": {
@@ -196,7 +191,6 @@
         },
         "InputData": {
             "additionalProperties": {},
-            "defaultProperties": [],
             "description": "Interface representing data to be stored in InfluxDB",
             "properties": {
                 "tst": {
@@ -240,7 +234,6 @@
                     "number"
                 ]
             },
-            "defaultProperties": [],
             "description": "Interface representing single data point from InfluxDB",
             "properties": {
                 "result": {
@@ -270,7 +263,6 @@
         },
         "ParameterType": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "properties": {
                 "id": {
                     "description": "Type identifier",
@@ -335,7 +327,6 @@
         },
         "ParameterValue": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "properties": {
                 "device": {
                     "$ref": "Api#/definitions/Device",
@@ -372,7 +363,6 @@
         },
         "ReadRequestBody": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "description": "Interface representing the body of a read request",
             "properties": {
                 "bucket": {
@@ -412,7 +402,6 @@
                 },
                 "type": "array"
             },
-            "defaultProperties": [],
             "description": "Return only the requested sensor fields",
             "type": "object"
         },
@@ -424,7 +413,6 @@
         },
         "WriteRequestBody": {
             "additionalProperties": false,
-            "defaultProperties": [],
             "properties": {
                 "bucket": {
                     "type": "string"

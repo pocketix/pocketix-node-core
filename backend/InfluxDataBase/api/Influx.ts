@@ -58,7 +58,7 @@ class Influx implements IInflux {
         return this.measurementDefaultProperty;
     }
 
-    public set measurementDefault(value: string) {
+    set measurementDefault(value: string) {
         this.measurementDefaultProperty = value;
     }
 
@@ -66,7 +66,7 @@ class Influx implements IInflux {
         return this.dateFieldProperty;
     }
 
-    public set dateField(value: string) {
+    set dateField(value: string) {
         this.dateFieldProperty = value;
     }
 
@@ -86,7 +86,7 @@ class Influx implements IInflux {
         this.hostProperty = value;
     }
 
-    private readonly client;
+    private readonly client: InfluxDB;
     private readonly org: string;
     private readonly timeout = 15000 // 15 seconds
     private readonly keepAliveDuration: number = this.timeout * 2;
@@ -352,6 +352,7 @@ class Influx implements IInflux {
      */
     async queryApi(data: InfluxQueryInput): Promise<InfluxQueryResult> {
         this.bucket = data.bucket;
+        console.log(this.bucket);
         const sensors = data.param.sensors;
         const start = data.param.from;
         const stop = data.param.to;

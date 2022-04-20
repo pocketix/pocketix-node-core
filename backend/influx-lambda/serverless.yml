@@ -10,15 +10,7 @@ custom:
       forceExclude:
         - aws-sdk
         - moment
-        - typeorm
-        - pg        
-        - reflect-metadata
-        - typeorm-naming-strategies
       forceInclude:
-        #- typeorm
-        #- pg
-        #- typeorm-naming-strategies
-        #- reflect-metadata
 
 package:
     individually: true    
@@ -34,10 +26,10 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    URL: "https://us-east-1-1.aws.cloud2.influxdata.com"
-    ORG: "organization"
-    TOKEN: "your token"
-    bucket: "error bucket"
+    URL: "http://192.168.0.103:8086"
+    ORG: "home"
+    TOKEN: "Fgp2ozMxmkYnUBkzwLpkx6ydOVXyQqF4-ZPctGjv8-xkirYPYRvoBtrpAHMCr_joYoJMOqZjl8djjuyOx-MR_A=="
+    bucket: "bruli"
   stage: test
   deploymentBucket: aaa44
   region: us-east-1
@@ -53,6 +45,7 @@ functions:
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 29 # optional, in seconds, default is 6
+
   aggregate:
     handler: src/main.aggregate
     events:
@@ -62,11 +55,22 @@ functions:
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 29 # optional, in seconds, default is 6
+
   saveData:
     handler: src/main.saveData
     events:
       - http:          
           path: saveData
+          method: post
+          cors: true
+    memorySize: 1024 # optional, in MB, default is 1024
+    timeout: 29 # optional, in seconds, default is 6
+
+  lastOccurenceOfValue:
+    handler: src/main.lastOccurenceOfValue
+    events:
+      - http:
+          path: lastOccurenceOfValue/{operator}
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024

@@ -120,7 +120,6 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
 
     // This endpoint does not accept aggregation
     request.param.aggregateMinutes = undefined;
-
     const results = await influx.queryApi(request);
     return createResponse(results);
 }
@@ -137,6 +136,7 @@ export const aggregate: APIGatewayProxyHandler = async (event, context) => {
     const request = convertRequest(event);
     // @ts-ignore
     request.operation = operation;
+    console.log(request);
     const results = await influx.queryApi(request);
     return createResponse(results);
 }
@@ -153,8 +153,9 @@ export const differenceBetweenFirstAndLast: APIGatewayProxyHandler = async (even
 export const lastOccurenceOfValue: APIGatewayProxyHandler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
-    const operator = event.pathParameters?.operator as ComparisonOperator;
-    const requestBody = JSON.parse(JSON.stringify(event)) as {value: {}, input: InfluxQueryInput};
+    const json = JSON.parse(JSON.stringify(event));
+    const operator = json.pathParameters?.operator as ComparisonOperator;
+    const requestBody = JSON.parse(json.body);
 
     const results = await influx.lastOccurrenceOfValue(requestBody.input, operator, requestBody.value);
 
