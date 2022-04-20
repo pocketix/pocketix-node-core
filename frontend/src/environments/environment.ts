@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  bucket: "bruli",
-  api: "http://192.168.0.50:3000"
+  bucket: "dip",
+  api: "http://localhost:3000"
 };
 
 /*

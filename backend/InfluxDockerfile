@@ -1,0 +1,12 @@
+FROM library/influxdb:2.2.0
+
+EXPOSE 8086
+
+COPY influx.tar .
+COPY influx.sh /docker-entrypoint-initdb.d
+
+RUN tar -xvf influx.tar
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+#CMD ["influx", "restore", "influx", "--org", "home", "--new-org", "my-org"]
