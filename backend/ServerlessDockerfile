@@ -1,0 +1,22 @@
+FROM node:16.14.0-alpine
+
+RUN apk update
+
+RUN npm install -g serverless
+RUN npm install -g serverless-offline
+
+WORKDIR /usr/src/app/backend
+
+COPY . .
+
+WORKDIR /usr/src/app/backend/InfluxDataBase
+
+RUN npm install
+
+WORKDIR /usr/src/app/backend/influx-lambda
+
+RUN npm install
+
+EXPOSE 4000
+
+CMD [ "serverless", "offline", "start" ]

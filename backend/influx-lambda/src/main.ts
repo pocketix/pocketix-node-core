@@ -9,17 +9,21 @@ const headers = {
     "Access-Control-Allow-Methods": "POST"
 };
 
-// Validation
-import Ajv, {JSONSchemaType, ValidateFunction} from "ajv";
-
 // This in fact does not require allowSyntheticDefaultImports to work.
 // Webpack packs the JSON data directly into the output file and adds default export.
 // The allowSyntheticDefaultImports flag is set to true just to avoid IDE errors.
 import all from "./Api.json";
-import {IInflux} from "influx-aws-lambda/api/IInflux";
-import {Influx} from "influx-aws-lambda/api/Influx";
-import {ReadRequestBody, Operation, WriteRequestBody, ComparisonOperator, InfluxQueryInput} from "../../../frontend/src/app/generated/models";
-import {SingleSimpleValue} from "influx-aws-lambda/api/influxTypes";
+import {IInflux} from "../../InfluxDataBase/api/IInflux"
+import {Influx} from "../../InfluxDataBase/api/Influx";
+import {
+    SingleSimpleValue,
+    Operation,
+    ComparisonOperator,
+    InfluxQueryInput
+} from "../../InfluxDataBase/api/influxTypes";
+
+import {ReadRequestBody} from "./generated/models/read-request-body";
+import {WriteRequestBody} from "./generated/models/write-request-body";
 
 const influx: IInflux = new Influx(
     process.env.URL || "",
@@ -27,6 +31,9 @@ const influx: IInflux = new Influx(
     process.env.TOKEN || "",
     process.env.BUCKET || ""
 );
+
+// Validation
+import Ajv, {JSONSchemaType, ValidateFunction} from "ajv";
 
 /**
  * Get schema from common JSON definition file
@@ -63,7 +70,7 @@ const convertRequest = (event) => {
             timezone: body.timezone || undefined
         },
         bucket: bucket,
-        operation: Operation._
+        operation: '' as Operation
     };
 };
 
@@ -128,6 +135,7 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
  * Get aggregated statistics from Influx
  */
 export const aggregate: APIGatewayProxyHandler = async (event, context) => {
+    console.log(event);
     if (event.httpMethod.toLowerCase() !== 'post')
         return createResponse({status: -1, error: "Unsupported method"}, 405)
 

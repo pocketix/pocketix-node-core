@@ -14,4 +14,6 @@ The project has the following structure:
    - `src/app/generated` - Artefacts generated from the `express` application but compatible with `influx-lambda`
  - `doc/thesis` - Thesis LaTeX files (in Czech)
 
-Each important part of the monorepo has its own `README.md` describing the usage or results gained from this part
+Each important part of the monorepo has its own `README.md` describing the usage or results gained from this part  
+
+The main application has docker support using `docker-compose` and `docker`. Run `docker-compose build` and `docker-compose up` and be patient. Some dependencies are quite large and it can take a while 
