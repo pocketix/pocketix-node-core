@@ -6,7 +6,14 @@ module.exports = {
     mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
     entry: slsw.lib.entries,
     resolve: {
-        extensions: ['.ts', 'tsx']
+        extensions: ['.mjs', '.json', '.ts', '.js'],
+        symlinks: false,
+        cacheWithContext: false,
+    },
+    output: {
+        libraryTarget: 'commonjs',
+        path: path.join(__dirname, '.webpack'),
+        filename: '[name].js',
     },
     target: 'node',
     module: {
@@ -21,6 +28,10 @@ module.exports = {
                         path.resolve(__dirname, '.webpack'),
                     ],
                 ],
+                options: {
+                    transpileOnly: true,
+                    experimentalWatchApi: true,
+                },
             },
         ],
     },
