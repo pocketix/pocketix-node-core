@@ -19,6 +19,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
   @Input()
   status!:string;
 
+  filtered?: OutputData[];
+
   @ViewChild('chart') chart?: ElementRef;
 
   constructor() { }
@@ -44,12 +46,19 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   private drawCustomChart() {
     const status = this.status;
-    const filtered = this.data.filter(item => item[status] !== null);
-    this.data = filtered;
-    console.log(filtered);
-    this.changesStart = new Date(filtered[0].time);
-    this.changesEnd = new Date(filtered[filtered.length - 1].time);
+    this.filtered = this.data.filter(item => item[status] !== null);
+    this.data = this.filtered;
+    this.changesStart = new Date(this.filtered[0].time);
+    this.changesEnd = new Date(this.filtered[this.filtered.length - 1].time);
 
+    console.log(this.changesEnd, this.changesStart, this.changesEnd === this.changesStart);
+    if (this.changesStart.getMilliseconds() === this.changesEnd.getMilliseconds()) {
+      this.changesEnd.setHours(this.changesEnd.getHours() + 1);
+      this.filtered.push({...this.filtered[0], time: this.changesEnd.toISOString()});
+    }
+
+
+    console.log(this.filtered);
     const margin = {top: 0, right: 10, bottom: 30, left: 10};
     const width = 460 - margin.left - margin.right;
     const height = 70 - margin.top - margin.bottom;
@@ -57,6 +66,11 @@ export class SwitchDisplayComponent implements AfterViewInit {
     const mainElement = d3.select(this.chart?.nativeElement);
 
     const appendTo = mainElement.append("div").attr("class", "svg-container");
+
+    if (!this.filtered?.length) {
+      appendTo.append("span").attr("text", "No data");
+      return;
+    }
 
     const svg = appendTo
       .append("svg")
@@ -83,7 +97,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     legend.append("span")
       .attr("class", "legend-color")
-      .style("background-color", item => color(item) as string)
+      .style("background-color", item => color(item) as string);
 
     legend.append("span")
       .text(text => text);
@@ -144,7 +158,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(xAxis).tickSizeOuter(0).ticks(5));
 
-    const changes = filtered.map((change, index) => [
+    const changes = this.filtered.map((change, index) => [
       change[status].toString() as string,
       this.outputDataToChanges(change, index)
     ] as [string, Chages]);
