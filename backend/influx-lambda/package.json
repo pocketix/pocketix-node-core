@@ -10,24 +10,21 @@
     "@influxdata/influxdb-client": "^1.20.0",
     "@influxdata/influxdb-client-apis": "^1.20.0",
     "ajv": "^8.11.0",
+    "ajv-formats": "^2.1.1",
     "aws-sdk": "^2.983.0",
-    "json-pointer-typescript": "^0.1.1",
-    "lodash": "^4.17.21",
-    "pg": "^8.7.1",
-    "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.10",
-    "typeorm": "^0.2.37",
-    "typeorm-naming-strategies": "^2.0.0"
+    "openapi-request-coercer": "^11.0.0",
+    "openapi-request-validator": "^11.0.0",
+    "schema-utils": "^4.0.0",
+    "source-map-support": "^0.5.10"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",
-    "@types/node": "^10.12.18",
-    "fork-ts-checker-webpack-plugin": "^3.0.1",
+    "@types/node": "^16.11.26",
+    "serverless-offline": "^8.7.0",
     "serverless-webpack": "^5.2.0",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.2.4",
-    "webpack": "^4.29.0",
-    "webpack-node-externals": "^1.7.2"
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "webpack-node-externals": "^3.0.0"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT"

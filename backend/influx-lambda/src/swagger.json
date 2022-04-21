@@ -1,0 +1,957 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ParameterValue": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "Parameter Value identifier"
+					},
+					"number": {
+						"type": "number",
+						"format": "double",
+						"description": "Numerical value if exists"
+					},
+					"string": {
+						"type": "string",
+						"description": "String value if exists"
+					},
+					"visibility": {
+						"type": "number",
+						"format": "double",
+						"description": "Visibility class"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ParameterType",
+						"description": "Type of current parameter"
+					},
+					"device": {
+						"$ref": "#/components/schemas/Device",
+						"description": "Device associated with this device"
+					}
+				},
+				"required": [
+					"id",
+					"visibility",
+					"type",
+					"device"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ParameterType": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "Type identifier"
+					},
+					"name": {
+						"type": "string",
+						"description": "Type name"
+					},
+					"label": {
+						"type": "string",
+						"description": "Type human friendly name"
+					},
+					"units": {
+						"type": "string",
+						"description": "Type measured in units"
+					},
+					"threshold1": {
+						"type": "number",
+						"format": "double",
+						"description": "First (minimum) threshold"
+					},
+					"threshold2": {
+						"type": "number",
+						"format": "double",
+						"description": "Second (maximum) threshold"
+					},
+					"type": {
+						"type": "string",
+						"description": "Type name"
+					},
+					"min": {
+						"type": "number",
+						"format": "double",
+						"description": "Type range minimum"
+					},
+					"max": {
+						"type": "number",
+						"format": "double",
+						"description": "Type range maximum"
+					},
+					"measurementsPerMinute": {
+						"type": "number",
+						"format": "double",
+						"description": "Count of measurements per minute"
+					},
+					"values": {
+						"items": {
+							"$ref": "#/components/schemas/ParameterValue"
+						},
+						"type": "array",
+						"description": "Values of current type"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"label",
+					"units",
+					"type",
+					"min",
+					"max",
+					"measurementsPerMinute",
+					"values"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Device": {
+				"properties": {
+					"deviceUid": {
+						"type": "string",
+						"description": "Device identifier or serial number"
+					},
+					"deviceName": {
+						"type": "string",
+						"description": "Human friendly device name"
+					},
+					"image": {
+						"type": "string",
+						"description": "Device image"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double",
+						"description": "Device latitude coordinate"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double",
+						"description": "Device longitude coordinate"
+					},
+					"lastSeenDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Device Last seen at"
+					},
+					"registrationDate": {
+						"type": "string",
+						"format": "date-time",
+						"description": "Device registered at"
+					},
+					"description": {
+						"type": "string",
+						"description": "Human friendly device description"
+					},
+					"parameterValues": {
+						"items": {
+							"$ref": "#/components/schemas/ParameterValue"
+						},
+						"type": "array",
+						"description": "Last device parameter values"
+					},
+					"type": {
+						"$ref": "#/components/schemas/DeviceType",
+						"description": "Device type"
+					}
+				},
+				"required": [
+					"deviceUid",
+					"deviceName",
+					"latitude",
+					"longitude",
+					"lastSeenDate",
+					"registrationDate",
+					"description",
+					"type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DeviceType": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "ID of the type"
+					},
+					"devices": {
+						"items": {
+							"$ref": "#/components/schemas/Device"
+						},
+						"type": "array",
+						"description": "Devices with current type"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name of the type"
+					}
+				},
+				"required": [
+					"id",
+					"devices",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"OutputData": {
+				"description": "Interface representing single data point from InfluxDB",
+				"properties": {
+					"result": {
+						"type": "string",
+						"description": "Result metadata, indicated what aggregate was used"
+					},
+					"table": {
+						"type": "number",
+						"format": "double",
+						"description": "Table number metadata"
+					},
+					"time": {
+						"type": "string",
+						"description": "Time of the current data sample"
+					},
+					"sensor": {
+						"type": "string",
+						"description": "Sensor that the current sample belongs to"
+					}
+				},
+				"required": [
+					"result",
+					"table",
+					"time",
+					"sensor"
+				],
+				"type": "object",
+				"additionalProperties": {
+					"anyOf": [
+						{
+							"type": "number",
+							"format": "double"
+						},
+						{
+							"type": "string"
+						}
+					]
+				}
+			},
+			"InfluxQueryResult": {
+				"description": "Result from InfluxDB",
+				"properties": {
+					"status": {
+						"type": "number",
+						"format": "double",
+						"description": "Returned status"
+					},
+					"error": {
+						"type": "string",
+						"description": "Error if any"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/OutputData"
+						},
+						"type": "array",
+						"description": "Array of OutputData"
+					}
+				},
+				"required": [
+					"status",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SimpleSensors": {
+				"items": {
+					"type": "string"
+				},
+				"type": "array",
+				"description": "Simple definition, returns all available sensor fields"
+			},
+			"SensorsWithFields": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"type": "object",
+				"description": "Return only the requested sensor fields"
+			},
+			"Sensors": {
+				"anyOf": [
+					{
+						"$ref": "#/components/schemas/SimpleSensors"
+					},
+					{
+						"$ref": "#/components/schemas/SensorsWithFields"
+					}
+				],
+				"description": "Sensors to be queried"
+			},
+			"ReadRequestBody": {
+				"description": "Interface representing the body of a read request",
+				"properties": {
+					"bucket": {
+						"type": "string",
+						"description": "Bucket to read from"
+					},
+					"sensors": {
+						"$ref": "#/components/schemas/Sensors",
+						"description": "Sensors to read"
+					},
+					"timezone": {
+						"type": "string",
+						"description": "Timezone override"
+					}
+				},
+				"required": [
+					"bucket",
+					"sensors"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Operation": {
+				"type": "string",
+				"enum": [
+					"mean",
+					"sum",
+					"last",
+					"",
+					"none",
+					"count",
+					"integral",
+					"median",
+					"mode",
+					"quantile",
+					"reduce",
+					"skew",
+					"spread",
+					"stddev",
+					"timeWeightedAvg"
+				],
+				"description": "Aggregation operations that can be used.\r\nThe '' type represents default aggregation (when used with aggregateMinutes) or no aggregation (when used without)."
+			},
+			"InputData": {
+				"description": "Interface representing data to be stored in InfluxDB",
+				"properties": {
+					"tst": {
+						"anyOf": [
+							{
+								"type": "number",
+								"format": "double"
+							},
+							{
+								"type": "string",
+								"format": "date-time"
+							},
+							{
+								"type": "string"
+							}
+						],
+						"description": "Timestamp, either as JavaScript Date object or as a number representing unix timestamp"
+					}
+				},
+				"required": [
+					"tst"
+				],
+				"type": "object",
+				"additionalProperties": {}
+			},
+			"WriteRequestBody": {
+				"properties": {
+					"bucket": {
+						"type": "string"
+					},
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/InputData"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"bucket",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InfluxQueryInputParam": {
+				"description": "Data used for querying the selected bucket",
+				"properties": {
+					"sensors": {
+						"$ref": "#/components/schemas/Sensors",
+						"description": "Sensors to be queried"
+					},
+					"from": {
+						"type": "string",
+						"description": "Start of the querying window"
+					},
+					"to": {
+						"type": "string",
+						"description": "End of the querying window"
+					},
+					"aggregateMinutes": {
+						"type": "number",
+						"format": "double",
+						"description": "Amount of minutes to aggregate by\r\nFor example if the queried range has 1 hour and aggregateMinutes is set to 10 the aggregation will result in 6 points"
+					},
+					"timezone": {
+						"type": "string",
+						"description": "Timezone override default UTC.\r\nFor more details why and how this affects queries see: https://www.influxdata.com/blog/time-zones-in-flux/.\r\nIn most cases you can ignore this and some edge aggregations can be influenced.\r\nIf you need a precise result or the aggregation uses high amount of minutes provide the target time zone."
+					}
+				},
+				"required": [
+					"sensors"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InfluxQueryInput": {
+				"description": "Input data to influx",
+				"properties": {
+					"operation": {
+						"$ref": "#/components/schemas/Operation",
+						"description": "Operation to execute"
+					},
+					"bucket": {
+						"type": "string",
+						"description": "Bucket to query from"
+					},
+					"param": {
+						"$ref": "#/components/schemas/InfluxQueryInputParam",
+						"description": "Data to query by"
+					}
+				},
+				"required": [
+					"operation",
+					"bucket",
+					"param"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ComparisonOperator": {
+				"type": "string",
+				"enum": [
+					"eq",
+					"gt",
+					"lt",
+					"leq",
+					"geq"
+				],
+				"description": "Comparison operators\r\neq - equal =\r\nlt - less than <\r\ngt - greater than >\r\nleq - less or equal <=\r\ngeq - greater or equal >="
+			},
+			"SingleSimpleValue": {
+				"anyOf": [
+					{
+						"type": "string"
+					},
+					{
+						"type": "number",
+						"format": "double"
+					}
+				]
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "influx-api",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/devices/{deviceUid}": {
+			"get": {
+				"operationId": "GetDeviceById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Device"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get device by deviceUid",
+				"tags": [
+					"device"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "deviceUid to search by",
+						"in": "path",
+						"name": "deviceUid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/devices": {
+			"get": {
+				"operationId": "GetAllDevices",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Device"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all devices",
+				"tags": [
+					"device"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/devices/byType/{deviceType}": {
+			"get": {
+				"operationId": "GetDevicesByDeviceType",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Device"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get devices by specific type",
+				"tags": [
+					"device"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "type to filter by",
+						"in": "path",
+						"name": "deviceType",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/statistics": {
+			"post": {
+				"operationId": "Statistics",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get not aggregated data from sensors. May be between two dates (from and to).\r\nThe dates could be either both undefined or both defined",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "The start of the time window",
+						"in": "query",
+						"name": "from",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					},
+					{
+						"description": "The end of the time window",
+						"in": "query",
+						"name": "to",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "The body of the request",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReadRequestBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/aggregate/{operation}": {
+			"post": {
+				"operationId": "Aggregate",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get aggregated data from sensors. May be between two dates (from and to).\r\nThe dates could be either both undefined or both defined. Custom granularity can be set by using aggregateMinutes",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "The aggregation operation to execute.",
+						"in": "path",
+						"name": "operation",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/Operation"
+						}
+					},
+					{
+						"description": "The amount of time (in minutes) that should be aggregated into one sample",
+						"in": "query",
+						"name": "aggregateMinutes",
+						"required": false,
+						"schema": {
+							"default": 10,
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"description": "The start of the time window",
+						"in": "query",
+						"name": "from",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					},
+					{
+						"description": "The end of the time window",
+						"in": "query",
+						"name": "to",
+						"required": false,
+						"schema": {
+							"format": "date-time",
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "The body of the request",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReadRequestBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/data": {
+			"post": {
+				"operationId": "SaveData",
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				},
+				"description": "Save data to InfluxDB",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "request body",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/WriteRequestBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/differenceBetweenFirstAndLast": {
+			"post": {
+				"operationId": "DifferenceBetweenFirstAndLast",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get difference between first and last item value of selected items",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "settings",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/InfluxQueryInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/lastOccurrenceOfValue/{operator}": {
+			"post": {
+				"operationId": "LastOccurrenceOfValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get last occurrence of value in field",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "Operator to check with",
+						"in": "path",
+						"name": "operator",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ComparisonOperator"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Input data and value to compare against",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"value": {
+										"properties": {},
+										"additionalProperties": {},
+										"type": "object"
+									},
+									"input": {
+										"$ref": "#/components/schemas/InfluxQueryInput"
+									}
+								},
+								"required": [
+									"value",
+									"input"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/parameterAggregationWithMultipleStarts": {
+			"post": {
+				"operationId": "ParameterAggregationWithMultipleStarts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Run aggregation for each combination of start in starts and InfluxQueryInputParam.to\r\nThe InfluxQueryInputParam.from parameter is also used and should be same or before the earliest item of starts",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "Input data and Array of dates to start from",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"starts": {
+										"items": {
+											"type": "string"
+										},
+										"type": "array"
+									},
+									"data": {
+										"$ref": "#/components/schemas/InfluxQueryInput"
+									}
+								},
+								"required": [
+									"starts",
+									"data"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/statistics/filterDistinctValue": {
+			"post": {
+				"operationId": "FilterDistinctValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfluxQueryResult"
+								}
+							}
+						}
+					}
+				},
+				"description": "Filter distinct value in data.sensors",
+				"tags": [
+					"Influx",
+					"Api"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "if data field is string type",
+						"in": "query",
+						"name": "isString",
+						"required": true,
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"description": "should be only counted and not returned",
+						"in": "query",
+						"name": "shouldCount",
+						"required": true,
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				],
+				"requestBody": {
+					"description": "Input data and value mapping",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"values": {
+										"items": {
+											"$ref": "#/components/schemas/SingleSimpleValue"
+										},
+										"type": "array"
+									},
+									"data": {
+										"$ref": "#/components/schemas/InfluxQueryInput"
+									}
+								},
+								"required": [
+									"values",
+									"data"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

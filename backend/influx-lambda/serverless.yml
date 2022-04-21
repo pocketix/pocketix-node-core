@@ -6,11 +6,12 @@ service: influx-lambda
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
-    includeModules:      
-      forceExclude:
-        - aws-sdk
-        - moment
-      forceInclude:
+    includeModules: true
+
+  serverless-offline:
+    httpPort: 4000
+    useDocker: true
+    noPrependStageInUrl: true
 
 package:
     individually: true    
@@ -18,7 +19,8 @@ package:
 # Add the serverless-webpack plugin
 plugins:
   - serverless-webpack
-  
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -60,17 +62,17 @@ functions:
     handler: src/main.saveData
     events:
       - http:          
-          path: saveData
+          path: statistics/saveData
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 29 # optional, in seconds, default is 6
 
   lastOccurenceOfValue:
-    handler: src/main.lastOccurenceOfValue
+    handler: src/main.lastOccurrenceOfValue
     events:
       - http:
-          path: lastOccurenceOfValue/{operator}
+          path: statistics/lastOccurrenceOfValue/{operator}
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
@@ -80,7 +82,7 @@ functions:
     handler: src/main.differenceBetweenFirstAndLast
     events:
       - http:
-          path: differenceBetweenFirstAndLast
+          path: statistics/differenceBetweenFirstAndLast
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
@@ -90,7 +92,7 @@ functions:
     handler: src/main.parameterAggregationWithMultipleStarts
     events:
       - http:
-          path: parameterAggregationWithMultipleStarts
+          path: statistics/parameterAggregationWithMultipleStarts
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
@@ -100,7 +102,7 @@ functions:
     handler: src/main.filterDistinctValue
     events:
       - http:
-          path: filterDistinctValue
+          path: statistics/filterDistinctValue
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024

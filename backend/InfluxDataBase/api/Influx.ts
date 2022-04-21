@@ -495,10 +495,10 @@ class Influx implements IInflux {
 }
 
 class NoOPLogger implements Logger {
-    error(message: string, err?: any): void {
+    error(): void {
     }
 
-    warn(message: string, err?: any): void {
+    warn(): void {
     }
 }
 

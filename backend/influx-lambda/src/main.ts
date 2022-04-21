@@ -1,6 +1,41 @@
-import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from 'aws-lambda';
+import {
+    APIGatewayEventDefaultAuthorizerContext,
+    APIGatewayProxyEventBase,
+    APIGatewayProxyHandler,
+    Context
+} from 'aws-lambda';
+import all from "./swagger.json";
+import OpenAPIRequestValidator from 'openapi-request-validator';
+import OpenapiRequestCoercer from 'openapi-request-coercer';
 
+import {IJsonSchema} from "openapi-types";
 
+const createValidator = (path: string) => new OpenAPIRequestValidator({
+    schemas: all.components.schemas as unknown as IJsonSchema[],
+    requestBody: all.paths[path].post.requestBody,
+    parameters: all.paths[path].post.parameters
+});
+
+const createCoercer = (path: string) => new OpenapiRequestCoercer({
+    parameters: all.paths[path].post.parameters
+});
+
+type Request = {
+    headers: { [key: string]: string | undefined },
+    body: any,
+    query: { [key: string]: string | undefined },
+    params: { [key: string]: string | undefined }
+}
+
+const eventToRequest = (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>): Request => {
+    const headers = event.headers || {};
+    return {
+        headers: Object.fromEntries(Object.entries(headers).map(([header, value]) => [header.toLowerCase(), value])),
+        body: JSON.parse(event.body || ""),
+        query: event.queryStringParameters || {},
+        params: event.pathParameters || {}
+    };
+}
 
 // Default headers
 const headers = {
@@ -9,17 +44,11 @@ const headers = {
     "Access-Control-Allow-Methods": "POST"
 };
 
-// Validation
-import Ajv, {JSONSchemaType, ValidateFunction} from "ajv";
+import {IInflux} from "../../InfluxDataBase/api/IInflux"
+import {Influx} from "../../InfluxDataBase/api/Influx";
+import {InfluxQueryInput} from "../../InfluxDataBase/api/influxTypes";
 
-// This in fact does not require allowSyntheticDefaultImports to work.
-// Webpack packs the JSON data directly into the output file and adds default export.
-// The allowSyntheticDefaultImports flag is set to true just to avoid IDE errors.
-import all from "./Api.json";
-import {IInflux} from "influx-aws-lambda/api/IInflux";
-import {Influx} from "influx-aws-lambda/api/Influx";
-import {ReadRequestBody, Operation, WriteRequestBody, ComparisonOperator, InfluxQueryInput} from "../../../frontend/src/app/generated/models";
-import {SingleSimpleValue} from "influx-aws-lambda/api/influxTypes";
+import {WriteRequestBody} from "./generated/models/write-request-body";
 
 const influx: IInflux = new Influx(
     process.env.URL || "",
@@ -27,45 +56,6 @@ const influx: IInflux = new Influx(
     process.env.TOKEN || "",
     process.env.BUCKET || ""
 );
-
-/**
- * Get schema from common JSON definition file
- * @param schema schema to read from
- * @param target schema to get
- */
-const getFromAllJsonSchemaAsType = <T>(schema, target) => {
-    return schema.definitions[target] as unknown as JSONSchemaType<T>
-}
-
-// Global instance of the validator
-const ajv = new Ajv({allErrors: true});
-// Register all schemas
-const allSchemas = ajv.addSchema(all);
-// Compile schemas one by one and create
-const allRequestBodySchema: JSONSchemaType<ReadRequestBody> = getFromAllJsonSchemaAsType(all, "ReadRequestBody");
-const readRequestBodyValidator = allSchemas.compile<ReadRequestBody>(allRequestBodySchema);
-
-/**
- * Convert incoming request
- * @param event event containing the request
- */
-const convertRequest = (event) => {
-    const json = JSON.parse(JSON.stringify(event));
-    const body: ReadRequestBody = JSON.parse(json.body);
-    const bucket = body.bucket;
-
-    return {
-        param: {
-            sensors: body.sensors,
-            from: json?.queryStringParameters?.from || undefined,
-            to: json?.queryStringParameters?.to || undefined,
-            aggregateMinutes: parseInt(json?.queryStringParameters?.aggregateMinutes, 10) || undefined,
-            timezone: body.timezone || undefined
-        },
-        bucket: bucket,
-        operation: Operation._
-    };
-};
 
 /**
  * Simplify the creation of a response
@@ -84,43 +74,61 @@ const createResponse = (results, code = 400) => {
 };
 
 /**
- * Check HTTP method and validate body of the request.
+ * Check HTTP method, convert request from AWS dependent to Request validate body of the request.
+ * Also disables callbackWaitsForEmptyEventLoop
  * If either method or body is invalid returns the error as a Truthy value
  * Else returns Falsy value
  * @param event input request as AWS event
+ * @param context current context
+ * @param path url path
  * @param methods allowed HTTP methods (in uppercase)
- * @param validator ajv validator to run on body
  */
-const isNotValidMethodAndValidBody = (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>,
-                                validator: ValidateFunction,
-                                methods: string[] = ["POST"]) => {
+const lambdaEntry = (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>,
+                                      context: Context,
+                                      path: string,
+                                      methods: string[] = ["POST"]): Request => {
+    context.callbackWaitsForEmptyEventLoop = false;
     // Check the http method and return unsupported method if invalid
     if (!methods.includes(event.httpMethod.toUpperCase())) {
-        return createResponse({status: -1, error: "Unsupported method"}, 405);
+        throw createResponse({status: -1, error: "Unsupported method"}, 405);
     }
 
-    if(!validator(JSON.parse(event.body as string))) {
-        return createResponse({status: -1, error: validator.errors})
-    }
+    const coercer = createCoercer(path);
+    const validator = createValidator(path);
+    const request = eventToRequest(event);
+    coercer.coerce(request);
+    const errors = validator.validateRequest(request);
+    console.log(errors);
 
-    return false;
+    if (errors)
+        throw errors;
+
+    return request;
 }
 
 /**
  * Get raw statistics from Influx
  */
 export const statistics: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
-    const errorOrFalse = isNotValidMethodAndValidBody(event, readRequestBodyValidator)
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    if (errorOrFalse)
-        return errorOrFalse;
+    const input = {
+        operation: "",
+        bucket: request.body.bucket,
+        param: {
+            sensors: request.body.sensors,
+            from: request.query.from || undefined,
+            to: request.query.to || undefined,
+            timezone: request.body.timezone || undefined
+        }
+    } as InfluxQueryInput
 
-    const request = convertRequest(event);
-
-    // This endpoint does not accept aggregation
-    request.param.aggregateMinutes = undefined;
-    const results = await influx.queryApi(request);
+    const results = await influx.queryApi(input);
     return createResponse(results);
 }
 
@@ -128,59 +136,77 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
  * Get aggregated statistics from Influx
  */
 export const aggregate: APIGatewayProxyHandler = async (event, context) => {
-    if (event.httpMethod.toLowerCase() !== 'post')
-        return createResponse({status: -1, error: "Unsupported method"}, 405)
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/aggregate/{operation}");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const operation = event.pathParameters?.operation;
-    context.callbackWaitsForEmptyEventLoop = false;
-    const request = convertRequest(event);
-    // @ts-ignore
-    request.operation = operation;
-    console.log(request);
-    const results = await influx.queryApi(request);
+    const input = {
+        operation: request.params.operation || "mean",
+        bucket: request.body.bucket,
+        param: {
+            sensors: request.body.sensors,
+            from: request.query.from || undefined,
+            to: request.query.to || undefined,
+            timezone: request.body.timezone || undefined,
+            aggregateMinutes: request.query.aggregateMinutes || undefined
+        }
+    } as InfluxQueryInput
+
+    const results = await influx.queryApi(input);
     return createResponse(results);
 }
 
 export const differenceBetweenFirstAndLast: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
-    const request = JSON.parse(JSON.stringify(event));
-    const body = JSON.parse(request.body);
-    const results = await influx.differenceBetweenFirstAndLast(body);
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/differenceBetweenFirstAndLast");
+    } catch (e) {
+        createResponse(e);
+    }
+
+    const results = await influx.differenceBetweenFirstAndLast(request.body);
 
     return createResponse(results);
 }
 
-export const lastOccurenceOfValue: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+export const lastOccurrenceOfValue: APIGatewayProxyHandler = async (event, context) => {
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/lastOccurrenceOfValue/{operator}");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const json = JSON.parse(JSON.stringify(event));
-    const operator = json.pathParameters?.operator as ComparisonOperator;
-    const requestBody = JSON.parse(json.body);
-
-    const results = await influx.lastOccurrenceOfValue(requestBody.input, operator, requestBody.value);
+    const results = await influx.lastOccurrenceOfValue(request.body.input, request.params.operator, request.body.value);
 
     return createResponse(results);
 }
 
 export const parameterAggregationWithMultipleStarts: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/parameterAggregationWithMultipleStarts");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const json = JSON.parse(JSON.stringify(event));
-    const requestBody = JSON.parse(json.body);
-
-    const results = await influx.parameterAggregationWithMultipleStarts(requestBody.data, requestBody.starts);
+    const results = await influx.parameterAggregationWithMultipleStarts(request.body.data, request.body.starts);
 
     return createResponse(results)
 }
 
 export const filterDistinctValue: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/filterDistinctValue");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const requestBody = JSON.parse(JSON.parse(JSON.stringify(event)).body) as {data: InfluxQueryInput, values: SingleSimpleValue[]};
-    const isString = event.pathParameters?.isString === "true" || false;
-    const shouldCount = event.pathParameters?.shouldCount === "true" || false;
-
-    const results = await influx.filterDistinctValue(requestBody.data, isString, shouldCount, requestBody.values);
+    const results = await influx.filterDistinctValue(request.body.data, request.query.isString, request.query.shouldCount, request.body.values);
 
     return createResponse(results)
 }
