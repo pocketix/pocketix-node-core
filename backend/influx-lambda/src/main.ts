@@ -68,7 +68,7 @@ const createResponse = (results, code = 400) => {
         headers,
         body: JSON.stringify(results.status === 0
             ? {data: results.data}
-            : {error: results.error}
+            : {error: results.error ? results.error : results.errors}
         )
     };
 };
@@ -101,7 +101,7 @@ const lambdaEntry = (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAutho
     console.log(errors);
 
     if (errors)
-        throw errors;
+        throw createResponse(errors);
 
     return request;
 }
@@ -114,7 +114,7 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
     try {
         request = lambdaEntry(event, context, "/statistics");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const input = {
@@ -140,7 +140,7 @@ export const aggregate: APIGatewayProxyHandler = async (event, context) => {
     try {
         request = lambdaEntry(event, context, "/statistics/aggregate/{operation}");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const input = {
@@ -164,7 +164,7 @@ export const differenceBetweenFirstAndLast: APIGatewayProxyHandler = async (even
     try {
         request = lambdaEntry(event, context, "/statistics/differenceBetweenFirstAndLast");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const results = await influx.differenceBetweenFirstAndLast(request.body);
@@ -177,7 +177,7 @@ export const lastOccurrenceOfValue: APIGatewayProxyHandler = async (event, conte
     try {
         request = lambdaEntry(event, context, "/statistics/lastOccurrenceOfValue/{operator}");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const results = await influx.lastOccurrenceOfValue(request.body.input, request.params.operator, request.body.value);
@@ -190,7 +190,7 @@ export const parameterAggregationWithMultipleStarts: APIGatewayProxyHandler = as
     try {
         request = lambdaEntry(event, context, "/statistics/parameterAggregationWithMultipleStarts");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const results = await influx.parameterAggregationWithMultipleStarts(request.body.data, request.body.starts);
@@ -203,7 +203,7 @@ export const filterDistinctValue: APIGatewayProxyHandler = async (event, context
     try {
         request = lambdaEntry(event, context, "/statistics/filterDistinctValue");
     } catch (e) {
-        createResponse(e);
+        return e;
     }
 
     const results = await influx.filterDistinctValue(request.body.data, request.query.isString, request.query.shouldCount, request.body.values);
