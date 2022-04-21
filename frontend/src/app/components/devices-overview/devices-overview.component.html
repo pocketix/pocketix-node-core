@@ -3,10 +3,12 @@
   <p-card
     *ngFor="let device of type.value"
     header="{{device.deviceName}}"
-    [style]="{width: '420px'}" styleClass="p-card-shadow"
+    [style]="{width: '400px'}" styleClass="p-card-shadow"
   >
     <ng-template pTemplate="header">
-      <img alt="Card" src="{{device.image}}">
+      <div style="display: flex; justify-content: center;">
+        <img alt="Card" src="{{device.image}}" style="max-width: 300px; max-height: 300px; overflow: hidden">
+      </div>
     </ng-template>
     <ng-template pTemplate="subtitle">
       <div class="flex flex-row justify-content-between">
@@ -23,32 +25,35 @@
     </ng-template>
 
     <ng-template pTemplate="content">
-      <p-scrollPanel styleClass="no-padding-top" [style]="{width: '100%', height: '100px'}">
+      <p-scrollPanel styleClass="no-padding-top" [style]="{width: '100%', height: '40px'}">
         {{device.description}}
       </p-scrollPanel>
     </ng-template>
 
 
     <ng-template pTemplate="footer">
-      <div class="flex flex-row justify-content-between">
+      <div class="grid">
         <p-button
+          class="col col-12 md:col-6"
           label="Statistic"
           icon="pi pi-chart-line p-button-sm"
-          styleClass="p-button-sm"
+          styleClass="p-button-sm flex-grow-1 full-width"
           (onClick)="statisticDetail(device, type.key)"
         >
         </p-button>
         <p-button
+          class="col col-12 md:col-6"
           label="Availability"
           icon="pi pi-chart-line p-button-sm"
-          styleClass="p-button-sm"
+          styleClass="p-button-sm flex-grow-1 full-width"
           (onClick)="availabilityDetail(device, type.key)"
         >
         </p-button>
         <p-button
+          class="col col-12 md:col-6"
           label="Categorical"
           icon="pi pi-chart-bar p-button-sm"
-          styleClass="p-button-sm p-button-secondary"
+          styleClass="p-button-sm p-button-secondary flex-grow-1 full-width"
           (onClick)="categoricalDetail(device, type.key)"
         >
         </p-button>
