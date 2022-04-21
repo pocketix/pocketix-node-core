@@ -11,6 +11,7 @@ custom:
   serverless-offline:
     httpPort: 4000
     useDocker: true
+    noPrependStageInUrl: true
 
 package:
     individually: true    

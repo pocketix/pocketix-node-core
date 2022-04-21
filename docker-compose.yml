@@ -19,23 +19,23 @@ services:
       - influxdb
     restart: unless-stopped
 
-  serverless:
-    build:
-      context: backend
-      dockerfile: ServerlessDockerfile
-    expose:
-      - "4000"
-    ports:
-      - "4000:4000"
-    networks:
-      - network
-    links:
-      - postgres
-      - influxdb
-    depends_on:
-      - postgres
-      - influxdb
-    restart: unless-stopped
+#  serverless:
+      #    build:
+      #context: backend
+    #dockerfile: ServerlessDockerfile
+      #expose:
+    # - "4000"
+      #ports:
+    #- "4000:4000"
+      #networks:
+    #- network
+      #links:
+      #- postgres
+    #- influxdb
+      #depends_on:
+      #- postgres
+    #- influxdb
+    #restart: unless-stopped
 
   postgres:
     image: postgres:14.2
