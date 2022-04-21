@@ -46,11 +46,7 @@ const headers = {
 
 import {IInflux} from "../../InfluxDataBase/api/IInflux"
 import {Influx} from "../../InfluxDataBase/api/Influx";
-import {
-    SingleSimpleValue,
-    ComparisonOperator,
-    InfluxQueryInput
-} from "../../InfluxDataBase/api/influxTypes";
+import {InfluxQueryInput} from "../../InfluxDataBase/api/influxTypes";
 
 import {WriteRequestBody} from "./generated/models/write-request-body";
 
@@ -164,45 +160,53 @@ export const aggregate: APIGatewayProxyHandler = async (event, context) => {
 }
 
 export const differenceBetweenFirstAndLast: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
-    const request = JSON.parse(JSON.stringify(event));
-    const body = JSON.parse(request.body);
-    const results = await influx.differenceBetweenFirstAndLast(body);
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/differenceBetweenFirstAndLast");
+    } catch (e) {
+        createResponse(e);
+    }
+
+    const results = await influx.differenceBetweenFirstAndLast(request.body);
 
     return createResponse(results);
 }
 
-export const lastOccurenceOfValue: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+export const lastOccurrenceOfValue: APIGatewayProxyHandler = async (event, context) => {
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/lastOccurrenceOfValue/{operator}");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const json = JSON.parse(JSON.stringify(event));
-    const operator = json.pathParameters?.operator as ComparisonOperator;
-    const requestBody = JSON.parse(json.body);
-
-    const results = await influx.lastOccurrenceOfValue(requestBody.input, operator, requestBody.value);
+    const results = await influx.lastOccurrenceOfValue(request.body.input, request.params.operator, request.body.value);
 
     return createResponse(results);
 }
 
 export const parameterAggregationWithMultipleStarts: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/parameterAggregationWithMultipleStarts");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const json = JSON.parse(JSON.stringify(event));
-    const requestBody = JSON.parse(json.body);
-
-    const results = await influx.parameterAggregationWithMultipleStarts(requestBody.data, requestBody.starts);
+    const results = await influx.parameterAggregationWithMultipleStarts(request.body.data, request.body.starts);
 
     return createResponse(results)
 }
 
 export const filterDistinctValue: APIGatewayProxyHandler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/filterDistinctValue");
+    } catch (e) {
+        createResponse(e);
+    }
 
-    const requestBody = JSON.parse(JSON.parse(JSON.stringify(event)).body) as { data: InfluxQueryInput, values: SingleSimpleValue[] };
-    const isString = event.pathParameters?.isString === "true" || false;
-    const shouldCount = event.pathParameters?.shouldCount === "true" || false;
-
-    const results = await influx.filterDistinctValue(requestBody.data, isString, shouldCount, requestBody.values);
+    const results = await influx.filterDistinctValue(request.body.data, request.query.isString, request.query.shouldCount, request.body.values);
 
     return createResponse(results)
 }
