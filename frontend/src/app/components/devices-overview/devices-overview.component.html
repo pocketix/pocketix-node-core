@@ -3,11 +3,11 @@
   <p-card
     *ngFor="let device of type.value"
     header="{{device.deviceName}}"
-    [style]="{width: '400px'}" styleClass="p-card-shadow"
+    [style]="{width: '320px'}" styleClass="p-card-shadow"
   >
     <ng-template pTemplate="header">
       <div style="display: flex; justify-content: center;">
-        <img alt="Card" src="{{device.image}}" style="max-width: 300px; max-height: 300px; overflow: hidden">
+        <img alt="Card" src="{{device.image}}" style="max-width: 320px; max-height: 320px; overflow: hidden">
       </div>
     </ng-template>
     <ng-template pTemplate="subtitle">
