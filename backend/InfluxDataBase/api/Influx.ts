@@ -352,7 +352,6 @@ class Influx implements IInflux {
      */
     async queryApi(data: InfluxQueryInput): Promise<InfluxQueryResult> {
         this.bucket = data.bucket;
-        console.log(this.bucket);
         const sensors = data.param.sensors;
         const start = data.param.from;
         const stop = data.param.to;
