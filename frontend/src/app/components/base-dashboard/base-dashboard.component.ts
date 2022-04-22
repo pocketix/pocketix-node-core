@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   createSensors,
-  createStorage, handleMultipleLines,
+  createStorage, handleMultipleLines, parameterValueToBullet,
   storageToSparklines, toBoxData,
   updatePreviousValue
 } from "../../library/dashboards/shared/tranformFunctions";
@@ -92,15 +92,7 @@ export class BaseDashboardComponent implements OnInit {
     this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
     this.sparklines = this.fields;
     this.fields = this.fields.slice(0, 3);
-    this.bulletsState.data = this.device.parameterValues?.map(parameterValue => ({
-      value: parameterValue.number ?? 0,
-      min: parameterValue.type.min ?? 0,
-      max: parameterValue.type.max ?? 0,
-      previousValue: parameterValue.number ?? 0,
-      thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
-      units: parameterValue.type.units ?? "",
-      name: parameterValue.type.label ?? ""
-    })) || [];
+    this.bulletsState.data = this.device.parameterValues?.map(parameterValueToBullet) || [];
     this.mapping = (field) =>
       this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
 

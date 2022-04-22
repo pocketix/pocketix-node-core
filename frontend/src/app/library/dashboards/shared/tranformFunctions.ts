@@ -3,7 +3,7 @@ import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
-import {BulletsState} from "../model/dashboards.model";
+import {Bullet, BulletsState} from "../model/dashboards.model";
 import {InfluxQueryResult} from "../../../generated/models/influx-query-result";
 
 const toBoxData = (series: any[]) => {
@@ -169,6 +169,16 @@ function storageToSparklines(lineState: LineState, storage: Storage) {
   return sparklineData;
 }
 
+const parameterValueToBullet = (parameterValue: ParameterValue) => ({
+  value: parameterValue.number ?? 0,
+  min: parameterValue.type.min ?? 0,
+  max: parameterValue.type.max ?? 0,
+  previousValue: parameterValue.number ?? 0,
+  thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
+  units: parameterValue.type.units ?? "",
+  name: parameterValue.type.label ?? ""
+} as Bullet)
+
 export {
   toBoxData,
   parseOtherParams,
@@ -183,5 +193,6 @@ export {
   getDeviceName,
   handleMultipleLines,
   storageToSparklines,
+  parameterValueToBullet,
   Storage
 };
