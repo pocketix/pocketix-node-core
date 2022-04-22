@@ -1,19 +1,25 @@
 {
   "name": "dip",
-  "workspaces": [
-    "backend/db-benchmark",
-    "backend/InfluxDataBase",
-	"frontend"
-  ],
+  "workspaces": [],
   "version": "1.0.0",
   "description": "",
   "main": "",
-  "scripts": {},
+  "scripts": {
+	"docker": "docker-compose build & docker-compose up",
+	"offlineLambda": "cd backend/influx-lambda & serverless offline start",
+    "all": "concurrently \"npm run db-benchmark\" \"npm run express\" \"npm run influx-lambda\" \"npm run InfluxDataBase\" \"npm run frontend\"",
+    "db-benchmark": "npm --prefix ./backend/db-benchmark install ./backend/db-benchmark",
+    "express": "npm --prefix ./backend/express install ./backend/express",
+    "influx-lambda": "npm --prefix ./backend/influx-lambda install ./backend/influx-lambda",
+    "InfluxDataBase": "npm --prefix ./backend/InfluxDataBase install ./backend/InfluxDataBase",
+    "frontend": "npm --prefix ./frontend install ./frontend"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
   },
   "devDependencies": {
+    "concurrently": "^7.1.0"
   }
 }

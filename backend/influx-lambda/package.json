@@ -12,6 +12,7 @@
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "aws-sdk": "^2.983.0",
+    "dip": "file:../..",
     "openapi-request-coercer": "^11.0.0",
     "openapi-request-validator": "^11.0.0",
     "schema-utils": "^4.0.0",

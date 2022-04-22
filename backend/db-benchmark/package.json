@@ -21,6 +21,7 @@
     "@influxdata/influxdb-client-apis": "^1.18.0",
     "aws-sdk": "^2.816.0",
     "commander": "^8.2.0",
+    "dip": "file:../..",
     "dotenv": "^10.0.0",
     "fast-csv": "^4.3.6",
     "lodash": "^4.17.21",
