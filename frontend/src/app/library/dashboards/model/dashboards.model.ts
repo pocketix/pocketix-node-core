@@ -1,4 +1,6 @@
 import {Device} from "../../../generated/models/device";
+import {ApexAxisChartSeries} from "ng-apexcharts";
+import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
 type Bullet = {
   value: number;
@@ -15,4 +17,15 @@ type BulletsState = {
   device: Device;
 }
 
-export {Bullet, BulletsState};
+type BoxState = {
+  name: string,
+  data: ApexAxisChartSeries
+}[]
+
+type SparklineState = {
+  device: Device,
+  data: any[],
+  minMax: {[p: string]: DataItem[] }
+}
+
+export {Bullet, BulletsState, BoxState, SparklineState};

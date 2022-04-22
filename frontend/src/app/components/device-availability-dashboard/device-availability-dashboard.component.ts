@@ -11,6 +11,7 @@ import {
 } from "../../library/components/availability/components/availability-component/availability.component";
 import {InfluxService} from "../../generated/services/influx.service";
 import {Operation} from "../../generated/models/operation";
+import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 
 @Component({
   selector: 'app-device-availability-dashboard',
@@ -18,31 +19,13 @@ import {Operation} from "../../generated/models/operation";
   styleUrls: ['./device-availability-dashboard.component.css'],
   providers: [MessageService]
 })
-export class DeviceAvailabilityDashboardComponent implements OnInit {
-  mapping?: (string: string) => string
-  device?: Device;
+export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent implements OnInit {
   bucket = environment.bucket;
   devices: Device[] = [];
-  fields?: string[];
-  sparklines?: string[];
   bullets: Bullet[] = [];
-  private deviceUid: string = "";
-  private type: string = "";
   availabilities?: Availability[];
 
-  constructor(private deviceService: DeviceService, private route: ActivatedRoute, private influxService: InfluxService) { }
-
   async ngOnInit() {
-    await this.route.params.pipe(tap(
-        parameters => this.type = parameters["type"] ?? ""
-      ), first()
-    ).toPromise();
-
-    await this.route.queryParamMap.pipe(tap(
-        query => this.deviceUid = query.get("deviceUid") ?? ""
-      ), first()
-    ).toPromise();
-
     this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
     }).subscribe(

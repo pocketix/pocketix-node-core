@@ -27,6 +27,7 @@ import {
   KeyValueDisplayComponent
 } from "./library/components/key-value-display/components/key-value-display/key-value-display.component";
 import {KeyValueDisplayModule} from "./library/components/key-value-display/key-value-display.module";
+import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {KeyValueDisplayModule} from "./library/components/key-value-display/key-
     DeviceDetailDashboardComponent,
     DevicesOverviewComponent,
     DeviceAvailabilityDashboardComponent,
-    CategoricalDashboardComponent
+    CategoricalDashboardComponent,
+    BaseDashboardComponent
   ],
   imports: [
     CommonModule,

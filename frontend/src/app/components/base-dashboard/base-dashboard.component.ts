@@ -1,0 +1,196 @@
+import { Component, OnInit } from '@angular/core';
+import {
+  createSensors,
+  createStorage, handleMultipleLines,
+  storageToSparklines, toBoxData,
+  updatePreviousValue
+} from "../../library/dashboards/shared/tranformFunctions";
+import {Operation} from "../../generated/models/operation";
+import {ReadRequestBody} from "../../generated/models/read-request-body";
+import {LineState} from "../../library/components/line/model/line.model";
+import {ApexAxisChartSeries} from "ng-apexcharts";
+import {Bullet, BulletsState, SparklineState} from "../../library/dashboards/model/dashboards.model";
+import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {Device} from "../../generated/models/device";
+import {InfluxService} from "../../generated/services/influx.service";
+import {MessageService} from "primeng/api";
+import {DeviceService} from "../../generated/services/device.service";
+import {environment} from "../../../environments/environment";
+import {first, tap} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
+
+@Component({
+  selector: 'app-base-dashboard',
+  templateUrl: './base-dashboard.component.html',
+  styleUrls: ['./base-dashboard.component.css'],
+  providers: [MessageService]
+})
+export class BaseDashboardComponent implements OnInit {
+  mapping!: (string: string) => string
+  title = 'dip';
+  bucket = environment.bucket;
+  devices: Device[] = [];
+  fields!: string[];
+  sparklines!: string[];
+  protected deviceUid: string = "";
+  protected type: string = "";
+  device!: Device;
+  lineState = {
+    allAggregationOperations: Object.values(Operation).filter(item => isNaN(Number(item)) && item !== 'none'),
+    selectedAggregationOperation: Operation.Mean.toString(),
+    allKpis: [],
+    selectedKpis: [],
+    dates: [],
+    allDevices: [],
+    selectedDevicesToCompareWith: [],
+    results: [],
+    device: this.device
+  } as LineState;
+
+  boxData = [] as {name: string, data: ApexAxisChartSeries }[];
+
+  bulletsState = {
+    data: [],
+    device: this.device
+  } as BulletsState
+
+  sparklineState = {
+    device: this.device,
+    data: [] as any[],
+    minMax: {} as {[p: string]: DataItem[] }
+  } as SparklineState
+
+  constructor(private route: ActivatedRoute,
+              protected influxService: InfluxService,
+              protected deviceService: DeviceService,
+              protected messageService: MessageService) { }
+
+  async ngOnInit() {
+    await this.route.params.pipe(tap(
+        parameters => this.type = parameters["type"] ?? ""
+      ), first()
+    ).toPromise();
+
+    await this.route.queryParamMap.pipe(tap(
+        query => this.deviceUid = query.get("deviceUid") ?? ""
+      ), first()
+    ).toPromise();
+
+    const devicesPromise = this.deviceService.getDevicesByDeviceType({
+      deviceType: this.type
+    }).toPromise();
+
+    const devicePromise = this.deviceService.getDeviceById({
+      deviceUid: this.deviceUid
+    }).toPromise();
+
+    [this.device, this.devices] = await Promise.all([devicePromise, devicesPromise]);
+    this.lineState.device = this.device;
+    this.bulletsState.device = this.device;
+    this.sparklineState.device = this.device;
+
+    this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
+    this.sparklines = this.fields;
+    this.fields = this.fields.slice(0, 3);
+    this.bulletsState.data = this.device.parameterValues?.map(parameterValue => ({
+      value: parameterValue.number ?? 0,
+      min: parameterValue.type.min ?? 0,
+      max: parameterValue.type.max ?? 0,
+      previousValue: parameterValue.number ?? 0,
+      thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
+      units: parameterValue.type.units ?? "",
+      name: parameterValue.type.label ?? ""
+    })) || [];
+    this.mapping = (field) =>
+      this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
+
+
+    this.extractDataFromInputs();
+    this.updateMainChart();
+    this.updateSparklines(this.sparklines || []);
+    this.updateBoxPlots(this.sparklines || []);
+  }
+
+  private updateSparklines(sparklines: string[]) {
+    const {sensors} = createSensors(this.lineState, sparklines);
+    const from = new Date();
+    from.setDate(from.getDate() - 3);
+    this.influxService.aggregate({
+      operation: Operation.Mean,
+      from: from.toISOString(),
+      to: new Date().toISOString(),
+      aggregateMinutes: 288,
+      body: {
+        bucket: this.bucket,
+        sensors
+      } as ReadRequestBody
+    }).subscribe(items => {
+      if (items?.data) {
+        const {storage, thresholdLines} = createStorage(this.lineState, items, sparklines, this.mapping);
+        updatePreviousValue(this.bulletsState,storage);
+        const sparklineData = storageToSparklines(this.lineState, storage);
+        this.sparklineState.minMax = thresholdLines;
+        this.sparklineState.data = Object.values(sparklineData)
+      } else {
+        this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
+      }
+    });
+  }
+
+  private updateBoxPlots(boxPlotFieldNames: string[]) {
+    const from = new Date();
+    from.setDate(from.getDate() - 3);
+    this.influxService.aggregate({
+      operation: Operation.Mean,
+      from: from.toISOString(),
+      to: new Date().toISOString(),
+      aggregateMinutes: 288,
+      body: {
+        bucket: this.bucket,
+        sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames}
+      } as ReadRequestBody
+    }).subscribe(items => {
+      const {storage} = createStorage(this.lineState, items, boxPlotFieldNames, this.mapping);
+      const boxSeries = Object.entries(storage[this.device?.deviceUid as string]).reduce((previous, [name, series]) => {
+        const items = toBoxData(series);
+
+        if (items)
+          previous.push({name, data: [{data: [{x: name, y: items}]}]});
+
+        return previous;
+      }, [] as any[]);
+      this.boxData.push(...boxSeries);
+    }, error => console.log(error))
+  }
+
+  private extractDataFromInputs() {
+    this.devices = this.devices?.filter(device => device.deviceUid !== this.device.deviceUid);
+    this.lineState.allDevices.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
+    const from = new Date();
+    from.setDate(from.getDate() - 7);
+    this.lineState.allKpis.push(...this.sparklines.map((field) => ({name: this.mapping(field), field: field})));
+    this.lineState.selectedKpis.push(...this.fields.map(field => ({name: this.mapping(field), field})));
+    this.lineState.dates.push(from, new Date());
+  }
+
+  protected updateMainChart() {
+    const {fields, sensorIds, sensors} = createSensors(this.lineState, this.lineState.selectedKpis.map(kpi => kpi.field));
+    const from = this.lineState.dates[0].toISOString();
+    const to = this.lineState.dates[this.lineState.dates.length - 1].toISOString();
+
+    this.influxService.aggregate({
+      operation: this.lineState.selectedAggregationOperation as Operation,
+      aggregateMinutes: 30,
+      from,
+      to,
+      body: {bucket: this.bucket, sensors}
+    }).subscribe(items => {
+      if (items?.data) {
+        const {storage} = createStorage(this.lineState, items, fields, this.mapping);
+        this.lineState.results = handleMultipleLines(this.lineState, sensorIds, storage);
+      } else {
+        this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
+      }
+    });
+  }
+}

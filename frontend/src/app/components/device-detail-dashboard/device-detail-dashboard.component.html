@@ -1,11 +1,10 @@
 <app-statistic-device-detail-dashboard
   *ngIf="device && sparklines && fields && mapping"
-  [bucket]="bucket"
-  [devices]="devices"
   [device]="device"
-  [fields]="fields"
-  [sparklines]="sparklines"
-  [bullets]="bullets"
   [sparklineMapping]="mapping"
+  [lineState]=lineState
+  [boxData]=boxData
+  [bulletsState]=bulletsState
+  [sparklineState]=sparklineState
 >
 </app-statistic-device-detail-dashboard>

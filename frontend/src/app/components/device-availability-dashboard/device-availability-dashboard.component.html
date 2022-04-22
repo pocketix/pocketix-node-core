@@ -1,12 +1,11 @@
 <app-dashboard-availability
   *ngIf="device && sparklines && fields && mapping && availabilities"
-  [bucket]="bucket"
-  [devices]="devices"
   [device]="device"
-  [fields]="fields"
-  [sparklines]="sparklines"
-  [bullets]="bullets"
   [sparklineMapping]="mapping"
   [availabilities]="availabilities"
+  [lineState]=lineState
+  [boxData]=boxData
+  [bulletsState]=bulletsState
+  [sparklineState]=sparklineState
 >
 </app-dashboard-availability>

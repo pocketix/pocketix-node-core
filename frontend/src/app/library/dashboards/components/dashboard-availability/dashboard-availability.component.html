@@ -2,7 +2,6 @@
 
 <app-main-chart-template
   [deviceName]="device.deviceName"
-  (onReloadSwitchEventEmitter)="onReloadSwitch($event)"
 >
   <line
     chart
@@ -10,7 +9,6 @@
     [yAxisLabel]="yAxisLabel"
     [xAxisLabel]="xAxisLabel"
     [(state)]="lineState"
-    (onChanges)="onMainGraphChange()"
   >
   </line>
   <div rightColumn class="max-height-on-lg-screen col-11 lg:col-4 gutter-hack no-padding flex flex-column" style="margin: 15px">
