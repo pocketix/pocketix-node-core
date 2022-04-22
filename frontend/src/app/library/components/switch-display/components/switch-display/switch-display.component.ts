@@ -3,8 +3,7 @@ import * as d3 from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
 import {ScaleOrdinal} from "d3";
-
-type Chages = OutputData | {time: Date, start: Date, stop: Date};
+import {Changes} from "../../model/switch-display.model";
 
 @Component({
   selector: 'switch-display',
@@ -148,7 +147,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
     const changes = this.filtered.map((change, index) => [
       change[status].toString() as string,
       this.outputDataToChanges(change, index)
-    ] as [string, Chages]);
+    ] as [string, Changes]);
 
     const data = changes.reduce((previousValue, [status, rest]) => {
       previousValue[status].push(rest);
@@ -231,13 +230,13 @@ export class SwitchDisplayComponent implements AfterViewInit {
     return `legend-bar-${color}`;
   }
 
-  private outputDataToChanges(change: OutputData, index: number): Chages {
+  private outputDataToChanges(change: OutputData, index: number): Changes {
     return {
       ...change,
       time: new Date(change.time),
       start: this.getChangesDate(index - 1),
       stop: this.getChangesDate(index)
-    };
+    } as Changes;
   }
 
   resize(svg: any, aspect: number = 4) {
