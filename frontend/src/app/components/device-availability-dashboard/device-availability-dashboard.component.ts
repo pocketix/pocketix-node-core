@@ -9,9 +9,9 @@ import {DeviceService} from "../../generated/services/device.service";
 import {
   Availability
 } from "../../library/components/availability/components/availability-component/availability.component";
-import {InfluxService} from "../../generated/services/influx.service";
 import {Operation} from "../../generated/models/operation";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
+import {parameterValueToBullet} from "../../library/dashboards/shared/tranformFunctions";
 
 @Component({
   selector: 'app-device-availability-dashboard',
@@ -26,6 +26,8 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
   availabilities?: Availability[];
 
   async ngOnInit() {
+    await super.ngOnInit();
+
     this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
     }).subscribe(
@@ -40,15 +42,7 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
       const all = this.fields;
       this.sparklines = this.fields.slice(0, 4);
       this.fields = this.fields.slice(0, 3);
-      this.bullets = this.device.parameterValues?.map(parameterValue => ({
-        value: parameterValue.number ?? 0,
-        min: parameterValue.type.min ?? 0,
-        max: parameterValue.type.max ?? 0,
-        previousValue: parameterValue.number ?? 0,
-        thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
-        units: parameterValue.type.units ?? "",
-        name: parameterValue.type.label ?? ""
-      })) || [];
+      this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
       this.mapping = (field) =>
         this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
 
