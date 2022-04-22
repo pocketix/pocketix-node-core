@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  createMappingFromParameterValues,
   createSensors,
   createStorage, handleMultipleLines, parameterValueToBullet,
   storageToSparklines, toBoxData,
@@ -93,8 +94,7 @@ export class BaseDashboardComponent implements OnInit {
     this.sparklines = this.fields;
     this.fields = this.fields.slice(0, 3);
     this.bulletsState.data = this.device.parameterValues?.map(parameterValueToBullet) || [];
-    this.mapping = (field) =>
-      this.device?.parameterValues?.find(value => value.type.name === field)?.type.label ?? field;
+    this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
 
 
     this.extractDataFromInputs();

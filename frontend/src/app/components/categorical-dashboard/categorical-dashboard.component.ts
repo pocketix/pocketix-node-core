@@ -10,6 +10,10 @@ import {SingleSimpleValue} from "../../generated/models/single-simple-value";
 import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
 import { Bullet } from 'app/library/dashboards/model/dashboards.model';
+import {
+  createMappingFromParameterValues,
+  parameterValueToBullet
+} from "../../library/dashboards/shared/tranformFunctions";
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -17,6 +21,7 @@ import { Bullet } from 'app/library/dashboards/model/dashboards.model';
   styleUrls: ['./categorical-dashboard.component.css']
 })
 export class CategoricalDashboardComponent implements OnInit {
+  mapping!: (field: string) => string;
   type?: string;
   deviceUid!: string;
   device?: Device;
@@ -50,15 +55,8 @@ export class CategoricalDashboardComponent implements OnInit {
       this.parameterTypes = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
       this.defaults = this.parameterTypes.slice(0,3);
 
-      this.bullets = this.device.parameterValues?.map(parameterValue => ({
-        value: parameterValue.number ?? 0,
-        min: parameterValue.type.min ?? 0,
-        max: parameterValue.type.max ?? 0,
-        previousValue: parameterValue.number ?? 0,
-        thresholds: [parameterValue.type.threshold1 ?? 0, parameterValue.type.threshold2 ?? 0].sort(),
-        units: parameterValue.type.units ?? "",
-        name: parameterValue.type.label ?? ""
-      })) || [];
+      this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
+      this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
     });
 
     const to = new Date();

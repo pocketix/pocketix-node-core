@@ -179,6 +179,10 @@ const parameterValueToBullet = (parameterValue: ParameterValue) => ({
   name: parameterValue.type.label ?? ""
 } as Bullet)
 
+const createMappingFromParameterValues = (parameterValues: ParameterValue[]): (field: string) => string => {
+  return (field: string) => parameterValues.find(value => value.type.name === field)?.type.label ?? field;
+}
+
 export {
   toBoxData,
   parseOtherParams,
@@ -194,5 +198,6 @@ export {
   handleMultipleLines,
   storageToSparklines,
   parameterValueToBullet,
+  createMappingFromParameterValues,
   Storage
 };
