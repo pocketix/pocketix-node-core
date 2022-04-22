@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-	selector: 'app-availability-linear-gauge',
+	selector: 'availability-linear-gauge',
 	templateUrl: './availability-linear-gauge.component.html',
 	styleUrls: ['./availability-linear-gauge.component.css']
 })

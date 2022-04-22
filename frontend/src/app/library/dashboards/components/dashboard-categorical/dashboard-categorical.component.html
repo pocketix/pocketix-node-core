@@ -5,7 +5,7 @@
       </span>
     <div class="p-card-body">
       <div class="grid">
-        <app-key-value-display
+        <key-value-display
           class="md:col-4 col-12"
           *ngFor="let item of keyValue"
           [key]="item.key"
@@ -13,7 +13,7 @@
           [keySize]="30"
           [valueSize]="24"
         >
-        </app-key-value-display>
+        </key-value-display>
       </div>
     </div>
     <div>
@@ -21,13 +21,13 @@
         State changes
       </h3>
       <div style="width: 100%" *ngIf="data && start">
-        <app-switch-display *ngFor="let field of fields"
+        <switch-display *ngFor="let field of fields"
           [data]="data"
           [states]="states"
           [status]="field"
           [start]="start"
         >
-        </app-switch-display>
+        </switch-display>
       </div>
     </div>
 

@@ -1,21 +1,21 @@
 <span class="p-card-title">Availability</span>
 <div class="p-card-body">
   <div class="flex flex-row flex-wrap">
-    <app-availability-linear-gauge
+    <availability-linear-gauge
       *ngFor="let item of availabilities"
       [value]="item.value"
       [borderValue]="item.target ?? availability"
       [units]="item.text"
       stringToAdd="%"
     >
-    </app-availability-linear-gauge>
-    <app-availability-linear-gauge
+    </availability-linear-gauge>
+    <availability-linear-gauge
       *ngIf="availability"
       [value]="availability"
       [borderValue]="availability"
       [units]="units"
       stringToAdd="%"
     >
-    </app-availability-linear-gauge>
+    </availability-linear-gauge>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<app-main-chart-template
+<main-chart-template
   [deviceName]="device.deviceName"
 >
   <line
@@ -45,14 +45,14 @@
       </div>
     </div>
   </div>
-</app-main-chart-template>
+</main-chart-template>
 
 <div class="grid">
   <div class="col-11 gutter-hack p-card">
-    <app-availability
+    <availability
       *ngIf="availabilities"
       [availabilities]="availabilities"
     >
-    </app-availability>
+    </availability>
   </div>
 </div>

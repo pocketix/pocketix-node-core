@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-main-chart-template',
+  selector: 'main-chart-template',
   templateUrl: './main-chart-template.component.html',
   styleUrls: ['./main-chart-template.component.css']
 })

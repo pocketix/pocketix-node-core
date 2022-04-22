@@ -15,7 +15,7 @@ export type Availability = {
 }
 
 @Component({
-	selector: 'app-availability',
+	selector: 'availability',
 	templateUrl: './availability.component.html',
 	styleUrls: ['./availability.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

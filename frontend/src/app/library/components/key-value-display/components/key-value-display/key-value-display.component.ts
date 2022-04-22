@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-key-value-display',
+  selector: 'key-value-display',
   templateUrl: './key-value-display.component.html',
   styleUrls: ['./key-value-display.component.css']
 })

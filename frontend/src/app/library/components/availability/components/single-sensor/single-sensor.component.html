@@ -8,13 +8,13 @@
 				<div class="card-body"
 					 style="display: flex; flex-direction:row;align-items: center;justify-content: space-around;">
 					<div style="flex-direction: row; display: flex;">
-						<app-availability-linear-gauge *ngFor="let item of availability"
+						<availability-linear-gauge *ngFor="let item of availability"
 													   [value]="item.availability"
 													   [borderValue]="item.availability"
 													   [units]="item.name"
 													   stringToAdd="%"
 						>
-						</app-availability-linear-gauge>
+						</availability-linear-gauge>
 					</div>
 
 				</div>

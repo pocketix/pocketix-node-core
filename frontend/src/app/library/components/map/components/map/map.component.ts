@@ -7,7 +7,7 @@ import { GeovistoMarkerLayerTool } from 'geovisto-layer-marker';
 
 
 @Component({
-  selector: 'app-sensor-map',
+  selector: 'sensor-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })

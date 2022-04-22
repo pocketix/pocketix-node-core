@@ -7,7 +7,7 @@ import {ScaleOrdinal} from "d3";
 type Chages = OutputData | {time: Date, start: Date, stop: Date};
 
 @Component({
-  selector: 'app-switch-display',
+  selector: 'switch-display',
   templateUrl: './switch-display.component.html',
   styleUrls: ['./switch-display.component.css'],
   encapsulation: ViewEncapsulation.None,

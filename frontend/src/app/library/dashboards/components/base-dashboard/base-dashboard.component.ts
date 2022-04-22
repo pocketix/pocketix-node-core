@@ -1,24 +1,11 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {Device} from "../../../../generated/models/device";
-import {BoxState, Bullet, BulletsState, SparklineState} from "../../model/dashboards.model";
-import {Operation} from "../../../../generated/models/operation";
+import {BoxState, BulletsState, SparklineState} from "../../model/dashboards.model";
 import {LineState} from "../../../components/line/model/line.model";
-import {ApexAxisChartSeries} from "ng-apexcharts";
-import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {chart, grid, plotOptions, yAxis } from '../../shared/boxSettings';
-import {
-  createSensors,
-  createStorage,
-  handleMultipleLines, storageToSparklines,
-  toBoxData,
-  updatePreviousValue
-} from "../../shared/tranformFunctions";
-import {ReadRequestBody} from "../../../../generated/models/read-request-body";
-import {ApiService} from "../../../../generated/services/api.service";
-import {MessageService} from "primeng/api";
 
 @Component({
-  selector: 'app-base-dashboard',
+  selector: 'base-dashboard',
   templateUrl: './base-dashboard.component.html',
   styleUrls: ['./base-dashboard.component.css']
 })

@@ -4,7 +4,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AvailabilityLinearGaugeComponent} from "../availability-linear-gauge/availability-linear-gauge.component";
 
 @Component({
-	selector: 'app-single-sensor',
+	selector: 'single-sensor',
 	templateUrl: './single-sensor.component.html',
 	styleUrls: ['./single-sensor.component.css']
 })

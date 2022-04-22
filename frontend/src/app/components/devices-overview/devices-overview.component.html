@@ -12,9 +12,9 @@
     </ng-template>
     <ng-template pTemplate="subtitle">
       <div class="flex flex-row justify-content-between">
-        <app-key-value-display key="Device UID" value="{{device.deviceUid}}"></app-key-value-display>
-        <app-key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></app-key-value-display>
-        <app-key-value-display key="Registered" value="{{device.registrationDate | date}}"></app-key-value-display>
+        <key-value-display key="Device UID" value="{{device.deviceUid}}"></key-value-display>
+        <key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></key-value-display>
+        <key-value-display key="Registered" value="{{device.registrationDate | date}}"></key-value-display>
       </div>
       <p-divider align="left" styleClass="no-padding-bottom">
         <div class="inline-flex align-items-center">

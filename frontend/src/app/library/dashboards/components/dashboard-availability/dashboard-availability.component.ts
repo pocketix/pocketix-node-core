@@ -3,7 +3,7 @@ import {Availability} from "../../../components/availability/components/availabi
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 
 @Component({
-  selector: 'app-dashboard-availability',
+  selector: 'dashboard-availability',
   templateUrl: './dashboard-availability.component.html',
   styleUrls: ['./dashboard-availability.component.css']
 })

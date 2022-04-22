@@ -6,7 +6,7 @@ import {
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 
 @Component({
-  selector: 'app-statistic-device-detail-dashboard',
+  selector: 'statistic-device-detail-dashboard',
   templateUrl: './statistic-device-detail-dashboard.component.html',
   styleUrls: ['./statistic-device-detail-dashboard.component.css'],
   encapsulation: ViewEncapsulation.None,
