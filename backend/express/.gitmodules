@@ -1,9 +1,0 @@
-[submodule "InfluxDataBase"]
-	path = InfluxDataBase
-	url = https://github.com/logimic/InfluxDataBase
-[submodule "lgmc-api-artifacts"]
-	path = lgmc-api-artifacts
-	url = https://github.com/logimic/lgmc-api-artifacts.git
-[submodule "IotBnd"]
-	path = IotBnd
-	url = git@github.com:logimic/IotBnd.git
