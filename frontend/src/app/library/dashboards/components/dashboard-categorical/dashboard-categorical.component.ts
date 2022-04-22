@@ -18,6 +18,7 @@ export class DashboardCategoricalComponent implements OnInit {
   @Input() states?: (string | number)[];
   @Input() fields?: string[];
   @Input() bullets?: Bullet[];
+  @Input() start?: Date;
 
   constructor() { }
 

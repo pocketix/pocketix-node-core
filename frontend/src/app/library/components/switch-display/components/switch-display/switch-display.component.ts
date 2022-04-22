@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEnca
 import * as d3 from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
+import {ScaleOrdinal} from "d3";
 
 type Chages = OutputData | {time: Date, start: Date, stop: Date};
 
@@ -18,6 +19,10 @@ export class SwitchDisplayComponent implements AfterViewInit {
   states?: SingleSimpleValue[] = [];
   @Input()
   status!:string;
+  @Input()
+  start!: Date;
+  @Input()
+  colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
 
   filtered?: OutputData[];
 
@@ -47,30 +52,27 @@ export class SwitchDisplayComponent implements AfterViewInit {
   private drawCustomChart() {
     const status = this.status;
     this.filtered = this.data.filter(item => item[status] !== null);
+    const mainElement = d3.select(this.chart?.nativeElement);
+
+    console.log(this.filtered)
+    if (!this.filtered?.length) {
+      mainElement.append("span").attr("text", "No data");
+      return;
+    }
+    const appendTo = mainElement.append("div").attr("class", "svg-container");
     this.data = this.filtered;
     this.changesStart = new Date(this.filtered[0].time);
     this.changesEnd = new Date(this.filtered[this.filtered.length - 1].time);
 
-    console.log(this.changesEnd, this.changesStart, this.changesEnd === this.changesStart);
     if (this.changesStart.getMilliseconds() === this.changesEnd.getMilliseconds()) {
       this.changesEnd.setHours(this.changesEnd.getHours() + 1);
       this.filtered.push({...this.filtered[0], time: this.changesEnd.toISOString()});
     }
 
-
-    console.log(this.filtered);
     const margin = {top: 0, right: 10, bottom: 30, left: 10};
     const width = 460 - margin.left - margin.right;
     const height = 70 - margin.top - margin.bottom;
     const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
-    const mainElement = d3.select(this.chart?.nativeElement);
-
-    const appendTo = mainElement.append("div").attr("class", "svg-container");
-
-    if (!this.filtered?.length) {
-      appendTo.append("span").attr("text", "No data");
-      return;
-    }
 
     const svg = appendTo
       .append("svg")
@@ -83,24 +85,9 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     const color = d3.scaleOrdinal()
       .domain(Object.keys(states))
-      .range(['#5AA454', '#C7B42C', '#AAAAAA']);
+      .range(this.colors);
 
-    const legendContainer = mainElement
-      .append("div")
-      .attr("class", "legend-container");
-
-    const legend = legendContainer.selectAll(".legend")
-      .data(color.domain())
-      .enter()
-      .append("div")
-      .attr("class", "legend")
-
-    legend.append("span")
-      .attr("class", "legend-color")
-      .style("background-color", item => color(item) as string);
-
-    legend.append("span")
-      .text(text => text);
+    this.createLegend(mainElement, color);
 
     const tooltip = mainElement
       .append("div")
@@ -219,6 +206,25 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .style("text-align", "center")
       .style("pointer-events", "none")
       .style("margin-top", "6px");
+  }
+
+  private createLegend(mainElement: any, color: ScaleOrdinal<string, unknown>) {
+    const legendContainer = mainElement
+      .append("div")
+      .attr("class", "legend-container");
+
+    const legend = legendContainer.selectAll(".legend")
+      .data(color.domain())
+      .enter()
+      .append("div")
+      .attr("class", "legend")
+
+    legend.append("span")
+      .attr("class", "legend-color")
+      .style("background-color", (item: any) => color(item) as string);
+
+    legend.append("span")
+      .text((text: any) => text);
   }
 
   private getLegendBarColorClassName (color: string) {
