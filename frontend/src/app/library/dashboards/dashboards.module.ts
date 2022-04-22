@@ -5,7 +5,7 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {TooltipModule} from "primeng/tooltip";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {StatisticDeviceDetailDashboard} from "./components/dashboard-l5/statistic-device-detail-dashboard.component";
+import {StatisticDeviceDetailDashboard} from "./components/dashboard-statistic/statistic-device-detail-dashboard.component";
 import {DashboardAvailabilityComponent} from "./components/dashboard-availability/dashboard-availability.component";
 import {LineModule} from "../components/line/line.module";
 import {SparklineModule} from "../components/sparkline/sparkline.module";
