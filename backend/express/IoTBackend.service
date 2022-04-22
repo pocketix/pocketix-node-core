@@ -1,0 +1,9 @@
+[Unit]
+Description=Service for backend server for storing and querying IoT data
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/pi/dip/backend/express
+Restart=always
+
+[Install]
+WantedBy=default.target
