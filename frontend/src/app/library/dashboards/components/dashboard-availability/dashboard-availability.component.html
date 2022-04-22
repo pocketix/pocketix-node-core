@@ -12,7 +12,7 @@
   >
   </line>
   <div rightColumn class="max-height-on-lg-screen col-11 lg:col-4 gutter-hack no-padding flex flex-column" style="margin: 15px">
-    <div class="col p-card no-top-margin" style="min-height: 350px; overflow-y: scroll;">
+    <div class="col p-card no-top-margin y-overflow-scroll" style="min-height: 320px;">
       <span class="p-card-title ">Stability</span>
       <div class="p-card-body flex flex-column flex-wrap">
         <div *ngFor="let box of boxData" class="flex-grow-1">
@@ -31,10 +31,10 @@
       </div>
     </div>
 
-    <div class="col p-card flex-grow-1 no-bottom-margin">
+    <div class="col p-card flex-grow-1 no-bottom-margin y-overflow-scroll">
       <span class="p-card-title">Statistics</span>
       <div class="p-card-body flex flex-wrap">
-        <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
+        <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 280px" *ngFor="let data of sparklineState.data">
           <sparkline
             [name]="data[0].name"
             [data]="data"
