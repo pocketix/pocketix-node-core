@@ -6,7 +6,6 @@ import {
   Input,
   ViewContainerRef
 } from '@angular/core';
-import {ModalComponent} from "../modal/modal.component";
 
 export type Availability = {
   text: string;
