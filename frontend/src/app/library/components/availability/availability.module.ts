@@ -4,7 +4,7 @@ import {AvailabilityLinearGaugeComponent} from "./components/availability-linear
 import {GaugeModule, LineChartModule} from "@swimlane/ngx-charts";
 import {AvailabilityComponent} from "./components/availability-component/availability.component";
 import {SingleSensorComponent} from "./components/single-sensor/single-sensor.component";
-import {ModalComponent} from "./components/modal/modal.component";
+import {DialogModule} from "primeng/dialog";
 
 
 
@@ -12,13 +12,13 @@ import {ModalComponent} from "./components/modal/modal.component";
   declarations: [
     AvailabilityLinearGaugeComponent,
     AvailabilityComponent,
-    SingleSensorComponent,
-    ModalComponent
+    SingleSensorComponent
   ],
   imports: [
     CommonModule,
     GaugeModule,
     LineChartModule,
+    DialogModule,
   ],
   exports: [
     AvailabilityLinearGaugeComponent,
