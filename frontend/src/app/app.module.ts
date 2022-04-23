@@ -27,7 +27,8 @@ import {
   KeyValueDisplayComponent
 } from "./library/components/key-value-display/components/key-value-display/key-value-display.component";
 import {KeyValueDisplayModule} from "./library/components/key-value-display/key-value-display.module";
-import { BaseDashboardComponent } from './components/base-dashboard/base-dashboard.component';
+import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard.component';
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BaseDashboardComponent } from './components/base-dashboard/base-dashboa
     StyleClassModule,
     ScrollPanelModule,
     CategoricalModule,
-    KeyValueDisplayModule
+    KeyValueDisplayModule,
+    ToastModule
   ],
   providers: [],
   exports: [],

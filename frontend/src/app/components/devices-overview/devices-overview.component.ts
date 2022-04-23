@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
 import {Router} from "@angular/router";
 import {deviceAvailabilityPath, deviceCategoricalPath, deviceDetailPath} from "../../app-routing.module";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-devices-overview',
   templateUrl: './devices-overview.component.html',
-  styleUrls: ['./devices-overview.component.css']
+  styleUrls: ['./devices-overview.component.css'],
+  providers: [MessageService]
 })
 export class DevicesOverviewComponent implements OnInit {
 
-  constructor(private deviceService: DeviceService, private router: Router) { }
+  constructor(private deviceService: DeviceService, private router: Router, private messageService: MessageService) { }
 
   devicesByType?: {[type: string]: Device[]}
 
@@ -24,7 +26,12 @@ export class DevicesOverviewComponent implements OnInit {
         previousValue[device.type.name].push(device);
         return previousValue;
       }, {} as any)
-    });
+    },
+      () => this.messageService.add({
+        severity: "error",
+        summary: "Could not retrieve data",
+        detail: "Data could not be updated"
+      }));
   }
 
   statisticDetail(device: Device, deviceType: string) {
