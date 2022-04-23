@@ -39,10 +39,14 @@
   height: 100%;
 }
 
+.sparkline-column-total {
+  overflow-y: scroll;
+}
+
 .sparkline-column {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   /* When more than 12 items show y overflow, x axis should flex on small devices */
   overflow-y: auto;
