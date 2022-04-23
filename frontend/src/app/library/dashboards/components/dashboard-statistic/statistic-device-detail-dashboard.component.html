@@ -4,10 +4,11 @@
 >
   <line
     chart
-    *ngIf="lineState.results"
+    *ngIf="_lineState && _lineState.results"
         [yAxisLabel]="yAxisLabel"
         [xAxisLabel]="xAxisLabel"
-        [(state)]="lineState"
+        [(state)]="_lineState"
+        (onChanges)="lineStateChanges()"
   >
   </line>
   <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column-total">

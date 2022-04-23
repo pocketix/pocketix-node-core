@@ -2,9 +2,10 @@
   *ngIf="device && sparklines && fields && mapping"
   [device]="device"
   [sparklineMapping]="mapping"
-  [lineState]=lineState
+  [(lineState)]=lineState
   [boxData]=boxData
   [bulletsState]=bulletsState
   [sparklineState]=sparklineState
+  (lineStateChanged)="updateMainChart()"
 >
 </statistic-device-detail-dashboard>

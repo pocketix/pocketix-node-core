@@ -168,7 +168,7 @@ export class BaseDashboardComponent implements OnInit {
     this.lineState.dates.push(from, new Date());
   }
 
-  protected updateMainChart() {
+  public updateMainChart() {
     const {fields, sensorIds, sensors} = createSensors(this.lineState, this.lineState.selectedKpis.map(kpi => kpi.field));
     const from = this.lineState.dates[0].toISOString();
     const to = this.lineState.dates[this.lineState.dates.length - 1].toISOString();
