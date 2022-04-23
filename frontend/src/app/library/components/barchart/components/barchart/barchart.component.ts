@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {BarchartValues} from '../../model/barchart.model';
+import {BarchartElementRef, BarchartEventValue, BarchartValues} from '../../model/barchart.model';
 import {Series} from '@swimlane/ngx-charts/lib/models/chart-data.model';
 import {LegendPosition} from "@swimlane/ngx-charts";
 
@@ -26,8 +26,8 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
   public values: BarchartValues = {} as BarchartValues;
   @Input() data: Series[] = [];
-  @Output() clickOnChart = new EventEmitter<any>();
-  @ViewChild('chart') chartElement: { chartElement: { nativeElement: { querySelector: (arg0: string) => { (): any; new(): any; querySelectorAll: { (arg0: string): Iterable<unknown> | ArrayLike<unknown>; new(): any; }; }; }; }; } | undefined;
+  @Output() clickOnChart = new EventEmitter<BarchartEventValue>();
+  @ViewChild('chart') chartElement: BarchartElementRef;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() colorScheme: any;
@@ -39,17 +39,11 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() xAxisTicks: any[] = [];
   @Input() yAxisTicks: any[] = [];
   @Input() fillTicks = false;
+  @Input() hideSeriesOnClick = true;
 
   @Input() sortFunction: ((a: Series, b: Series) => number) | undefined;
 
   position = LegendPosition.Below;
-
-  private static fromEntries(iterable: Iterable<any>) {
-    return Array.from(iterable).reduce((target, [key, value]) => {
-      target[key] = value;
-      return target;
-    }, {});
-  }
 
   private static isLegend($event: any) {
     return typeof $event === 'string';
@@ -82,13 +76,16 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
       data?.sort(this.sortFunction);
     }
 
-    this.values.currentlyShown = BarchartComponent.fromEntries(entries);
+    this.values.currentlyShown = Object.fromEntries(entries);
     this.values = {currentlyShown: this.values.currentlyShown, data, visibleData: data} as BarchartValues;
   }
 
-  onSelect($event: any) {
-    if (!BarchartComponent.isLegend($event)) {
-      this.clickOnChart.emit($event);
+  onSelect($event: BarchartEventValue) {
+    const isLegend = BarchartComponent.isLegend($event);
+
+    this.clickOnChart.emit()
+
+    if (!isLegend || !this.hideSeriesOnClick) {
       return;
     }
     const key = $event.toString();

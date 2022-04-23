@@ -14,7 +14,7 @@ export class MainChartTemplateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onReloadSwitch($event: any) {
+  onReloadSwitch($event: {originalEvent: Event, checked: boolean}) {
     this.onReloadSwitchEventEmitter.emit($event);
   }
 }

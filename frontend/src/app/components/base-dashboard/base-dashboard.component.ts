@@ -106,11 +106,13 @@ export class BaseDashboardComponent implements OnInit {
   private updateSparklines(sparklines: string[]) {
     const {sensors} = createSensors(this.lineState, sparklines);
     const from = new Date();
+    const to = new Date();
+    to.setHours(23, 59, 59 , 999);
     from.setDate(from.getDate() - 30);
     this.influxService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
-      to: new Date().toISOString(),
+      to: to.toISOString(),
       aggregateMinutes: 1440,
       body: {
         bucket: this.bucket,
@@ -122,7 +124,8 @@ export class BaseDashboardComponent implements OnInit {
         updatePreviousValue(this.bulletsState,storage);
         const sparklineData = storageToSparklines(this.lineState, storage);
         this.sparklineState.minMax = thresholdLines;
-        this.sparklineState.data = Object.values(sparklineData)
+        this.sparklineState.data = Object.values(sparklineData);
+        console.log(items.data);
       } else {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }

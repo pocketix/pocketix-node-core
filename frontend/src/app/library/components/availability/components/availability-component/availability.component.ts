@@ -2,8 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ComponentFactoryResolver,
-  Input,
+  ComponentFactoryResolver, EventEmitter,
+  Input, Output,
   ViewContainerRef
 } from '@angular/core';
 import {Availability} from "../../model/availability.model";
@@ -25,6 +25,9 @@ export class AvailabilityComponent implements AfterViewInit {
 	units = "Average availability";
   displayModal: boolean = false;
 
+  @Output()
+  onAvailabilityClicked: EventEmitter<Availability> = new EventEmitter<Availability>();
+
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 
@@ -36,8 +39,8 @@ export class AvailabilityComponent implements AfterViewInit {
     console.log(this.availability);
 	}
 
-  availabilityClick($event: any) {
-    console.log($event)
+  availabilityClick($event: Availability) {
+    this.onAvailabilityClicked.emit($event);
     this.displayModal = true;
   }
 }
