@@ -106,12 +106,12 @@ export class BaseDashboardComponent implements OnInit {
   private updateSparklines(sparklines: string[]) {
     const {sensors} = createSensors(this.lineState, sparklines);
     const from = new Date();
-    from.setDate(from.getDate() - 3);
+    from.setDate(from.getDate() - 30);
     this.influxService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 288,
+      aggregateMinutes: 1440,
       body: {
         bucket: this.bucket,
         sensors
@@ -131,12 +131,12 @@ export class BaseDashboardComponent implements OnInit {
 
   private updateBoxPlots(boxPlotFieldNames: string[]) {
     const from = new Date();
-    from.setDate(from.getDate() - 3);
+    from.setDate(from.getDate() - 30);
     this.influxService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
       to: new Date().toISOString(),
-      aggregateMinutes: 288,
+      aggregateMinutes: 1440,
       body: {
         bucket: this.bucket,
         sensors: {[this.device?.deviceUid as string]: boxPlotFieldNames}
