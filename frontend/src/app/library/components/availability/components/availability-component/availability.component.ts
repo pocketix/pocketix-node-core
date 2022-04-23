@@ -6,12 +6,7 @@ import {
   Input,
   ViewContainerRef
 } from '@angular/core';
-
-export type Availability = {
-  text: string;
-  value: number;
-  target: number;
-}
+import {Availability} from "../../model/availability.model";
 
 @Component({
 	selector: 'availability',
@@ -28,7 +23,7 @@ export class AvailabilityComponent implements AfterViewInit {
 	showYAxis = true;
 	showLegend = true;
 	units = "Average availability";
-	modal: any;
+  displayModal: boolean = false;
 
 	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
@@ -41,20 +36,8 @@ export class AvailabilityComponent implements AfterViewInit {
     console.log(this.availability);
 	}
 
-	createModal(sensor: string) {
-		console.log(sensor);
-		let factory = this.componentFactoryResolver.resolveComponentFactory(ModalComponent);
-		this.modal = this.viewContainerRef.createComponent(factory);
-		let childComponent = this.modal.instance;
-		childComponent.sensor = sensor;
-		// @ts-ignore
-		childComponent.parentRef = this;
-		childComponent.close = this.remove;
-	}
-
-	remove() {
-		console.log(this);
-		let vcrIndex: number = this.viewContainerRef.indexOf(this.modal as any);
-		this.viewContainerRef.remove(vcrIndex);
-	}
+  availabilityClick($event: any) {
+    console.log($event)
+    this.displayModal = true;
+  }
 }

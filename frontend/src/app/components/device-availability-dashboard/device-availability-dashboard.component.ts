@@ -1,17 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {first, tap} from "rxjs/operators";
 import {MessageService} from "primeng/api";
 import {Device} from "../../generated/models/device";
 import {environment} from "../../../environments/environment";
 import {Bullet} from "../../library/dashboards/model/dashboards.model";
-import {DeviceService} from "../../generated/services/device.service";
-import {
-  Availability
-} from "../../library/components/availability/components/availability-component/availability.component";
 import {Operation} from "../../generated/models/operation";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 import {parameterValueToBullet} from "../../library/dashboards/shared/tranformFunctions";
+import {Availability} from "../../library/components/availability/model/availability.model";
 
 @Component({
   selector: 'app-device-availability-dashboard',

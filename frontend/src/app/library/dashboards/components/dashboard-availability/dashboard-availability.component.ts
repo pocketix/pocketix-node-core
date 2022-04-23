@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {Availability} from "../../../components/availability/components/availability-component/availability.component";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
+import {Availability} from "../../../components/availability/model/availability.model";
 
 @Component({
   selector: 'dashboard-availability',
