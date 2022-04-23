@@ -1,63 +1,65 @@
 <!-- IDE issue https://youtrack.jetbrains.com/issue/WEB-51209 -->
 <p-panel *ngFor="let type of devicesByType | keyvalue" header="{{type.key}}" [toggleable]="true">
-  <p-card
-    *ngFor="let device of type.value"
-    header="{{device.deviceName}}"
-    [style]="{width: '320px'}" styleClass="p-card-shadow"
-  >
-    <ng-template pTemplate="header">
-      <div style="display: flex; justify-content: center;">
-        <img alt="Card" src="{{device.image}}" style="max-width: 320px; max-height: 320px; overflow: hidden">
-      </div>
-    </ng-template>
-    <ng-template pTemplate="subtitle">
-      <div class="flex flex-row justify-content-between">
-        <key-value-display key="Device UID" value="{{device.deviceUid}}"></key-value-display>
-        <key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></key-value-display>
-        <key-value-display key="Registered" value="{{device.registrationDate | date}}"></key-value-display>
-      </div>
-      <p-divider align="left" styleClass="no-padding-bottom">
-        <div class="inline-flex align-items-center">
-          <i class="pi pi-book mr-2"></i>
-          <b>Description</b>
+  <div class="grid">
+    <p-card
+      *ngFor="let device of type.value"
+      header="{{device.deviceName}}"
+      [style]="{width: '320px'}" styleClass="p-card-shadow"
+    >
+      <ng-template pTemplate="header">
+        <div style="display: flex; justify-content: center;">
+          <img alt="Card" src="{{device.image}}" style="max-width: 320px; max-height: 320px; overflow: hidden">
         </div>
-      </p-divider>
-    </ng-template>
+      </ng-template>
+      <ng-template pTemplate="subtitle">
+        <div class="flex flex-row justify-content-between">
+          <key-value-display key="Device UID" value="{{device.deviceUid}}"></key-value-display>
+          <key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></key-value-display>
+          <key-value-display key="Registered" value="{{device.registrationDate | date}}"></key-value-display>
+        </div>
+        <p-divider align="left" styleClass="no-padding-bottom">
+          <div class="inline-flex align-items-center">
+            <i class="pi pi-book mr-2"></i>
+            <b>Description</b>
+          </div>
+        </p-divider>
+      </ng-template>
 
-    <ng-template pTemplate="content">
-      <p-scrollPanel styleClass="no-padding-top" [style]="{width: '100%', height: '40px'}">
-        {{device.description}}
-      </p-scrollPanel>
-    </ng-template>
+      <ng-template pTemplate="content">
+        <p-scrollPanel styleClass="no-padding-top" [style]="{width: '100%', height: '40px'}">
+          {{device.description}}
+        </p-scrollPanel>
+      </ng-template>
 
 
-    <ng-template pTemplate="footer">
-      <div class="grid">
-        <p-button
-          class="col col-12 md:col-6"
-          label="Statistic"
-          icon="pi pi-chart-line p-button-sm"
-          styleClass="p-button-sm flex-grow-1 full-width"
-          (onClick)="statisticDetail(device, type.key)"
-        >
-        </p-button>
-        <p-button
-          class="col col-12 md:col-6"
-          label="Availability"
-          icon="pi pi-chart-line p-button-sm"
-          styleClass="p-button-sm flex-grow-1 full-width"
-          (onClick)="availabilityDetail(device, type.key)"
-        >
-        </p-button>
-        <p-button
-          class="col col-12 md:col-6"
-          label="Categorical"
-          icon="pi pi-chart-bar p-button-sm"
-          styleClass="p-button-sm p-button-secondary flex-grow-1 full-width"
-          (onClick)="categoricalDetail(device, type.key)"
-        >
-        </p-button>
-      </div>
-    </ng-template>
-  </p-card>
+      <ng-template pTemplate="footer">
+        <div class="grid">
+          <p-button
+            class="col col-12 md:col-6"
+            label="Statistic"
+            icon="pi pi-chart-line p-button-sm"
+            styleClass="p-button-sm flex-grow-1 full-width"
+            (onClick)="statisticDetail(device, type.key)"
+          >
+          </p-button>
+          <p-button
+            class="col col-12 md:col-6"
+            label="Availability"
+            icon="pi pi-chart-line p-button-sm"
+            styleClass="p-button-sm flex-grow-1 full-width"
+            (onClick)="availabilityDetail(device, type.key)"
+          >
+          </p-button>
+          <p-button
+            class="col col-12 md:col-6"
+            label="Categorical"
+            icon="pi pi-chart-bar p-button-sm"
+            styleClass="p-button-sm p-button-secondary flex-grow-1 full-width"
+            (onClick)="categoricalDetail(device, type.key)"
+          >
+          </p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
 </p-panel>
