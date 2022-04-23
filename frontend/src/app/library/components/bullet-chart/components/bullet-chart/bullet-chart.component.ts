@@ -4,6 +4,7 @@
  * The linear gauge doesn't allow the rendering of bullet graph threshold lines.
  * Copying the source graph and updating it to fit current needs is encouraged by Swimlane:
  * https://github.com/swimlane/ngx-charts/blob/master/docs/custom-charts.md
+ * Files in ./directly-copied are directly copied from ngx-charts repository
  */
 import {
   Component,
@@ -23,6 +24,14 @@ import {
   ViewDimensions
 } from '@swimlane/ngx-charts';
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {isPlatformBrowser} from "@angular/common";
+import {VERDANA_FONT_WIDTHS_16_PX} from "./directly-copied/font-widths";
+import {calculateTextWidth} from "./directly-copied/calculate-width";
+
+enum ElementType {
+  Value = 'value',
+  Units = 'units'
+}
 
 @Component({
   selector: 'bullet-chart',
@@ -42,6 +51,9 @@ export class BulletChartComponent extends BaseChartComponent implements AfterVie
   @Input() valueTextStyle: any;
   @Input() unitsTextStyle: any;
   @Input() ticksTextStyle: any;
+  @Input() otherColors = ['#DDDDDD', '#BBBBBB', '#999999'];
+  @Input() thresholds = [70, 50, 30];
+  @Input() resizeAutomatically: boolean = false;
 
   @ViewChild('valueTextEl') valueTextEl?: ElementRef;
   @ViewChild('unitsTextEl') unitsTextEl?: ElementRef;
@@ -63,8 +75,6 @@ export class BulletChartComponent extends BaseChartComponent implements AfterVie
   unitsTranslate = '';
   displayValue = '';
   hasPreviousValue = false;
-  otherColors = ['#DDDDDD', '#BBBBBB', '#999999'];
-  @Input() thresholds = [70, 50, 30];
 
   barOrientation: any = 'horizontal';
   emptyData = {} as DataItem;
@@ -128,10 +138,80 @@ export class BulletChartComponent extends BaseChartComponent implements AfterVie
     return this.value.toLocaleString();
   }
 
+  scaleText(element: ElementType, repeat: boolean = true): void {
+    if (!this.resizeAutomatically) {
+      return;
+    }
+
+    let el;
+    let resizeScale;
+    if (element === ElementType.Value) {
+      el = this.valueTextEl;
+      resizeScale = this.valueResizeScale;
+    } else {
+      el = this.unitsTextEl;
+      resizeScale = this.unitsResizeScale;
+    }
+
+    const { width, height } = el?.nativeElement.getBoundingClientRect();
+    if (width === 0 || height === 0) return;
+    const oldScale = resizeScale;
+    resizeScale = this.getResizeScale(width, resizeScale, height);
+
+    if (resizeScale !== oldScale) {
+      if (element === ElementType.Value) {
+        this.valueResizeScale = resizeScale;
+        this.valueTextTransform = `scale(${resizeScale}, ${resizeScale})`;
+      } else {
+        this.unitsResizeScale = resizeScale;
+        this.unitsTextTransform = `scale(${resizeScale}, ${resizeScale})`;
+      }
+      this.cd.markForCheck();
+      if (repeat && isPlatformBrowser(this.platformId)) {
+        setTimeout(() => {
+          this.scaleText(element, false);
+        }, 50);
+      }
+    }
+  }
+
+  private getResizeScale(width: number, resizeScale: number, height: number) {
+    const availableWidth = this.dims.width;
+    const availableHeight = Math.max(this.dims.height / 2 - 15, 0);
+    const resizeScaleWidth = Math.floor((availableWidth / (width / resizeScale)) * 100) / 100;
+    const resizeScaleHeight = Math.floor((availableHeight / (height / resizeScale)) * 100) / 100;
+    return Math.min(resizeScaleHeight, resizeScaleWidth);
+  }
+
+  scaleTextSSR(element: string) {
+    const value = element === 'value' ? this.displayValue : this.units;
+    const width = calculateTextWidth(VERDANA_FONT_WIDTHS_16_PX, value, 10);
+    const height = 25;
+
+    const resizeScale = this.getResizeScale(width, 1, height);
+
+    if (element === 'value') {
+      this.valueResizeScale = resizeScale;
+      this.valueTextTransform = `scale(${resizeScale}, ${resizeScale})`;
+    } else {
+      this.unitsResizeScale = resizeScale;
+      this.unitsTextTransform = `scale(${resizeScale}, ${resizeScale})`;
+    }
+
+    this.cd.markForCheck();
+  }
+
   onClick(): void {
     this.select.emit({
       name: 'Value',
-      value: this.value
+      value: {
+        min: this.min,
+        max: this.max,
+        value: this.value,
+        name: this.name,
+        units: this.units,
+        previousValue: this.previousValue
+      }
     });
   }
 

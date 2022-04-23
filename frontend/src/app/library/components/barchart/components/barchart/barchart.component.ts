@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {BarchartElementRef, BarchartEventValue, BarchartValues} from '../../model/barchart.model';
+import {BarchartElementRef, BarchartEvent, BarchartEventValue, BarchartValues} from '../../model/barchart.model';
 import {Series} from '@swimlane/ngx-charts/lib/models/chart-data.model';
 import {LegendPosition} from "@swimlane/ngx-charts";
 
@@ -26,13 +26,12 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
   public values: BarchartValues = {} as BarchartValues;
   @Input() data: Series[] = [];
-  @Output() clickOnChart = new EventEmitter<BarchartEventValue>();
   @ViewChild('chart') chartElement: BarchartElementRef;
   @Input() xAxisTickFormatting: any;
   @Input() yAxisTickFormatting: any;
   @Input() colorScheme: any;
-
   @Input() legendMapping: {} | undefined;
+
   @Input() xAxisLabel!: string;
   @Input() yAxisLabel!: string;
   @Input() fillToNValues: number | undefined;
@@ -40,10 +39,12 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() yAxisTicks: any[] = [];
   @Input() fillTicks = false;
   @Input() hideSeriesOnClick = true;
-
   @Input() sortFunction: ((a: Series, b: Series) => number) | undefined;
 
   position = LegendPosition.Below;
+
+  @Output() clickOnChart = new EventEmitter<BarchartEvent>();
+  @Output() seriesHidden = new EventEmitter<BarchartEvent>();
 
   private static isLegend($event: any) {
     return typeof $event === 'string';
@@ -82,12 +83,14 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
   onSelect($event: BarchartEventValue) {
     const isLegend = BarchartComponent.isLegend($event);
+    const convertedEvent = {isLegend, value: $event};
 
-    this.clickOnChart.emit()
+    this.clickOnChart.emit(convertedEvent);
 
     if (!isLegend || !this.hideSeriesOnClick) {
       return;
     }
+
     const key = $event.toString();
 
     if (this.values.currentlyShown[key] === undefined) {
@@ -96,6 +99,7 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.values.currentlyShown[key] = !this.values.currentlyShown[key];
     this.handleUpdate();
+    this.seriesHidden.emit(convertedEvent);
   }
 
   ngOnChanges(changes: SimpleChanges) {
