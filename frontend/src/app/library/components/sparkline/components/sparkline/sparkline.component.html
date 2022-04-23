@@ -9,20 +9,23 @@
       class="p-button-sm"
       pTooltip="Toggle thresholds"
       tooltipPosition="left"
-      [binary]="true"
       (onChange)="onSparkLineSwitch($event)"
+      [binary]="true"
       [(ngModel)]="state"
     >
     </p-checkbox>
   </span>
 </div>
-<div class="sparkline-graph">
+<div class="sparkline-graph" *ngIf="loaded">
   <ngx-charts-line-chart
     [showRefLines]="showReferenceLines"
     [referenceLines]="referenceLines"
     [autoScale]="true"
     [yAxis]="true"
     [results]="data"
-    [animations]="true">
+    [animations]="true"
+    [yScaleMax]="maxY"
+    [yScaleMin]="minY"
+  >
   </ngx-charts-line-chart>
 </div>
