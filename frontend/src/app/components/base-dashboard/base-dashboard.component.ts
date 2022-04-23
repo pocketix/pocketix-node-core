@@ -3,7 +3,7 @@ import {
   createMappingFromParameterValues,
   createSensors,
   createStorage, handleMultipleLines, parameterValueToBullet,
-  storageToSparklines, toBoxData,
+  storageToSparklines, toBoxData, twoDatesAndPointCountToAggregationMinutes,
   updatePreviousValue
 } from "../../library/dashboards/shared/tranformFunctions";
 import {Operation} from "../../generated/models/operation";
@@ -170,14 +170,24 @@ export class BaseDashboardComponent implements OnInit {
 
   public updateMainChart() {
     const {fields, sensorIds, sensors} = createSensors(this.lineState, this.lineState.selectedKpis.map(kpi => kpi.field));
-    const from = this.lineState.dates[0].toISOString();
-    const to = this.lineState.dates[this.lineState.dates.length - 1].toISOString();
+    let from, to;
+
+    if (!(this.lineState.dates.length > 1)) {
+      from = new Date(this.lineState.dates[0].setHours( 0, 0, 0, 0));
+      to = new Date(this.lineState.dates[0].setHours(23, 59, 59 ,999));
+      this.lineState.dates = [from, to];
+    }
+
+    from = this.lineState.dates[0];
+    to = this.lineState.dates[this.lineState.dates.length - 1];
+
+    const aggregationMinutes = twoDatesAndPointCountToAggregationMinutes(from, to, 300);
 
     this.influxService.aggregate({
       operation: this.lineState.selectedAggregationOperation as Operation,
-      aggregateMinutes: 30,
-      from,
-      to,
+      aggregateMinutes: aggregationMinutes,
+      from: from.toISOString(),
+      to: to.toISOString(),
       body: {bucket: this.bucket, sensors}
     }).subscribe(items => {
       if (items?.data) {

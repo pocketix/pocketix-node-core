@@ -183,6 +183,14 @@ const createMappingFromParameterValues = (parameterValues: ParameterValue[]): (f
   return (field: string) => parameterValues.find(value => value.type.name === field)?.type.label ?? field;
 }
 
+const twoDatesAndPointCountToAggregationMinutes = (start: Date, stop: Date, pointCount: number): number => {
+  const [startMilliseconds, stopMilliseconds] = [start.getTime(), stop.getTime()].sort();
+  const millisecondsBetween = stopMilliseconds - startMilliseconds;
+  const minutes = Math.floor(millisecondsBetween / 1000 / 60);
+
+  return Math.floor(minutes / pointCount);
+}
+
 export {
   toBoxData,
   parseOtherParams,
@@ -199,5 +207,6 @@ export {
   storageToSparklines,
   parameterValueToBullet,
   createMappingFromParameterValues,
+  twoDatesAndPointCountToAggregationMinutes,
   Storage
 };
