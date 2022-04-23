@@ -10,7 +10,7 @@ import {Operation} from "../../generated/models/operation";
 import {ReadRequestBody} from "../../generated/models/read-request-body";
 import {LineState} from "../../library/components/line/model/line.model";
 import {ApexAxisChartSeries} from "ng-apexcharts";
-import {Bullet, BulletsState, SparklineState} from "../../library/dashboards/model/dashboards.model";
+import {BulletsState, SparklineState} from "../../library/dashboards/model/dashboards.model";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {Device} from "../../generated/models/device";
 import {InfluxService} from "../../generated/services/influx.service";
