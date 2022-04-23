@@ -10,9 +10,9 @@
         [(state)]="lineState"
   >
   </line>
-  <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column">
+  <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4">
     <h5 class="p-card-title">Statistics</h5>
-    <div class="flex flex-wrap">
+    <div class="sparkline-column">
       <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
         <sparkline
           [name]="data[0].name"

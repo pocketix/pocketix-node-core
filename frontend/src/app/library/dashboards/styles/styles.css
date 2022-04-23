@@ -42,7 +42,7 @@
 .sparkline-column {
   flex-grow: 1;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   /* When more than 12 items show y overflow, x axis should flex on small devices */
   overflow-y: auto;
