@@ -10,22 +10,38 @@ type Bullet = {
   thresholds: number[];
   units: string;
   name: string;
-}
+};
 
 type BulletsState = {
   data: Bullet[];
   device: Device;
-}
+};
 
 type BoxState = {
   name: string,
   data: ApexAxisChartSeries
-}[]
+}[];
 
 type SparklineState = {
   device: Device,
   data: any[],
   minMax: {[p: string]: DataItem[] }
-}
+};
 
-export {Bullet, BulletsState, BoxState, SparklineState};
+type BoxMetadata = {
+  name: string,
+  data: ApexAxisChartSeries
+}[];
+
+type Storage = {
+  [sensor: string]: { [field: string]: DataItem[] }
+};
+
+export {
+  Bullet,
+  Storage,
+  BoxState,
+  BoxMetadata,
+  BulletsState,
+  SparklineState
+};

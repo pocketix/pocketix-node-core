@@ -3,10 +3,15 @@ import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
-import {Bullet, BulletsState} from "../model/dashboards.model";
+import {Bullet, BulletsState, Storage} from "../model/dashboards.model";
 import {InfluxQueryResult} from "../../../generated/models/influx-query-result";
 
-const toBoxData = (series: any[]) => {
+/**
+ * Convert series to box data
+ * ApexCharts does not provide its own functions, so you have to use this helper or convert it yourselves
+ * @param series series to convert
+ */
+const toBoxData = (series: DataItem[]) => {
   const sortedSeries = series.map(item => item.value).sort();
   const q1 = +(d3.quantile(sortedSeries, .25) as number).toFixed(2);
   const median = +(d3.quantile(sortedSeries, .5) as number).toFixed(2);
@@ -20,19 +25,40 @@ const toBoxData = (series: any[]) => {
   return (max - min) < 0.5 ? undefined : data;
 }
 
+/**
+ * Parse other params from parameter values
+ * @param param parameter to read from
+ */
 const parseOtherParams = (param: ParameterValue) => {
   let field = getFieldByType(param);
   return handleOtherParam(param.type.name, field, param.type.label);
 }
 
+/**
+ * Make best estimate to get data from the parameter value
+ * @param name parameter name
+ * @param field database field which contains data
+ * @param label string label
+ */
 const handleOtherParam = (name: string, field: any, label: string) => {
+  // Try to convert date
   if (name.toLowerCase().includes("date") && typeof field === "number") {
     field = new Date(field * 1000).toLocaleString();
   }
 
-  return [field, label.split(/([A-Z][a-z]+)/).map((item: string) => item.trim()).filter((element: any) => element).join(' ')];
+  // Try magic
+  return [field, label
+    .split(/([A-Z][a-z]+)/)
+    .map((item: string) => item.trim())
+    .filter((element: any) => element)
+    .join(' ')
+  ];
 }
 
+/**
+ * Get field by type
+ * @param param parameter to read from
+ */
 const getFieldByType = (param: ParameterValue) => {
   switch (param.type.type) {
     case "string":
@@ -43,8 +69,14 @@ const getFieldByType = (param: ParameterValue) => {
   return "";
 }
 
-type Storage = { [sensor: string]: { [field: string]: any[] } };
-
+/**
+ * Create storage using items and line state
+ * Copy only selected fields and use mapping to map name to label / different names
+ * @param lineState current line state
+ * @param items items from Influx
+ * @param fields fields to get
+ * @param mapping mapping to use
+ */
 const createStorage = (lineState: LineState,
                        items: InfluxQueryResult,
                        fields: string[],
@@ -66,6 +98,12 @@ const createStorage = (lineState: LineState,
   return {storage, thresholdLines};
 }
 
+/**
+ * Simplify upserting to array to an object
+ * @param key key to upsert to
+ * @param object object to upsert to
+ * @param value value to upsert or create new array containing it
+ */
 const pushOrInsertArray = (key: string, object: any, value: any) => {
   if (object[key])
     return object[key].push(value);
@@ -73,6 +111,11 @@ const pushOrInsertArray = (key: string, object: any, value: any) => {
     return object[key] = [value];
 };
 
+/**
+ * Get minimum and maximum thresholds from two lines
+ * @param device current device
+ * @param field fields to get thresholds for
+ */
 const minMaxSeries = (device: Device, field: string) => {
   const parameter = device?.parameterValues?.find(parameter => parameter?.type?.name === field);
   // sort the thresholds
@@ -83,6 +126,11 @@ const minMaxSeries = (device: Device, field: string) => {
     [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
 }
 
+/**
+ * Lazy helper, get sensor definitions for Influx from relation database description and current line state
+ * @param lineState current line state
+ * @param fields fields to get
+ */
 const createSensors = (lineState: LineState, fields: string[]) => {
   const sensorIds = lineState.selectedDevicesToCompareWith.map(item => item.id);
   const sensors = Object.fromEntries(sensorIds.map(deviceUid => [deviceUid as string, fields]));
@@ -90,6 +138,12 @@ const createSensors = (lineState: LineState, fields: string[]) => {
   return {fields, sensorIds, sensors}
 }
 
+/**
+ * Get name of the current measurement, try to handle multiple devices by prepending the name of the device
+ * @param lineState current line state
+ * @param measurement measurement name
+ * @param id current device id
+ */
 const getDeviceName = (lineState: LineState, measurement: string, id: string) => {
   if (!lineState.selectedDevicesToCompareWith.length)
     return measurement;
@@ -100,6 +154,10 @@ const getDeviceName = (lineState: LineState, measurement: string, id: string) =>
   }].find(device => device.id === id)?.name || id}: ${measurement}`
 }
 
+/**
+ * Extract other data from device definition
+ * @param device device to get data from
+ */
 const extractDataFromDeviceDefinition = (device: Device) => {
   const otherParameters = device?.parameterValues?.filter(value => typeof value.number != "number" || value.visibility != 3) ?? [];
   const data = otherParameters.map(parseOtherParams);
@@ -115,6 +173,11 @@ const extractDataFromDeviceDefinition = (device: Device) => {
   ]
 }
 
+/**
+ * Update previous values of bullet states
+ * @param bulletsState bullet states to update
+ * @param storage storage to get data from
+ */
 const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: string]: { [field: string]: any[]; }; }) => {
   const data = Object.entries(storage).filter(([key, _]) => key !== bulletsState.device?.deviceUid);
 
@@ -132,6 +195,12 @@ const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: str
   });
 }
 
+/**
+ * Try to handle lines from multiple devices if possible
+ * @param lineState current line state
+ * @param sensorIds ids of the sensors
+ * @param storage storage metadata
+ */
 const handleMultipleLines = (lineState: LineState, sensorIds: any[], storage: Storage) => {
   if (!sensorIds.length) {
     return Object.entries(storage[lineState.device.deviceUid as string]).map(([name, series]) => ({
@@ -150,7 +219,12 @@ const handleMultipleLines = (lineState: LineState, sensorIds: any[], storage: St
   }, [] as any[]);
 }
 
-function storageToSparklines(lineState: LineState, storage: Storage) {
+/**
+ * Convert line state to sparklines
+ * @param lineState current line state
+ * @param storage storage metadata
+ */
+const storageToSparklines = (lineState: LineState, storage: Storage) => {
   const parsedStorage = Object.entries(storage).map(([id, data]) =>
     Object.entries(data).map(([measurement, series]) => ({id, measurement, series}))
   );
@@ -169,6 +243,10 @@ function storageToSparklines(lineState: LineState, storage: Storage) {
   return sparklineData;
 }
 
+/**
+ * Create bullet values from parameter values
+ * @param parameterValue data source
+ */
 const parameterValueToBullet = (parameterValue: ParameterValue) => ({
   value: parameterValue.number ?? 0,
   min: parameterValue.type.min ?? 0,
@@ -179,10 +257,20 @@ const parameterValueToBullet = (parameterValue: ParameterValue) => ({
   name: parameterValue.type.label ?? ""
 } as Bullet)
 
+/**
+ * Create the name to label mapping from device
+ * @param parameterValues parameter values to create the mapping from
+ */
 const createMappingFromParameterValues = (parameterValues: ParameterValue[]): (field: string) => string => {
   return (field: string) => parameterValues.find(value => value.type.name === field)?.type.label ?? field;
 }
 
+/**
+ * Helper to get aggregation minutes from time window and point count
+ * @param start start of the window
+ * @param stop end of the window
+ * @param pointCount maximum point count
+ */
 const twoDatesAndPointCountToAggregationMinutes = (start: Date, stop: Date, pointCount: number): number => {
   const [startMilliseconds, stopMilliseconds] = [start.getTime(), stop.getTime()].sort();
   const millisecondsBetween = stopMilliseconds - startMilliseconds;
@@ -208,5 +296,4 @@ export {
   parameterValueToBullet,
   createMappingFromParameterValues,
   twoDatesAndPointCountToAggregationMinutes,
-  Storage
 };

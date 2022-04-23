@@ -19,6 +19,7 @@ import {DeviceService} from "../../generated/services/device.service";
 import {environment} from "../../../environments/environment";
 import {first, tap} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
+import {Storage} from "../../library/dashboards/model/dashboards.model"
 
 @Component({
   selector: 'app-base-dashboard',
@@ -146,14 +147,15 @@ export class BaseDashboardComponent implements OnInit {
       } as ReadRequestBody
     }).subscribe(items => {
       const {storage} = createStorage(this.lineState, items, boxPlotFieldNames, this.mapping);
-      const boxSeries = Object.entries(storage[this.device?.deviceUid as string]).reduce((previous, [name, series]) => {
+      const typeCasted = storage as Storage;
+      const boxSeries = Object.entries(typeCasted[this.device?.deviceUid as string]).reduce((previous, [name, series ]) => {
         const items = toBoxData(series);
 
         if (items)
           previous.push({name, data: [{data: [{x: name, y: items}]}]});
 
         return previous;
-      }, [] as any[]);
+      }, [] as {name: string, data: ApexAxisChartSeries }[]);
       this.boxData.push(...boxSeries);
     }, error => console.log(error))
   }
