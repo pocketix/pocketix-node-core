@@ -57,13 +57,6 @@ export class Categorical implements OnChanges {
   pastDaysSwitchDataLoading: boolean = false;
   currentDayDataLoading: boolean = false;
 
-  private static fromEntries(iterable: Iterable<any>) {
-    return Array.from(iterable).reduce((target, [key, value]) => {
-      target[key] = value;
-      return target;
-    }, {});
-  }
-
   sort = (first: { name: any; }, second: { name: any; }) => toNumber(first.name) > toNumber(second.name) ? 1 : -1;
   sortDates = (first: { name: string | number | Date; }, second: { name: string | number | Date; }) => new Date(first.name) > new Date(second.name) ? 1 : -1;
   position = LegendPosition.Below;
@@ -152,7 +145,7 @@ export class Categorical implements OnChanges {
       },
       this.createDefaultValue());
 
-    return Categorical.fromEntries(Object.entries(data).map(([key, value]) => [this.kpiParamToKpi(key), value]));
+    return Object.fromEntries(Object.entries(data).map(([key, value]) => [this.kpiParamToKpi(key), value]));
   }
 
   private switchInDays() {
