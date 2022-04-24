@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {first, tap} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
@@ -10,8 +9,11 @@ import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
 import { Bullet } from 'app/library/dashboards/model/dashboards.model';
 import {
-  createMappingFromParameterValues, createPastDaysSwitchDataTicks, itemsToBarChart,
-  parameterValueToBullet, sumGroups
+  createMappingFromParameterValues,
+  createPastDaysSwitchDataTicks,
+  itemsToBarChart,
+  parameterValueToBullet,
+  sumGroups
 } from "../../library/dashboards/shared/tranformFunctions";
 import {CurrentDayState, KPIOptions, PastDaysState} from "../../library/components/categorical/model/categorical.model";
 import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";

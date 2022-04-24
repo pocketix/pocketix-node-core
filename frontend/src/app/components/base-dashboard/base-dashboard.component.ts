@@ -17,7 +17,6 @@ import {InfluxService} from "../../generated/services/influx.service";
 import {MessageService} from "primeng/api";
 import {DeviceService} from "../../generated/services/device.service";
 import {environment} from "../../../environments/environment";
-import {first, tap} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
 import {Storage} from "../../library/dashboards/model/dashboards.model"
 
