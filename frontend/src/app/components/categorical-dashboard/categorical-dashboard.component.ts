@@ -10,10 +10,12 @@ import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
 import { Bullet } from 'app/library/dashboards/model/dashboards.model';
 import {
-  createMappingFromParameterValues,
-  parameterValueToBullet
+  createMappingFromParameterValues, createPastDaysSwitchDataTicks, itemsToBarChart,
+  parameterValueToBullet, sumGroups
 } from "../../library/dashboards/shared/tranformFunctions";
-import {KPIOptions} from "../../library/components/categorical/model/categorical.model";
+import {CurrentDayState, KPIOptions, PastDaysState} from "../../library/components/categorical/model/categorical.model";
+import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {ParameterType} from "../../generated/models/parameter-type";
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -36,6 +38,23 @@ export class CategoricalDashboardComponent implements OnInit {
     all: [],
     default: []
   };
+  currentDay = {
+    data: [] as Series[],
+    date: new Date(),
+    fields: [] as ParameterType[],
+    switchComposition: [] as Series[],
+    dataLoading: false,
+    allAggregationOperations: Object.values(Operation).filter(item => isNaN(Number(item))),
+    selectedAggregationOperation: Operation.Sum.toString()
+  } as CurrentDayState;
+
+  pastDays = {
+    data: [] as Series[],
+    startDate: new Date(),
+    endDate: new Date(),
+    ticks: [] as string[],
+    dataLoading: false
+  } as PastDaysState;
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
@@ -57,6 +76,11 @@ export class CategoricalDashboardComponent implements OnInit {
       this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
       this.KPIs.default = this.KPIs.all.slice(0,3);
 
+      this.currentDay.fields = this.KPIs.default || [];
+      console.log(this.currentDay, this.pastDays)
+      this.switchInDays();
+      this.loadDataForBarCharts();
+
       this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
       this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
     });
@@ -73,6 +97,7 @@ export class CategoricalDashboardComponent implements OnInit {
     const fields = ["boiler_temperature", "outside_temperature"];
     this.switchFields = ["boiler_status", "out_pomp1"];
     this.start = startDay;
+    this.pastDays.startDate.setDate(this.pastDays.endDate.getDate() - 7);
 
     this.influxService.filterDistinctValue({
       isString: false,
@@ -119,5 +144,81 @@ export class CategoricalDashboardComponent implements OnInit {
         this.keyValue = keyValue;
       }
     );
+  }
+
+  private loadDataForBarCharts(): void {
+    this.currentDay.dataLoading = true;
+    const startOfDay = new Date(this.currentDay.date.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(this.currentDay.date.setHours(23, 59, 59, 999));
+
+    this.influxService.aggregate({
+      operation: this.currentDay.selectedAggregationOperation as Operation,
+      from: startOfDay.toISOString(),
+      to: endOfDay.toISOString(),
+      aggregateMinutes: 60 * 2,
+      body: {
+        bucket: environment.bucket,
+        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+      }
+    }).subscribe(items => {
+      console.log(items);
+      this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
+    });
+
+    this.influxService.aggregate({
+      operation: this.currentDay.selectedAggregationOperation as Operation,
+      from: startOfDay.toISOString(),
+      to: endOfDay.toISOString(),
+      aggregateMinutes: 60 * 24, // 60 minutes in an hour
+      body: {
+        bucket: environment.bucket,
+        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+      }
+    }).subscribe(items => {
+      console.log(items);
+      this.currentDay.switchComposition = [{
+        name: 'Today',
+        series: Object.entries(sumGroups(items, this.currentDay, this.KPIs.all)).map(([name, value]) => ({name, value}))
+      }];
+      this.currentDay.dataLoading = false;
+    });
+  }
+
+  private switchInDays() {
+    this.pastDays.dataLoading = true;
+
+    this.influxService.aggregate({
+      operation: Operation.Sum,
+      from: this.pastDays.startDate.toISOString(),
+      to: this.pastDays.endDate.toISOString(),
+      aggregateMinutes: 60 * 24,
+      body: {
+        bucket: environment.bucket,
+        sensors: [this.deviceUid],
+      }
+    }).subscribe(items => {
+      this.pastDays.data = itemsToBarChart(items,
+        this.KPIs.all,
+        this.currentDay.fields,
+        (time) => new Date(time).toDateString());
+      createPastDaysSwitchDataTicks(this.pastDays);
+      this.pastDays.dataLoading = false;
+    });
+  }
+
+  currentDayChanged(_: any) {
+    console.log("change");
+    if (!this.currentDay.fields?.length) {
+      return;
+    }
+    this.loadDataForBarCharts();
+    this.switchInDays();
+  }
+
+  pastDaysMove(direction: number) {
+    const days = direction > 0 ? +7 : -7;
+    this.pastDays.endDate.setDate(this.pastDays.endDate.getDate() + days);
+    this.pastDays.startDate.setDate(this.pastDays.startDate.getDate() + days);
+    this.switchInDays();
   }
 }

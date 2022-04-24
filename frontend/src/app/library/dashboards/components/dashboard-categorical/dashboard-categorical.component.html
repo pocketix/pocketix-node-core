@@ -54,6 +54,10 @@
     <categorical
       [deviceUid]="device.deviceUid"
       [KPIs]="KPIs"
+      (currentDayChanged)="currentDayChanges($event)"
+      (pastDaysMove)="pastDaysMoved($event)"
+      [(currentDay)]="_currentDay"
+      [(pastDays)]="_pastDays"
     >
 
     </categorical>

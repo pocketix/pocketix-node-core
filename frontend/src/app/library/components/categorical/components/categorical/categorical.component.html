@@ -1,6 +1,6 @@
 <div class="grid p-card-body">
   <div class="full-width">
-    <div class="p-fluid grid">
+    <div class="p-fluid grid" *ngIf="_currentDay && _currentDay.fields.length">
       <div class="p-field col-12 md:col-4">
           <span class="p-float-label">
             <p-multiSelect
@@ -31,8 +31,8 @@
           <span class="p-float-label">
             <p-dropdown
               inputId="currentDayAggregationSelect"
-              [options]="aggregationOperations"
-              [(ngModel)]="currentOperation"
+              [options]="_currentDay.allAggregationOperations"
+              [(ngModel)]="_currentDay.selectedAggregationOperation"
               (onChange)="updateDay($event)">
             </p-dropdown>
             <label for="currentDayAggregationSelect">Aggregation</label>

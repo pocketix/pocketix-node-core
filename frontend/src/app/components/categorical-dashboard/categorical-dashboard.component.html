@@ -1,5 +1,5 @@
 <dashboard-categorical
-  *ngIf="device && states && data"
+  *ngIf="device && states && data && KPIs.all && currentDay.fields.length"
   [device]="device"
   [keyValue]="keyValue"
   [data]="data"
@@ -8,6 +8,10 @@
   [bullets]="bullets"
   [start]="start"
   [KPIs]="KPIs"
+  [(currentDay)]="currentDay"
+  [(pastDays)]="pastDays"
+  (currentDayChanged)="currentDayChanged($event)"
+  (pastDaysMove)="pastDaysMove($event)"
 >
 
 </dashboard-categorical>

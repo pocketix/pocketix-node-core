@@ -1,5 +1,6 @@
 import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {ParameterType} from "../../../../generated/models/parameter-type";
+import {Operation} from "../../../../generated/models/operation";
 
 type CurrentDayState = {
   data: Series[];
@@ -7,6 +8,8 @@ type CurrentDayState = {
   fields: ParameterType[];
   switchComposition: Series[];
   dataLoading: boolean;
+  allAggregationOperations: Operation[];
+  selectedAggregationOperation: Operation;
 };
 
 type PastDaysState = {
