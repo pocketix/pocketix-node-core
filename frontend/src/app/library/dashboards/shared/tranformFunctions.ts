@@ -2,9 +2,13 @@ import * as d3 from "d3";
 import {ParameterValue} from "../../../generated/models/parameter-value";
 import {Device} from "../../../generated/models/device";
 import {LineState} from "../../components/line/model/line.model";
-import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {Bullet, BulletsState, Storage} from "../model/dashboards.model";
 import {InfluxQueryResult} from "../../../generated/models/influx-query-result";
+import {ParameterType} from "../../../generated/models/parameter-type";
+import {CurrentDayState, PastDaysState} from "../../components/categorical/model/categorical.model";
+import {OutputData} from "../../../generated/models/output-data";
+import * as _ from "lodash";
 
 /**
  * Convert series to box data
@@ -277,7 +281,67 @@ const twoDatesAndPointCountToAggregationMinutes = (start: Date, stop: Date, poin
   const minutes = Math.floor(millisecondsBetween / 1000 / 60);
 
   return Math.floor(minutes / pointCount);
-}
+};
+
+const kpiParamToKpi = (name: string, optionsKPI: ParameterType[]) => {
+  const parameter = optionsKPI.find((current: ParameterType) => current.name === name);
+  return parameter ? parameter.label : name;
+};
+
+const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} => {
+  const a = fields.map((parameter) => parameter.name);
+  return a.reduce((previous, kpi) => {
+    previous[kpi] = 0;
+    return previous;
+  }, {} as {[key: string]: number});
+};
+
+const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
+  const start = new Date(pastDays.startDate.setHours(0, 0, 0, 0));
+  const dates = [];
+
+  while (start < pastDays.endDate) {
+    dates.push(start.toDateString());
+    start.setDate(start.getDate() + 1);
+  }
+
+  pastDays.ticks = dates;
+};
+
+const createNgxNameValuePair = (item: OutputData, group: string, options: ParameterType[]): DataItem => {
+  return {name: kpiParamToKpi(group, options), value: item[group] && typeof item[group] === "number" ? +item[group] : 0};
+};
+
+const itemsToBarChart = (items: InfluxQueryResult,
+                         options: ParameterType[],
+                         fields: ParameterType[],
+                         dateTransformer: (value: string) => string): Series[] => {
+  const data = items?.data as OutputData[];
+  return data.map(item => ({
+    name: dateTransformer(item.time),
+    series: fields.map(parameter => createNgxNameValuePair(item, parameter.name, options))
+  }));
+};
+
+const sumGroups = (item: InfluxQueryResult, currentDay: CurrentDayState, optionsKPI: ParameterType[]): {[p: string]: number} => {
+  const data = item.data.reduce((previousValue, currentValue) => {
+      const values = Object.entries(currentValue).filter(([key, __]) =>
+        currentDay.fields.find((parameter) => parameter.name === key)
+      )
+        .reduce((innerPreviousValue, [key, innerCurrentValue]) => {
+          innerPreviousValue[key] += _.toNumber(innerCurrentValue);
+          return innerPreviousValue;
+        }, createDefaultValue(currentDay.fields));
+
+      Object.entries(values).forEach(([key, value]) => previousValue[key] += value);
+      return previousValue;
+    },
+    createDefaultValue(currentDay.fields));
+
+  return Object.fromEntries(Object.entries(data).map(([key, value]) =>
+    [kpiParamToKpi(key, optionsKPI), value])
+  );
+};
 
 export {
   toBoxData,
@@ -296,4 +360,10 @@ export {
   parameterValueToBullet,
   createMappingFromParameterValues,
   twoDatesAndPointCountToAggregationMinutes,
+  kpiParamToKpi,
+  createDefaultValue,
+  createPastDaysSwitchDataTicks,
+  createNgxNameValuePair,
+  itemsToBarChart,
+  sumGroups
 };

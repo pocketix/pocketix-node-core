@@ -1,25 +1,18 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import * as _ from 'lodash';
 import {toNumber} from 'lodash';
 import {InfluxService} from "../../../../../generated/services/influx.service";
 import {Operation} from "../../../../../generated/models/operation";
 import {environment} from "../../../../../../environments/environment";
-import { InfluxQueryResult, OutputData, ParameterType} from 'app/generated/models';
+import {ParameterType} from 'app/generated/models';
 import {Color, LegendPosition} from "@swimlane/ngx-charts";
-import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
-
-const kpiParamToKpi = (name: string, optionsKPI: ParameterType[]) => {
-  const parameter = optionsKPI.find((current: ParameterType) => current.name === name);
-  return parameter ? parameter.label : name;
-}
-
-const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} => {
-  const a = fields.map((parameter) => parameter.name);
-  return a.reduce((previous, kpi) => {
-    previous[kpi] = 0;
-    return previous;
-  }, {} as {[key: string]: number});
-}
+import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {CurrentDayState, PastDaysState} from "../../model/categorical.model";
+import {
+  createPastDaysSwitchDataTicks,
+  itemsToBarChart,
+  sumGroups
+} from "../../../../dashboards/shared/tranformFunctions";
 
 @Component({
   selector: 'categorical',
@@ -42,7 +35,7 @@ export class Categorical implements OnChanges {
     fields: [] as ParameterType[],
     switchComposition: [] as Series[],
     dataLoading: false
-  }
+  } as CurrentDayState
 
   pastDays = {
     data: [] as Series[],
@@ -50,7 +43,7 @@ export class Categorical implements OnChanges {
     endDate: new Date(),
     ticks: [] as string[],
     dataLoading: false
-  }
+  } as PastDaysState
 
   // options
   showXAxis = true;
@@ -103,7 +96,7 @@ export class Categorical implements OnChanges {
         sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      this.currentDay.data = this.itemsToBarChart(items, (time) => (new Date(time)).getHours().toString());
+      this.currentDay.data = itemsToBarChart(items, this.optionsKPI, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
     });
 
     this.influxService.aggregate({
@@ -118,42 +111,10 @@ export class Categorical implements OnChanges {
     }).subscribe(items => {
       this.currentDay.switchComposition = [{
         name: 'Today',
-        series: Object.entries(this.sumGroups(items)).map(([name, value]) => ({name, value}))
+        series: Object.entries(sumGroups(items, this.currentDay, this.optionsKPI)).map(([name, value]) => ({name, value}))
       }];
       this.currentDay.dataLoading = false;
     });
-  }
-
-  private itemsToBarChart(items: InfluxQueryResult, dateTransformer: (value: string) => string): Series[] {
-    const createNgxNameValuePair = (item: OutputData, group: string): DataItem => {
-      return {name: kpiParamToKpi(group, this.optionsKPI), value: item[group] && typeof item[group] === "number" ? +item[group] : 0};
-    };
-
-    const data = items?.data as OutputData[];
-    return data.map(item => ({
-      name: dateTransformer(item.time),
-      series: this.currentDay.fields.map(parameter => createNgxNameValuePair(item, parameter.name))
-    }));
-  }
-
-  private sumGroups(item: InfluxQueryResult): {[p: string]: number} {
-    const data = item.data.reduce((previousValue, currentValue) => {
-        const values = Object.entries(currentValue).filter(([key, __]) =>
-          this.currentDay.fields.find((parameter) => parameter.name === key)
-        )
-          .reduce((innerPreviousValue, [key, innerCurrentValue]) => {
-            innerPreviousValue[key] += _.toNumber(innerCurrentValue);
-            return innerPreviousValue;
-          }, createDefaultValue(this.currentDay.fields));
-
-        Object.entries(values).forEach(([key, value]) => previousValue[key] += value);
-        return previousValue;
-      },
-      createDefaultValue(this.currentDay.fields));
-
-    return Object.fromEntries(Object.entries(data).map(([key, value]) =>
-      [kpiParamToKpi(key, this.optionsKPI), value])
-    );
   }
 
   private switchInDays() {
@@ -169,8 +130,11 @@ export class Categorical implements OnChanges {
         sensors: [this.deviceUid],
       }
     }).subscribe(items => {
-      this.pastDays.data = this.itemsToBarChart(items, (time) => new Date(time).toDateString());
-      this.createPastDaysSwitchDataTicks();
+      this.pastDays.data = itemsToBarChart(items,
+        this.optionsKPI,
+        this.currentDay.fields,
+        (time) => new Date(time).toDateString());
+      createPastDaysSwitchDataTicks(this.pastDays);
       this.pastDays.dataLoading = false;
     });
   }
@@ -189,17 +153,5 @@ export class Categorical implements OnChanges {
 
     this.loadDataForBarCharts();
     this.switchInDays();
-  }
-
-  private createPastDaysSwitchDataTicks() {
-    const start = new Date(this.pastDays.startDate.setHours(0, 0, 0, 0));
-    const dates = [];
-
-    while (start < this.pastDays.endDate) {
-      dates.push(start.toDateString());
-      start.setDate(start.getDate() + 1);
-    }
-
-    this.pastDays.ticks = dates;
   }
 }
