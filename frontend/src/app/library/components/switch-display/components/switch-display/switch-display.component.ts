@@ -12,17 +12,7 @@ import * as d3 from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
 import {ScaleOrdinal} from "d3";
-import {Changes} from "../../model/switch-display.model";
-
-type SwitchDisplayClickedEvent = {
-  data: SwitchDisplayElementData,
-  originalEvent: PointerEvent
-};
-
-type SwitchDisplayElementData = {
-  dates: Date[],
-  data: OutputData
-};
+import {Changes, SwitchDisplayClickedEvent} from "../../model/switch-display.model";
 
 @Component({
   selector: 'switch-display',
