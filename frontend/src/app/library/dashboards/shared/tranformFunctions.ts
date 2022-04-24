@@ -169,7 +169,6 @@ const extractDataFromDeviceDefinition = (device: Device) => {
   return [
     ...data,
     [device.deviceUid, "Device Id"],
-    [device.deviceName, "Device Name"],
     [(new Date(device.lastSeenDate)).toLocaleString(), "Last Seen"],
     [(new Date(device.registrationDate)).toLocaleString(), "Registered At"],
     [device.latitude, "Latitude"],
