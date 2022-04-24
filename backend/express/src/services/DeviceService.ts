@@ -31,7 +31,11 @@ class DeviceService {
     }
 
     public async getAllDevices(): Promise<Device[]> {
-        return await this.dataSource.manager.find(Device);
+        return await this.dataSource.getRepository(Device)
+            .createQueryBuilder("device")
+            .innerJoinAndSelect("device.type", "device_type")
+            .orderBy("device_type.id", "ASC")
+            .getMany() ?? [];
     }
 
     public async getDevicesByDeviceType(type?: string): Promise<Device[]> {
@@ -39,6 +43,7 @@ class DeviceService {
             .createQueryBuilder("device")
             .innerJoinAndSelect("device.type", "device_type")
             .where("device_type.name = :type", {type})
+            .orderBy("device_type.id", "ASC")
             .getMany() ?? [];
     }
 }
