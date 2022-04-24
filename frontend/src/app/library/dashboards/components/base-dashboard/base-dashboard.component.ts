@@ -26,7 +26,6 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
   xAxisLabel: string = 'Date';
   yAxisLabel: string = 'Value';
   otherData: any[] = [];
-  timer: any;
 
   plotOptions = plotOptions;
   chart = chart;
