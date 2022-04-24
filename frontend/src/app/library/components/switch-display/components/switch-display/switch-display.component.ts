@@ -50,10 +50,9 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   private drawCustomChart() {
     const status = this.status;
-    this.filtered = this.data.filter(item => item[status] !== null);
+    this.filtered = this.data.filter(item =>item.hasOwnProperty(status) && item[status] !== null);
     const mainElement = d3.select(this.chart?.nativeElement);
 
-    console.log(this.filtered)
     if (!this.filtered?.length) {
       mainElement.append("span").attr("text", "No data");
       return;
@@ -170,7 +169,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .on("mousemove", mouseMove)
       .on("mouseleave", mouseLeave);
 
-    const test = svg.append("g")
+    const innerSvg = svg.append("g")
       .selectAll("g")
       .data(stackedData)
       // @ts-ignore
@@ -181,14 +180,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .data(d => d)
       .enter();
 
-    registerEvents(test.append("rect")
+    registerEvents(innerSvg.append("rect")
       .attr("x", d => xAxis(d[0]))
       // @ts-ignore
       .attr("y", yAxis(status))
       .attr("height", 30)
       .attr("width", data => xAxis(data[1]) - xAxis(data[0])));
 
-    test.append("foreignObject")
+    innerSvg.append("foreignObject")
       .attr("x", data => xAxis(data[0]))
       // @ts-ignore
       .attr("y", yAxis(status))
