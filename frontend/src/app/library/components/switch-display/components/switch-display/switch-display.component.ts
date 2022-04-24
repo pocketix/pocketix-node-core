@@ -121,8 +121,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
       const allBoundingBox = item.target.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
       const boundingBox = item.target.parentElement.parentElement.getBoundingClientRect();
       tooltip
-        .html(`<div style="display: flex; flex-direction: column;">
-                        <h4 style="padding: 0; margin: 0">Status:${data[status]}</h4>
+        .html(`<div class="tooltip-div">
+                        <h4 class="tooltip-heading">Status:${data[status]}</h4>
                         <span>Start:</span>
                         <span>${data.start.toLocaleString()}
                         </span>

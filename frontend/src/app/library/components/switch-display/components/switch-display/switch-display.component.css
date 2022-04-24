@@ -47,3 +47,13 @@
 .svg-container {
   height: calc(100% - 30px);
 }
+
+.tooltip-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.tooltip-heading {
+  padding: 0;
+  margin: 0;
+}
