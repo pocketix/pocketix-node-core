@@ -1,10 +1,16 @@
 <!-- IDE issue https://youtrack.jetbrains.com/issue/WEB-51209 -->
-<p-panel *ngFor="let type of devicesByType | keyvalue" header="{{type.key}}" [toggleable]="true">
+<p-panel
+  *ngFor="let type of devicesByType | keyvalue"
+  header="{{type.key}}"
+  [toggleable]="true"
+  styleClass="padding-bottom-1-rem"
+>
   <div class="grid">
     <p-card
       *ngFor="let device of type.value"
       header="{{device.deviceName}}"
-      [style]="{width: '320px'}" styleClass="p-card-shadow"
+      [style]="{width: '320px'}"
+      styleClass="p-card-shadow"
     >
       <ng-template pTemplate="header">
         <div style="display: flex; justify-content: center;">
