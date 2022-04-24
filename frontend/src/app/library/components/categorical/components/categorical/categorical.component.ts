@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import * as _ from 'lodash';
 import {toNumber} from 'lodash';
 import {InfluxService} from "../../../../../generated/services/influx.service";
@@ -7,7 +7,7 @@ import {environment} from "../../../../../../environments/environment";
 import {ParameterType} from 'app/generated/models';
 import {Color, LegendPosition} from "@swimlane/ngx-charts";
 import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
-import {CurrentDayState, PastDaysState} from "../../model/categorical.model";
+import {CurrentDayState, KPIOptions, PastDaysState} from "../../model/categorical.model";
 import {
   createPastDaysSwitchDataTicks,
   itemsToBarChart,
@@ -26,24 +26,41 @@ export class Categorical implements OnChanges {
   }
 
   @Input() deviceUid!: string;
-  @Input() optionsKPI: ParameterType[] = [];
-  @Input() defaultKPIs?: ParameterType[];
+  @Input() KPIs!: KPIOptions;
 
-  currentDay = {
+  @Input()
+  set currentDay(currentDay: CurrentDayState) {
+    this._currentDay = currentDay
+  }
+  @Output()
+  currentDayChanges: EventEmitter<CurrentDayState> = new EventEmitter<CurrentDayState>();
+  @Output()
+  currentDayChanged: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input()
+  set pastDays(pastDays: PastDaysState) {
+    this._pastDays = pastDays;
+  }
+  @Output()
+  pastDaysChanges: EventEmitter<PastDaysState> = new EventEmitter<PastDaysState>();
+  @Output()
+  pastDaysMove: EventEmitter<number> = new EventEmitter<number>();
+
+  _currentDay = {
     data: [] as Series[],
     date: new Date(),
     fields: [] as ParameterType[],
     switchComposition: [] as Series[],
     dataLoading: false
-  } as CurrentDayState
+  } as CurrentDayState;
 
-  pastDays = {
+  _pastDays = {
     data: [] as Series[],
     startDate: new Date(),
     endDate: new Date(),
     ticks: [] as string[],
     dataLoading: false
-  } as PastDaysState
+  } as PastDaysState;
 
   // options
   showXAxis = true;
@@ -74,17 +91,17 @@ export class Categorical implements OnChanges {
   position = LegendPosition.Below;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.defaultKPIs && !this.currentDay.fields?.length)
-      this.currentDay.fields = this.defaultKPIs || [];
+    if (changes?.KPIs && !this._currentDay.fields?.length)
+      this._currentDay.fields = this.KPIs.default || [];
 
-    this.pastDays.startDate.setDate(this.pastDays.endDate.getDate() - 7);
-    this.updateDay();
+    this._pastDays.startDate.setDate(this._pastDays.endDate.getDate() - 7);
+    this.updateDay({});
   }
 
   private loadDataForBarCharts(): void {
-    this.currentDay.dataLoading = true;
-    const startOfDay = new Date(this.currentDay.date.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(this.currentDay.date.setHours(23, 59, 59, 999));
+    this._currentDay.dataLoading = true;
+    const startOfDay = new Date(this._currentDay.date.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(this._currentDay.date.setHours(23, 59, 59, 999));
 
     this.influxService.aggregate({
       operation: this.currentOperation as Operation,
@@ -93,10 +110,10 @@ export class Categorical implements OnChanges {
       aggregateMinutes: 60 * 2,
       body: {
         bucket: environment.bucket,
-        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+        sensors: {[this.deviceUid]: this._currentDay.fields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      this.currentDay.data = itemsToBarChart(items, this.optionsKPI, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
+      this._currentDay.data = itemsToBarChart(items, this.KPIs.all, this._currentDay.fields, (time) => (new Date(time)).getHours().toString());
     });
 
     this.influxService.aggregate({
@@ -106,48 +123,50 @@ export class Categorical implements OnChanges {
       aggregateMinutes: 60 * 24, // 60 minutes in an hour
       body: {
         bucket: environment.bucket,
-        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+        sensors: {[this.deviceUid]: this._currentDay.fields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      this.currentDay.switchComposition = [{
+      this._currentDay.switchComposition = [{
         name: 'Today',
-        series: Object.entries(sumGroups(items, this.currentDay, this.optionsKPI)).map(([name, value]) => ({name, value}))
+        series: Object.entries(sumGroups(items, this._currentDay, this.KPIs.all)).map(([name, value]) => ({name, value}))
       }];
-      this.currentDay.dataLoading = false;
+      this._currentDay.dataLoading = false;
     });
   }
 
   private switchInDays() {
-    this.pastDays.dataLoading = true;
+    this._pastDays.dataLoading = true;
 
     this.influxService.aggregate({
       operation: Operation.Sum,
-      from: this.pastDays.startDate.toISOString(),
-      to: this.pastDays.endDate.toISOString(),
+      from: this._pastDays.startDate.toISOString(),
+      to: this._pastDays.endDate.toISOString(),
       aggregateMinutes: 60 * 24,
       body: {
         bucket: environment.bucket,
         sensors: [this.deviceUid],
       }
     }).subscribe(items => {
-      this.pastDays.data = itemsToBarChart(items,
-        this.optionsKPI,
-        this.currentDay.fields,
+      this._pastDays.data = itemsToBarChart(items,
+        this.KPIs.all,
+        this._currentDay.fields,
         (time) => new Date(time).toDateString());
-      createPastDaysSwitchDataTicks(this.pastDays);
-      this.pastDays.dataLoading = false;
+      createPastDaysSwitchDataTicks(this._pastDays);
+      this._pastDays.dataLoading = false;
     });
   }
 
   switchInDaysMove(direction: number) {
     const days = direction > 0 ? +7 : -7;
-    this.pastDays.endDate.setDate(this.pastDays.endDate.getDate() + days);
-    this.pastDays.startDate.setDate(this.pastDays.startDate.getDate() + days);
+    this._pastDays.endDate.setDate(this._pastDays.endDate.getDate() + days);
+    this._pastDays.startDate.setDate(this._pastDays.startDate.getDate() + days);
+    this.pastDaysMove.emit(direction);
     this.switchInDays();
   }
 
-  updateDay() {
-    if (!this.currentDay.fields?.length) {
+  updateDay($event: any) {
+    this.currentDayChanged.emit($event);
+    if (!this._currentDay.fields?.length) {
       return;
     }
 

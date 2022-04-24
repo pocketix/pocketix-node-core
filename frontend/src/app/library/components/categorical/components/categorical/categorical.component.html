@@ -5,18 +5,26 @@
           <span class="p-float-label">
             <p-multiSelect
               inputId="currentDay"
-              [options]="optionsKPI"
-              [(ngModel)]="currentDay.fields"
+              [options]="KPIs.all"
+              [(ngModel)]="_currentDay.fields"
               optionLabel="label"
-              (onChange)="updateDay()">
+              (onChange)="updateDay($event)">
             </p-multiSelect>
             <label for="currentDay">Field</label>
           </span>
       </div>
       <div class="p-field col-12 md:col-4">
           <span class="p-float-label">
-            <p-calendar inputId="currentDayCalendar" [showIcon]="true" [(ngModel)]="currentDay.date" (onSelect)="updateDay()"></p-calendar>
-            <label for="currentDayCalendar">Current day</label>
+            <p-calendar
+              inputId="currentDayCalendar"
+              [showIcon]="true"
+              [(ngModel)]="_currentDay.date"
+              (onSelect)="updateDay($event)"
+            >
+            </p-calendar>
+            <label for="currentDayCalendar">
+              Current day
+            </label>
           </span>
       </div>
       <div class="p-field col-12 md:col-4">
@@ -25,7 +33,7 @@
               inputId="currentDayAggregationSelect"
               [options]="aggregationOperations"
               [(ngModel)]="currentOperation"
-              (onChange)="updateDay()">
+              (onChange)="updateDay($event)">
             </p-dropdown>
             <label for="currentDayAggregationSelect">Aggregation</label>
           </span>
@@ -34,15 +42,15 @@
 
     <h3>Hourly statistics</h3>
     <spinner-message-wrapper
-      [loading]="currentDay.dataLoading"
-      [hasData]="!!currentDay.data.length"
+      [loading]="_currentDay.dataLoading"
+      [hasData]="!!_currentDay.data.length"
       class="chart-height"
     >
       <barchart
         content
         class="chart-height"
         [colorScheme]="colorScheme"
-        [data]="currentDay.data"
+        [data]="_currentDay.data"
         xAxisLabel=Hours
         yAxisLabel=Value
         [xAxisTicks]="hourTicks"
@@ -63,16 +71,16 @@
       <h3>Day composition</h3>
       <div class="full-width">
         <spinner-message-wrapper
-          [loading]="currentDay.dataLoading"
-          [hasData]="!!currentDay.data.length"
+          [loading]="_currentDay.dataLoading"
+          [hasData]="!!_currentDay.data.length"
           class="smaller-chart-height"
         >
           <ngx-charts-bar-horizontal-stacked
             class="smaller-chart-height"
             content
-            *ngIf="currentDay.data.length"
+            *ngIf="_currentDay.data.length"
             [scheme]="colorScheme"
-            [results]="currentDay.switchComposition"
+            [results]="_currentDay.switchComposition"
             [gradient]="gradient"
             [xAxis]="showXAxis"
             [yAxis]="showYAxis"
@@ -91,7 +99,7 @@
           >
           </p-progressSpinner>
         </spinner-message-wrapper>
-        <div *ngIf="!currentDay.switchComposition.length" class="empty-placeholder">
+        <div *ngIf="!_currentDay.switchComposition.length" class="empty-placeholder">
           <span>No data</span>
         </div>
       </div>
@@ -102,14 +110,14 @@
     <div class="p-grid p-fluid header-padding">
       <div class="p-inputgroup">
         <button type="button" pButton pRipple label="Previous" (click)="switchInDaysMove(-1)"></button>
-        <input type="text" id="switch-in-days-start" pInputText value="{{pastDays.startDate.toLocaleDateString()}}">
-        <input type="text" id="switch-in-days-end" pInputText value="{{pastDays.endDate.toLocaleDateString()}}">
+        <input type="text" id="switch-in-days-start" pInputText value="{{_pastDays.startDate.toLocaleDateString()}}">
+        <input type="text" id="switch-in-days-end" pInputText value="{{_pastDays.endDate.toLocaleDateString()}}">
         <button type="button" pButton pRipple label="Next" (click)="switchInDaysMove(1)"></button>
       </div>
     </div>
     <spinner-message-wrapper
-      [loading]="pastDays.dataLoading"
-      [hasData]="!!pastDays.data.length"
+      [loading]="_pastDays.dataLoading"
+      [hasData]="!!_pastDays.data.length"
       class="chart-height"
     >
       <barchart
@@ -119,8 +127,8 @@
         [fillTicks]="true"
         xAxisLabel=Count
         yAxisLabel=Hours
-        [data]="pastDays.data"
-        [xAxisTicks]="pastDays.ticks"
+        [data]="_pastDays.data"
+        [xAxisTicks]="_pastDays.ticks"
         [sortFunction]="sortDates"
       >
       </barchart>

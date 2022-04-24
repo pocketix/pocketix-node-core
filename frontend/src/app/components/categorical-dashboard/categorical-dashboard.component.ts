@@ -3,7 +3,6 @@ import {first, tap} from "rxjs/operators";
 import {ActivatedRoute} from "@angular/router";
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
-import {ParameterType} from "../../generated/models/parameter-type";
 import {OutputData} from "../../generated/models/output-data";
 import {InfluxService} from "../../generated/services/influx.service";
 import {SingleSimpleValue} from "../../generated/models/single-simple-value";
@@ -14,6 +13,7 @@ import {
   createMappingFromParameterValues,
   parameterValueToBullet
 } from "../../library/dashboards/shared/tranformFunctions";
+import {KPIOptions} from "../../library/components/categorical/model/categorical.model";
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -26,14 +26,16 @@ export class CategoricalDashboardComponent implements OnInit {
   deviceUid!: string;
   device?: Device;
   fields?: string[]
-  parameterTypes: ParameterType[] = [];
-  defaults: ParameterType[] = [];
   keyValue?: {key: string, value: string}[] = [];
   data?: OutputData[];
   states = [0, 1, 2] as SingleSimpleValue[];
   switchFields?: string[] = [];
   bullets?: Bullet[];
   start?: Date;
+  KPIs: KPIOptions = {
+    all: [],
+    default: []
+  };
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
@@ -52,8 +54,8 @@ export class CategoricalDashboardComponent implements OnInit {
     }).subscribe(device => {
       this.device = device;
       this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
-      this.parameterTypes = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
-      this.defaults = this.parameterTypes.slice(0,3);
+      this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
+      this.KPIs.default = this.KPIs.all.slice(0,3);
 
       this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
       this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);

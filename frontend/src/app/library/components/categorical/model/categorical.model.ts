@@ -15,6 +15,11 @@ type PastDaysState = {
   endDate: Date;
   ticks: string[];
   dataLoading: boolean;
-}
+};
 
-export {CurrentDayState, PastDaysState};
+type KPIOptions = {
+  all: ParameterType[];
+  default: ParameterType[];
+};
+
+export {CurrentDayState, PastDaysState, KPIOptions};
