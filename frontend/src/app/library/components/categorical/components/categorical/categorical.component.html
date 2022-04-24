@@ -6,7 +6,7 @@
             <p-multiSelect
               inputId="currentDay"
               [options]="optionsKPI"
-              [(ngModel)]="currentDayFields"
+              [(ngModel)]="currentDay.fields"
               optionLabel="label"
               (onChange)="updateDay()">
             </p-multiSelect>
@@ -15,7 +15,7 @@
       </div>
       <div class="p-field col-12 md:col-4">
           <span class="p-float-label">
-            <p-calendar inputId="currentDayCalendar" [showIcon]="true" [(ngModel)]="currentDayDate" (onSelect)="updateDay()"></p-calendar>
+            <p-calendar inputId="currentDayCalendar" [showIcon]="true" [(ngModel)]="currentDay.date" (onSelect)="updateDay()"></p-calendar>
             <label for="currentDayCalendar">Current day</label>
           </span>
       </div>
@@ -34,15 +34,15 @@
 
     <h3>Hourly statistics</h3>
     <spinner-message-wrapper
-      [loading]="currentDayDataLoading"
-      [hasData]="!!currentDayData.length"
+      [loading]="currentDay.dataLoading"
+      [hasData]="!!currentDay.data.length"
       class="chart-height"
     >
       <barchart
         content
         class="chart-height"
         [colorScheme]="colorScheme"
-        [data]="currentDayData"
+        [data]="currentDay.data"
         xAxisLabel=Hours
         yAxisLabel=Value
         [xAxisTicks]="hourTicks"
@@ -63,16 +63,16 @@
       <h3>Day composition</h3>
       <div class="full-width">
         <spinner-message-wrapper
-          [loading]="currentDayDataLoading"
-          [hasData]="!!currentDayData.length"
+          [loading]="currentDay.dataLoading"
+          [hasData]="!!currentDay.data.length"
           class="smaller-chart-height"
         >
           <ngx-charts-bar-horizontal-stacked
             class="smaller-chart-height"
             content
-            *ngIf="currentDayData.length"
+            *ngIf="currentDay.data.length"
             [scheme]="colorScheme"
-            [results]="currentDaySwitchComposition"
+            [results]="currentDay.switchComposition"
             [gradient]="gradient"
             [xAxis]="showXAxis"
             [yAxis]="showYAxis"
@@ -91,7 +91,7 @@
           >
           </p-progressSpinner>
         </spinner-message-wrapper>
-        <div *ngIf="!currentDaySwitchComposition.length" class="empty-placeholder">
+        <div *ngIf="!currentDay.switchComposition.length" class="empty-placeholder">
           <span>No data</span>
         </div>
       </div>
@@ -102,14 +102,14 @@
     <div class="p-grid p-fluid header-padding">
       <div class="p-inputgroup">
         <button type="button" pButton pRipple label="Previous" (click)="switchInDaysMove(-1)"></button>
-        <input type="text" id="switch-in-days-start" pInputText value="{{pastDaysSwitchDataWeekStart.toLocaleDateString()}}">
-        <input type="text" id="switch-in-days-end" pInputText value="{{pastDaysSwitchDataWeekEnd.toLocaleDateString()}}">
+        <input type="text" id="switch-in-days-start" pInputText value="{{pastDays.startDate.toLocaleDateString()}}">
+        <input type="text" id="switch-in-days-end" pInputText value="{{pastDays.endDate.toLocaleDateString()}}">
         <button type="button" pButton pRipple label="Next" (click)="switchInDaysMove(1)"></button>
       </div>
     </div>
     <spinner-message-wrapper
-      [loading]="pastDaysSwitchDataLoading"
-      [hasData]="!!pastDaysSwitchData.length"
+      [loading]="pastDays.dataLoading"
+      [hasData]="!!pastDays.data.length"
       class="chart-height"
     >
       <barchart
@@ -119,8 +119,8 @@
         [fillTicks]="true"
         xAxisLabel=Count
         yAxisLabel=Hours
-        [data]="pastDaysSwitchData"
-        [xAxisTicks]="pastDaysSwitchDataTicks"
+        [data]="pastDays.data"
+        [xAxisTicks]="pastDays.ticks"
         [sortFunction]="sortDates"
       >
       </barchart>
