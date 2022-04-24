@@ -283,11 +283,20 @@ const twoDatesAndPointCountToAggregationMinutes = (start: Date, stop: Date, poin
   return Math.floor(minutes / pointCount);
 };
 
+/**
+ * Convert KPI represented by ParameterType to viewable KPI
+ * @param name KPI name
+ * @param optionsKPI all options
+ */
 const kpiParamToKpi = (name: string, optionsKPI: ParameterType[]) => {
   const parameter = optionsKPI.find((current: ParameterType) => current.name === name);
   return parameter ? parameter.label : name;
 };
 
+/**
+ * Create default value for all fields
+ * @param fields fields to create default values for
+ */
 const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} => {
   const a = fields.map((parameter) => parameter.name);
   return a.reduce((previous, kpi) => {
@@ -296,6 +305,10 @@ const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} =>
   }, {} as {[key: string]: number});
 };
 
+/**
+ * Create manual ticks from two dates
+ * @param pastDays current state
+ */
 const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
   const start = new Date(pastDays.startDate.setHours(0, 0, 0, 0));
   const dates = [];
@@ -308,10 +321,23 @@ const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
   pastDays.ticks = dates;
 };
 
+/**
+ * Convert OutputData to ngx-charts DataItem
+ * @param item item to convert
+ * @param group current group
+ * @param options all parameter options
+ */
 const createNgxNameValuePair = (item: OutputData, group: string, options: ParameterType[]): DataItem => {
   return {name: kpiParamToKpi(group, options), value: item[group] && typeof item[group] === "number" ? +item[group] : 0};
 };
 
+/**
+ * InfluxQueryResult to Barchart
+ * @param items items to convert
+ * @param options options to use
+ * @param fields fields to use
+ * @param dateTransformer how to transform date
+ */
 const itemsToBarChart = (items: InfluxQueryResult,
                          options: ParameterType[],
                          fields: ParameterType[],
@@ -323,6 +349,12 @@ const itemsToBarChart = (items: InfluxQueryResult,
   }));
 };
 
+/**
+ * Sum InfluxQueryResult's data into groups based on options and current state, useful for compositions
+ * @param item items to group
+ * @param currentDay current day state
+ * @param optionsKPI kpi options
+ */
 const sumGroups = (item: InfluxQueryResult, currentDay: CurrentDayState, optionsKPI: ParameterType[]): {[p: string]: number} => {
   const data = item.data.reduce((previousValue, currentValue) => {
       const values = Object.entries(currentValue).filter(([key, __]) =>
