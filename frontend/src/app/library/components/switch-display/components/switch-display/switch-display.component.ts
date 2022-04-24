@@ -1,9 +1,28 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
 import {ScaleOrdinal} from "d3";
 import {Changes} from "../../model/switch-display.model";
+
+type SwitchDisplayClickedEvent = {
+  data: SwitchDisplayElementData,
+  originalEvent: PointerEvent
+};
+
+type SwitchDisplayElementData = {
+  dates: Date[],
+  data: OutputData
+};
 
 @Component({
   selector: 'switch-display',
@@ -22,6 +41,10 @@ export class SwitchDisplayComponent implements AfterViewInit {
   start!: Date;
   @Input()
   colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
+  @Output()
+  switchDisplayClicked: EventEmitter<SwitchDisplayClickedEvent> = new EventEmitter<SwitchDisplayClickedEvent>();
+  @Output()
+  switchDisplayResized: EventEmitter<{ width: number, height: number }> = new EventEmitter<{ width: number, height: number }>();
 
   filtered?: OutputData[];
 
@@ -127,7 +150,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
         .duration(200)
         .ease(d3.easeCubicOut)
         .style("opacity", 0);
-    }
+    };
+
+    const mouseClick = (event: PointerEvent) => {
+      const target = event?.target;
+      // @ts-ignore
+      const data = target.__data__ as SwitchDisplayElementData;
+      this.switchDisplayClicked.emit({data: data, originalEvent: event})
+    };
 
     const yAxis = d3.scaleBand()
       .domain([status])
@@ -167,7 +197,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     const registerEvents = (element: any) => element.on("mouseover", mouseOver)
       .on("mousemove", mouseMove)
-      .on("mouseleave", mouseLeave);
+      .on("mouseleave", mouseLeave)
+      .on("click", mouseClick);
 
     const innerSvg = svg.append("g")
       .selectAll("g")
@@ -243,15 +274,12 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     const resize = () => {
       const height = parseInt(container.style('height'));
-      svg.attr('width', Math.round(height / aspect));
+      const width = Math.round(height / aspect);
+      svg.attr('width', width);
       svg.attr('height', height);
+      this.switchDisplayResized.emit({width, height});
     }
 
-    // add a listener so the chart will be resized
-    // when the window resizes
-    // multiple listeners for the same event type
-    // requires a namespace, i.e., 'click.foo'
-    // api docs: https://goo.gl/F3ZCFr
     d3.select(window).on(
       'resize.' + container.attr('id'),
       resize
