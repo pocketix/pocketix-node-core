@@ -133,7 +133,7 @@ export class CategoricalDashboardComponent implements OnInit {
         sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
         Object.entries(storage).forEach(([field, array]) => array.map(
           item => keyValue.push({
-            key: field,
+            key: this.mapping(field),
             value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item
           })
         ));
