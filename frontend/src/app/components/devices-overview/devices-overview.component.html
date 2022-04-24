@@ -1,6 +1,6 @@
 <!-- IDE issue https://youtrack.jetbrains.com/issue/WEB-51209 -->
 <p-panel
-  *ngFor="let type of devicesByType | keyvalue"
+  *ngFor="let type of devicesByType | keyvalue : originalOrder"
   header="{{type.key}}"
   [toggleable]="true"
   styleClass="padding-bottom-1-rem"

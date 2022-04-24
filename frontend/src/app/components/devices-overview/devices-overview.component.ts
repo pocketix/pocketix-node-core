@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
 import {Router} from "@angular/router";
 import {deviceAvailabilityPath, deviceCategoricalPath, deviceDetailPath} from "../../app-routing.module";
 import {MessageService} from "primeng/api";
+import {originalOrder} from "../../library/dashboards/shared/utility";
 
 @Component({
   selector: 'app-devices-overview',
@@ -12,6 +13,7 @@ import {MessageService} from "primeng/api";
   providers: [MessageService]
 })
 export class DevicesOverviewComponent implements OnInit {
+  originalOrder = originalOrder;
 
   constructor(private deviceService: DeviceService, private router: Router, private messageService: MessageService) { }
 
@@ -19,13 +21,15 @@ export class DevicesOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.deviceService.getAllDevices().subscribe(devices => {
+      console.log(devices);
       this.devicesByType = devices.reduce((previousValue, device) => {
         if (!previousValue[device.type.name])
           previousValue[device.type.name] = []
 
         previousValue[device.type.name].push(device);
         return previousValue;
-      }, {} as any)
+      }, {} as any);
+      console.log(this.devicesByType);
     },
       () => this.messageService.add({
         severity: "error",
