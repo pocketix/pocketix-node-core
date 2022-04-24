@@ -30,10 +30,10 @@
   <div class="p-card col-11 gutter-hack">
     <div>
       <div class="p-card-body grid">
-        <div class="md:col-2 col-12">
+        <div class="sm:col-6 md:col-2 col-12">
           <img class="full-width full-height" id="image" alt="image" style="max-width: 90px; max-height: 90px;" [src]="device.image">
         </div>
-        <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item md:col-2 col-12">
+        <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item sm:col-6 md:col-2 col-12">
             <h5 class="p-card-title" style="text-align: center">{{item[1]}}</h5>
             <span class="emphasize align-content-center">{{item[0]}}</span>
         </div>
