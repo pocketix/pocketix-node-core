@@ -59,15 +59,9 @@ export class CategoricalDashboardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
   async ngOnInit(): Promise<void> {
-    await this.route.params.pipe(tap(
-        parameters => this.type = parameters["type"] ?? ""
-      ), first()
-    ).toPromise();
+    this.type = this.route.snapshot.params["type"] ?? "";
+    this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
 
-    await this.route.queryParamMap.pipe(tap(
-        query => this.deviceUid = query.get("deviceUid") ?? ""
-      ), first()
-    ).toPromise();
     this.deviceService.getDeviceById({
       deviceUid: this.deviceUid
     }).subscribe(device => {

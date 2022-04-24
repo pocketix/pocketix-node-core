@@ -68,15 +68,8 @@ export class BaseDashboardComponent implements OnInit {
               protected messageService: MessageService) { }
 
   async ngOnInit() {
-    await this.route.params.pipe(tap(
-        parameters => this.type = parameters["type"] ?? ""
-      ), first()
-    ).toPromise();
-
-    await this.route.queryParamMap.pipe(tap(
-        query => this.deviceUid = query.get("deviceUid") ?? ""
-      ), first()
-    ).toPromise();
+    this.type = this.route.snapshot.params["type"] ?? "";
+    this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
 
     const devicesPromise = this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
