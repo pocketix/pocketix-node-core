@@ -39,6 +39,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
   switchDisplayResized: EventEmitter<{ width: number, height: number }> = new EventEmitter<{ width: number, height: number }>();
   @Output()
   legendClicked: EventEmitter<string | number> = new EventEmitter<string | number>();
+  @Output()
+  statesShown: EventEmitter<SingleSimpleValue[]> = new EventEmitter<SingleSimpleValue[]>();
 
   filtered?: OutputData[];
   private mainChartElement!: any;
@@ -239,7 +241,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
             this.enabledOrDisabledStates[key]).map(([item, _]) => item);
           // @ts-ignore
           this.stackedData = this.allStackedData.filter(item => states.includes(item.key));
-          console.log(this.stackedData, states, this.enabledOrDisabledStates, this.allStackedData);
+          this.statesShown.emit(this?.states?.filter(item => states.includes(item.toString())));
           this.render();
         }
       });
