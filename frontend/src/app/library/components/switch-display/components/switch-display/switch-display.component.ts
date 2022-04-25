@@ -92,7 +92,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .style("height", "100%")
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
-      .call(this.resize);
+      .call((svg) => this.resize(svg));
 
     const color = d3.scaleOrdinal()
       .domain(Object.keys(states))
@@ -236,7 +236,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .data(color.domain())
       .enter()
       .append("div")
-      .attr("class", "legend")
+      .attr("class", "legend");
 
     legend.append("span")
       .attr("class", "legend-color")
@@ -262,17 +262,17 @@ export class SwitchDisplayComponent implements AfterViewInit {
   resize(svg: any, aspect: number = 4) {
     const container = d3.select(svg.node().parentNode);
 
-    const resize = () => {
+    const resize = (switchDisplayResized: EventEmitter<{ width: number, height: number }>) => {
       const height = parseInt(container.style('height'));
       const width = Math.round(height / aspect);
       svg.attr('width', width);
       svg.attr('height', height);
-      this.switchDisplayResized.emit({width, height});
+      switchDisplayResized.emit({width, height});
     }
 
     d3.select(window).on(
       'resize.' + container.attr('id'),
-      resize
+      () => resize(this.switchDisplayResized)
     );
   }
 
