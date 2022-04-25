@@ -42,6 +42,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   filtered?: OutputData[];
   private mainChartElement!: any;
+  private tooltip!: any;
 
   @ViewChild('chart') chart?: ElementRef;
   private mappedStates: { [p: string]: any[] } = {};
@@ -109,61 +110,13 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     this.createLegend(mainElement, color);
 
-    const tooltip = mainElement
+    this.tooltip = mainElement
       .append("div")
       .attr("class", "tooltip")
       .style("background", "#495057")
       .style("color", "white");
 
-    const mouseOver = (item: any) => {
-      item.toElement.parentElement.classList.toggle("tooltip-active")
-      tooltip
-        .transition()
-        .duration(200)
-        .ease(d3.easeCubicIn)
-        .style("opacity", 0.9)
-        .style("stroke", "black");
-    };
-
-    const mouseMove = (item: any) => {
-      const data = item.toElement.__data__.data;
-      const allBoundingBox = item.target.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
-      const boundingBox = item.target.parentElement.parentElement.getBoundingClientRect();
-      tooltip
-        .style("display", "initial")
-        .html(`<div class="tooltip-div">
-                        <h4 class="tooltip-heading">Status:${data[status]}</h4>
-                        <span>Start:</span>
-                        <span>${data.start.toLocaleString()}
-                        </span>
-                        <span>Stop:</span>
-                        <span>${data.stop.toLocaleString()}</span>
-                      </div>`)
-        .style("left", `${item.clientX - boundingBox.left}px`)
-        .style("top", `${boundingBox.height + boundingBox.top - allBoundingBox.top + 5}px`)
-    };
-
-    const mouseLeave = (item: any) => {
-      item.fromElement.parentElement.classList.toggle("tooltip-active");
-      tooltip
-        .transition()
-        .duration(200)
-        .ease(d3.easeCubicOut)
-        .style("opacity", 0)
-        .on("end", () =>
-          tooltip
-            .style("display", "none")
-            .html("")
-        );
-    };
-
-    const mouseClick = (event: PointerEvent) => {
-      const target = event?.target;
-      // @ts-ignore
-      const data = target.__data__ as SwitchDisplayElementData;
-      this.switchDisplayClicked.emit({data: data, originalEvent: event});
-    };
-
+    console.log(this.tooltip);
     this.yAxis = d3.scaleBand()
       .domain([status])
       .range([height, 0])
@@ -180,12 +133,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     this.stackData(status);
 
-    const registerEvents = (element: any) => element.on("mouseover", mouseOver)
-      .on("mousemove", mouseMove)
-      .on("mouseleave", mouseLeave)
-      .on("click", mouseClick);
-
-    this.render(color, registerEvents, status);
+    this.render(color, status);
   }
 
   private stackData(status: string) {
@@ -212,7 +160,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
     });
   }
 
-  private render(color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, status: string) {
+  private render(color: ScaleOrdinal<string, unknown>, status: string) {
+    console.log(this.tooltip);
+    const registerEvents = (element: any) => element
+      .on("mouseover", ($event: any) => this.mouseOver($event))
+      .on("mousemove", ($event: any) => this.mouseMove($event))
+      .on("mouseleave", ($event: any) => this.mouseLeave($event))
+      .on("click", ($event: PointerEvent) => this.mouseClick($event));
+
     const innerSvg = this.mainChartElement.append("g")
       .selectAll("g")
       .data(this.stackedData)
@@ -261,7 +216,6 @@ export class SwitchDisplayComponent implements AfterViewInit {
         if (this.disableItemsOnLegendClick) {
           // @ts-ignore
           this.stackedData = this.stackedData.filter(data => data.key !== $event.target.__data__);
-          console.log($event, this.stackedData);
         }
       });
 
@@ -304,5 +258,52 @@ export class SwitchDisplayComponent implements AfterViewInit {
       () => resize(this.switchDisplayResized)
     );
   }
+  private mouseMove (item: any) {
+    const data = item.toElement.__data__.data;
+    const allBoundingBox = item.target.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
+    const boundingBox = item.target.parentElement.parentElement.getBoundingClientRect();
+    this.tooltip
+      .style("display", "initial")
+      .html(`<div class="tooltip-div">
+                        <h4 class="tooltip-heading">Status:${data[status]}</h4>
+                        <span>Start:</span>
+                        <span>${data.start.toLocaleString()}
+                        </span>
+                        <span>Stop:</span>
+                        <span>${data.stop.toLocaleString()}</span>
+                      </div>`)
+      .style("left", `${item.clientX - boundingBox.left}px`)
+      .style("top", `${boundingBox.height + boundingBox.top - allBoundingBox.top + 5}px`)
+  };
 
+  private mouseLeave (item: any) {
+    item.fromElement.parentElement.classList.toggle("tooltip-active");
+    this.tooltip
+      .transition()
+      .duration(200)
+      .ease(d3.easeCubicOut)
+      .style("opacity", 0)
+      .on("end", () =>
+        this.tooltip
+          .style("display", "none")
+          .html("")
+      );
+  };
+
+  private mouseClick (event: PointerEvent) {
+    const target = event?.target;
+    // @ts-ignore
+    const data = target.__data__ as SwitchDisplayElementData;
+    this.switchDisplayClicked.emit({data: data, originalEvent: event});
+  };
+
+  private mouseOver (item: any) {
+    item.toElement.parentElement.classList.toggle("tooltip-active");
+    this.tooltip
+      .transition()
+      .duration(200)
+      .ease(d3.easeCubicIn)
+      .style("opacity", 0.9)
+      .style("stroke", "black");
+  };
 }
