@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from "d3";
-import {ScaleBand, ScaleOrdinal, ScaleTime} from "d3";
+import {ScaleBand, ScaleTime} from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
 import {Changes, SwitchDisplayClickedEvent} from "../../model/switch-display.model";
