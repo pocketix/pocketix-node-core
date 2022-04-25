@@ -42,6 +42,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   filtered?: OutputData[];
   private mainChartElement!: any;
+  private innerChartElement!: any;
   private tooltip!: any;
 
   @ViewChild('chart') chart?: ElementRef;
@@ -49,6 +50,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
   private stackedData!: any[][][];
   private xAxis!: ScaleTime<number, number>;
   private yAxis!: ScaleBand<string>;
+  color!: d3.ScaleOrdinal<string, unknown>;
 
   constructor() { }
 
@@ -104,11 +106,11 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .call((svg) => this.resize(svg));
 
-    const color = d3.scaleOrdinal()
+    this.color = d3.scaleOrdinal()
       .domain(Object.keys(this.mappedStates))
       .range(this.colors);
 
-    this.createLegend(mainElement, color);
+    this.createLegend(mainElement);
 
     this.tooltip = mainElement
       .append("div")
@@ -133,7 +135,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
     this.stackData(status);
 
-    this.render(color, status);
+    this.render();
   }
 
   private stackData(status: string) {
@@ -160,32 +162,33 @@ export class SwitchDisplayComponent implements AfterViewInit {
     });
   }
 
-  private render(color: ScaleOrdinal<string, unknown>, status: string) {
-    console.log(this.tooltip);
+  private render() {
     const registerEvents = (element: any) => element
       .on("mouseover", ($event: any) => this.mouseOver($event))
       .on("mousemove", ($event: any) => this.mouseMove($event))
       .on("mouseleave", ($event: any) => this.mouseLeave($event))
       .on("click", ($event: PointerEvent) => this.mouseClick($event));
 
-    const innerSvg = this.mainChartElement.append("g")
+    console.log("draw");
+    this.innerChartElement?.selectAll("g > *")?.remove();
+    this.innerChartElement = this.mainChartElement.append("g")
       .selectAll("g")
       .data(this.stackedData)
-      .enter().append("g").attr("fill", (value: { key: string; }) => color(value.key))
+      .enter().append("g").attr("fill", (value: { key: string; }) => this.color(value.key))
       .attr("class", (value: { key: string; }) => SwitchDisplayComponent.getLegendBarColorClassName(value.key))
       .selectAll("rest")
       .data((d: any) => d)
       .enter();
 
-    registerEvents(innerSvg.append("rect")
+    registerEvents(this.innerChartElement.append("rect")
       .attr("x", (d: (Date | d3.NumberValue)[]) => this.xAxis(d[0]))
-      .attr("y", this.yAxis(status))
+      .attr("y", this.yAxis(this.status))
       .attr("height", 30)
       .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0])));
 
-    innerSvg.append("foreignObject")
+    this.innerChartElement.append("foreignObject")
       .attr("x", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[0]))
-      .attr("y", this.yAxis(status))
+      .attr("y", this.yAxis(this.status))
       .attr("height", 30)
       .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0]))
       .attr("text-anchor", "middle")
@@ -193,20 +196,21 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .append("xhtml:div")
       .style("pointer-events", "none")
       .append("p")
-      .text((d: { data: { [x: string]: { toString: () => any; }; }; }) => d.data[status].toString())
+      .text((d: { data: { [x: string]: { toString: () => any; }; }; }) => d.data[this.status].toString())
       .style("width", "100%")
       .style("text-align", "center")
       .style("pointer-events", "none")
       .style("margin-top", "6px");
+    console.log(this.innerChartElement);
   }
 
-  private createLegend(mainElement: any, color: ScaleOrdinal<string, unknown>) {
+  private createLegend(mainElement: any) {
     const legendContainer = mainElement
       .append("div")
       .attr("class", "legend-container");
 
     const legend = legendContainer.selectAll(".legend")
-      .data(color.domain())
+      .data(this.color.domain())
       .enter()
       .append("div")
       .attr("class", "legend")
@@ -216,13 +220,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
         if (this.disableItemsOnLegendClick) {
           // @ts-ignore
           this.stackedData = this.stackedData.filter(data => data.key !== $event.target.__data__);
+          this.render();
         }
       });
 
     legend.append("span")
       .attr("class", "legend-color")
       .style("pointer-events", "none")
-      .style("background-color", (item: any) => color(item) as string);
+      .style("background-color", (item: any) => this.color(item) as string);
 
     legend.append("span")
       .style("pointer-events", "none")
@@ -258,6 +263,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       () => resize(this.switchDisplayResized)
     );
   }
+
   private mouseMove (item: any) {
     const data = item.toElement.__data__.data;
     const allBoundingBox = item.target.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
@@ -265,7 +271,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
     this.tooltip
       .style("display", "initial")
       .html(`<div class="tooltip-div">
-                        <h4 class="tooltip-heading">Status:${data[status]}</h4>
+                        <h4 class="tooltip-heading">Status:${data[this.status]}</h4>
                         <span>Start:</span>
                         <span>${data.start.toLocaleString()}
                         </span>
