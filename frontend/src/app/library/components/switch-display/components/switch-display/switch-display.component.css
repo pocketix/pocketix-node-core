@@ -25,7 +25,7 @@
 }
 
 .legend-disabled > .legend-color {
-  background-color: #dddddd !important;
+  opacity: 0.3;
 }
 
 .legend-color {
