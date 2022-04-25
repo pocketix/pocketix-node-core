@@ -209,12 +209,12 @@ export class SwitchDisplayComponent implements AfterViewInit {
     });
   }
 
-  private render(stackedData: any[], color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, xAxis: ScaleTime<number, number, never>, yAxis: ScaleBand<string>, status: string) {
+  private render(stackedData: any[], color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, xAxis: ScaleTime<number, number>, yAxis: ScaleBand<string>, status: string) {
     const innerSvg = this.mainChartElement.append("g")
       .selectAll("g")
       .data(stackedData)
       .enter().append("g").attr("fill", (value: { key: string; }) => color(value.key))
-      .attr("class", (value: { key: string; }) => this.getLegendBarColorClassName(value.key))
+      .attr("class", (value: { key: string; }) => SwitchDisplayComponent.getLegendBarColorClassName(value.key))
       .selectAll("rest")
       .data((d: any) => d)
       .enter();
@@ -267,7 +267,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .text((text: any) => text);
   }
 
-  private getLegendBarColorClassName (color: string) {
+  private static getLegendBarColorClassName (color: string) {
     return `legend-bar-${color}`;
   }
 
