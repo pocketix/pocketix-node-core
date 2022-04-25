@@ -32,7 +32,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
   @Input()
   colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
   @Input()
-  disableItemsOnLegendClick: boolean = false;
+  disableItemsOnLegendClick: boolean = true;
   @Output()
   switchDisplayClicked: EventEmitter<SwitchDisplayClickedEvent> = new EventEmitter<SwitchDisplayClickedEvent>();
   @Output()
@@ -45,6 +45,9 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   @ViewChild('chart') chart?: ElementRef;
   private mappedStates: { [p: string]: any[] } = {};
+  private stackedData!: any[][][];
+  private xAxis!: ScaleTime<number, number>;
+  private yAxis!: ScaleBand<string>;
 
   constructor() { }
 
@@ -158,31 +161,31 @@ export class SwitchDisplayComponent implements AfterViewInit {
       const target = event?.target;
       // @ts-ignore
       const data = target.__data__ as SwitchDisplayElementData;
-      this.switchDisplayClicked.emit({data: data, originalEvent: event})
+      this.switchDisplayClicked.emit({data: data, originalEvent: event});
     };
 
-    const yAxis = d3.scaleBand()
+    this.yAxis = d3.scaleBand()
       .domain([status])
       .range([height, 0])
       .padding(0.2);
 
-    const xAxis = d3.scaleTime()
+    this.xAxis = d3.scaleTime()
       .domain([this.changesStart, this.changesEnd])
       .range([0, width]);
 
     this.mainChartElement.append("g")
       .attr("class", "axis")
       .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xAxis).tickSizeOuter(0).ticks(5));
+      .call(d3.axisBottom(this.xAxis).tickSizeOuter(0).ticks(5));
 
-    const stackedData = this.stackData(status);
+    this.stackData(status);
 
     const registerEvents = (element: any) => element.on("mouseover", mouseOver)
       .on("mousemove", mouseMove)
       .on("mouseleave", mouseLeave)
       .on("click", mouseClick);
 
-    this.render(stackedData, color, registerEvents, xAxis, yAxis, status);
+    this.render(color, registerEvents, status);
   }
 
   private stackData(status: string) {
@@ -196,7 +199,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       return previousValue;
     }, this.mappedStates);
 
-    return Object.entries(data).map(([key, items]) => {
+    this.stackedData = Object.entries(data).map(([key, items]) => {
       const array = items.map(item => {
         const value = [item.start, item.stop];
         // @ts-ignore
@@ -209,10 +212,10 @@ export class SwitchDisplayComponent implements AfterViewInit {
     });
   }
 
-  private render(stackedData: any[], color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, xAxis: ScaleTime<number, number>, yAxis: ScaleBand<string>, status: string) {
+  private render(color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, status: string) {
     const innerSvg = this.mainChartElement.append("g")
       .selectAll("g")
-      .data(stackedData)
+      .data(this.stackedData)
       .enter().append("g").attr("fill", (value: { key: string; }) => color(value.key))
       .attr("class", (value: { key: string; }) => SwitchDisplayComponent.getLegendBarColorClassName(value.key))
       .selectAll("rest")
@@ -220,16 +223,16 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .enter();
 
     registerEvents(innerSvg.append("rect")
-      .attr("x", (d: (Date | d3.NumberValue)[]) => xAxis(d[0]))
-      .attr("y", yAxis(status))
+      .attr("x", (d: (Date | d3.NumberValue)[]) => this.xAxis(d[0]))
+      .attr("y", this.yAxis(status))
       .attr("height", 30)
-      .attr("width", (data: (Date | d3.NumberValue)[]) => xAxis(data[1]) - xAxis(data[0])));
+      .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0])));
 
     innerSvg.append("foreignObject")
-      .attr("x", (data: (Date | d3.NumberValue)[]) => xAxis(data[0]))
-      .attr("y", yAxis(status))
+      .attr("x", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[0]))
+      .attr("y", this.yAxis(status))
       .attr("height", 30)
-      .attr("width", (data: (Date | d3.NumberValue)[]) => xAxis(data[1]) - xAxis(data[0]))
+      .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0]))
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
       .append("xhtml:div")
@@ -255,6 +258,11 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .on("click", ($event: any) => {
         $event.target.classList.toggle("legend-disabled");
         this.legendClicked.emit($event.target.__data__);
+        if (this.disableItemsOnLegendClick) {
+          // @ts-ignore
+          this.stackedData = this.stackedData.filter(data => data.key !== $event.target.__data__);
+          console.log($event, this.stackedData);
+        }
       });
 
     legend.append("span")
