@@ -15,6 +15,17 @@
 
 .legend {
   margin-bottom: 0.5em;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.legend-disabled {
+  text-decoration: line-through;
+}
+
+.legend-disabled > .legend-color {
+  background-color: #dddddd !important;
 }
 
 .legend-color {

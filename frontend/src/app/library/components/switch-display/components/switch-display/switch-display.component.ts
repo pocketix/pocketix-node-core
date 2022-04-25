@@ -9,9 +9,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from "d3";
+import {ScaleBand, ScaleOrdinal, ScaleTime} from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
-import {ScaleOrdinal} from "d3";
 import {Changes, SwitchDisplayClickedEvent} from "../../model/switch-display.model";
 
 @Component({
@@ -31,14 +31,20 @@ export class SwitchDisplayComponent implements AfterViewInit {
   start!: Date;
   @Input()
   colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
+  @Input()
+  disableItemsOnLegendClick: boolean = false;
   @Output()
   switchDisplayClicked: EventEmitter<SwitchDisplayClickedEvent> = new EventEmitter<SwitchDisplayClickedEvent>();
   @Output()
   switchDisplayResized: EventEmitter<{ width: number, height: number }> = new EventEmitter<{ width: number, height: number }>();
+  @Output()
+  legendClicked: EventEmitter<string | number> = new EventEmitter<string | number>();
 
   filtered?: OutputData[];
+  private mainChartElement!: any;
 
   @ViewChild('chart') chart?: ElementRef;
+  private mappedStates: { [p: string]: any[] } = {};
 
   constructor() { }
 
@@ -80,12 +86,12 @@ export class SwitchDisplayComponent implements AfterViewInit {
       this.filtered.push({...this.filtered[0], time: this.changesEnd.toISOString()});
     }
 
-    const margin = {top: 0, right: 10, bottom: 30, left: 10};
+    const margin = {top: 0, right: 25, bottom: 30, left: 25};
     const width = 460 - margin.left - margin.right;
     const height = 70 - margin.top - margin.bottom;
-    const states = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
+    this.mappedStates = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
 
-    const svg = appendTo
+    this.mainChartElement = appendTo
       .append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
       .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
@@ -95,7 +101,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .call((svg) => this.resize(svg));
 
     const color = d3.scaleOrdinal()
-      .domain(Object.keys(states))
+      .domain(Object.keys(this.mappedStates))
       .range(this.colors);
 
     this.createLegend(mainElement, color);
@@ -114,13 +120,14 @@ export class SwitchDisplayComponent implements AfterViewInit {
         .ease(d3.easeCubicIn)
         .style("opacity", 0.9)
         .style("stroke", "black");
-    }
+    };
 
     const mouseMove = (item: any) => {
       const data = item.toElement.__data__.data;
       const allBoundingBox = item.target.parentElement.parentElement.parentElement.parentElement.getBoundingClientRect();
       const boundingBox = item.target.parentElement.parentElement.getBoundingClientRect();
       tooltip
+        .style("display", "initial")
         .html(`<div class="tooltip-div">
                         <h4 class="tooltip-heading">Status:${data[status]}</h4>
                         <span>Start:</span>
@@ -131,7 +138,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
                       </div>`)
         .style("left", `${item.clientX - boundingBox.left}px`)
         .style("top", `${boundingBox.height + boundingBox.top - allBoundingBox.top + 5}px`)
-    }
+    };
 
     const mouseLeave = (item: any) => {
       item.fromElement.parentElement.classList.toggle("tooltip-active");
@@ -139,7 +146,12 @@ export class SwitchDisplayComponent implements AfterViewInit {
         .transition()
         .duration(200)
         .ease(d3.easeCubicOut)
-        .style("opacity", 0);
+        .style("opacity", 0)
+        .on("end", () =>
+          tooltip
+            .style("display", "none")
+            .html("")
+        );
     };
 
     const mouseClick = (event: PointerEvent) => {
@@ -158,12 +170,23 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .domain([this.changesStart, this.changesEnd])
       .range([0, width]);
 
-    svg.append("g")
+    this.mainChartElement.append("g")
       .attr("class", "axis")
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(xAxis).tickSizeOuter(0).ticks(5));
 
-    const changes = this.filtered.map((change, index) => [
+    const stackedData = this.stackData(status);
+
+    const registerEvents = (element: any) => element.on("mouseover", mouseOver)
+      .on("mousemove", mouseMove)
+      .on("mouseleave", mouseLeave)
+      .on("click", mouseClick);
+
+    this.render(stackedData, color, registerEvents, xAxis, yAxis, status);
+  }
+
+  private stackData(status: string) {
+    const changes = this.filtered!.map((change, index) => [
       change[status].toString() as string,
       this.outputDataToChanges(change, index)
     ] as [string, Changes]);
@@ -171,56 +194,48 @@ export class SwitchDisplayComponent implements AfterViewInit {
     const data = changes.reduce((previousValue, [status, rest]) => {
       previousValue[status].push(rest);
       return previousValue;
-    }, states);
+    }, this.mappedStates);
 
-    const stackedData = Object.entries(data).map(([key, items]) => {
+    return Object.entries(data).map(([key, items]) => {
       const array = items.map(item => {
         const value = [item.start, item.stop];
         // @ts-ignore
         value.data = item;
         return value;
-      })
+      });
       // @ts-ignore
       array.key = key;
       return array;
     });
+  }
 
-    const registerEvents = (element: any) => element.on("mouseover", mouseOver)
-      .on("mousemove", mouseMove)
-      .on("mouseleave", mouseLeave)
-      .on("click", mouseClick);
-
-    const innerSvg = svg.append("g")
+  private render(stackedData: any[], color: ScaleOrdinal<string, unknown>, registerEvents: (element: any) => any, xAxis: ScaleTime<number, number, never>, yAxis: ScaleBand<string>, status: string) {
+    const innerSvg = this.mainChartElement.append("g")
       .selectAll("g")
       .data(stackedData)
-      // @ts-ignore
-      .enter().append("g").attr("fill", value => color(value.key))
-      // @ts-ignore
-      .attr("class", value => this.getLegendBarColorClassName(value.key))
+      .enter().append("g").attr("fill", (value: { key: string; }) => color(value.key))
+      .attr("class", (value: { key: string; }) => this.getLegendBarColorClassName(value.key))
       .selectAll("rest")
-      .data(d => d)
+      .data((d: any) => d)
       .enter();
 
     registerEvents(innerSvg.append("rect")
-      .attr("x", d => xAxis(d[0]))
-      // @ts-ignore
+      .attr("x", (d: (Date | d3.NumberValue)[]) => xAxis(d[0]))
       .attr("y", yAxis(status))
       .attr("height", 30)
-      .attr("width", data => xAxis(data[1]) - xAxis(data[0])));
+      .attr("width", (data: (Date | d3.NumberValue)[]) => xAxis(data[1]) - xAxis(data[0])));
 
     innerSvg.append("foreignObject")
-      .attr("x", data => xAxis(data[0]))
-      // @ts-ignore
+      .attr("x", (data: (Date | d3.NumberValue)[]) => xAxis(data[0]))
       .attr("y", yAxis(status))
       .attr("height", 30)
-      .attr("width", data => xAxis(data[1]) - xAxis(data[0]))
+      .attr("width", (data: (Date | d3.NumberValue)[]) => xAxis(data[1]) - xAxis(data[0]))
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
       .append("xhtml:div")
       .style("pointer-events", "none")
       .append("p")
-      // @ts-ignore
-      .text((d) => d.data[status].toString())
+      .text((d: { data: { [x: string]: { toString: () => any; }; }; }) => d.data[status].toString())
       .style("width", "100%")
       .style("text-align", "center")
       .style("pointer-events", "none")
@@ -236,13 +251,19 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .data(color.domain())
       .enter()
       .append("div")
-      .attr("class", "legend");
+      .attr("class", "legend")
+      .on("click", ($event: any) => {
+        $event.target.classList.toggle("legend-disabled");
+        this.legendClicked.emit($event.target.__data__);
+      });
 
     legend.append("span")
       .attr("class", "legend-color")
+      .style("pointer-events", "none")
       .style("background-color", (item: any) => color(item) as string);
 
     legend.append("span")
+      .style("pointer-events", "none")
       .text((text: any) => text);
   }
 
