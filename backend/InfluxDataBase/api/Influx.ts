@@ -176,7 +176,7 @@ class Influx implements IInflux {
     private static generateCorrectAggregationType(minutes?: number, aggregation: string = 'mean', timezone?: string): string {
         const zone = timezone ? `, location: timezone.location(name: ${fluxString(timezone)})` : '';
 
-        if (aggregation === '') {
+        if (aggregation === '' || aggregation === 'none') {
             aggregation = 'mean';
         }
 
