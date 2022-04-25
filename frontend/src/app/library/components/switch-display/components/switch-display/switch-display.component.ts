@@ -47,7 +47,9 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   @ViewChild('chart') chart?: ElementRef;
   private mappedStates: { [p: string]: any[] } = {};
+  private enabledOrDisabledStates: {[p: string]: boolean} = {};
   private stackedData!: any[][][];
+  private allStackedData!: any[][][];
   private xAxis!: ScaleTime<number, number>;
   private yAxis!: ScaleBand<string>;
   color!: d3.ScaleOrdinal<string, unknown>;
@@ -82,6 +84,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
       mainElement.append("span").attr("text", "No data");
       return;
     }
+
     const appendTo = mainElement.append("div").attr("class", "svg-container");
     this.data = this.filtered;
     this.changesStart = new Date(this.filtered[0].time);
@@ -96,6 +99,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
     const width = 460 - margin.left - margin.right;
     const height = 70 - margin.top - margin.bottom;
     this.mappedStates = Object.fromEntries(this.states?.map(state => [state, [] as any[]]) || []);
+    this.enabledOrDisabledStates = Object.fromEntries(this.states?.map(state => [state, true]) || []);
 
     this.mainChartElement = appendTo
       .append("svg")
@@ -118,7 +122,6 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .style("background", "#495057")
       .style("color", "white");
 
-    console.log(this.tooltip);
     this.yAxis = d3.scaleBand()
       .domain([status])
       .range([height, 0])
@@ -133,14 +136,13 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(this.xAxis).tickSizeOuter(0).ticks(5));
 
-    this.stackData(status);
-
+    this.stackData();
     this.render();
   }
 
-  private stackData(status: string) {
+  private stackData() {
     const changes = this.filtered!.map((change, index) => [
-      change[status].toString() as string,
+      change[this.status].toString() as string,
       this.outputDataToChanges(change, index)
     ] as [string, Changes]);
 
@@ -150,6 +152,18 @@ export class SwitchDisplayComponent implements AfterViewInit {
     }, this.mappedStates);
 
     this.stackedData = Object.entries(data).map(([key, items]) => {
+      const array = items.map(item => {
+        const value = [item.start, item.stop];
+        // @ts-ignore
+        value.data = item;
+        return value;
+      });
+      // @ts-ignore
+      array.key = key;
+      return array;
+    });
+
+    this.allStackedData = Object.entries(data).map(([key, items]) => {
       const array = items.map(item => {
         const value = [item.start, item.stop];
         // @ts-ignore
@@ -215,11 +229,17 @@ export class SwitchDisplayComponent implements AfterViewInit {
       .append("div")
       .attr("class", "legend")
       .on("click", ($event: any) => {
+        const state = $event.target.__data__;
         $event.target.classList.toggle("legend-disabled");
-        this.legendClicked.emit($event.target.__data__);
+        this.legendClicked.emit(state);
         if (this.disableItemsOnLegendClick) {
+          console.log(this.allStackedData);
+          this.enabledOrDisabledStates[state] = !this.enabledOrDisabledStates[state];
+          const states = Object.entries(this.allStackedData).filter(([key, _]) =>
+            this.enabledOrDisabledStates[key]).map(([item, _]) => item);
           // @ts-ignore
-          this.stackedData = this.stackedData.filter(data => data.key !== $event.target.__data__);
+          this.stackedData = this.allStackedData.filter(item => states.includes(item.key));
+          console.log(this.stackedData, states, this.enabledOrDisabledStates, this.allStackedData);
           this.render();
         }
       });
