@@ -8,13 +8,13 @@
 				<div class="card-body"
 					 style="display: flex; flex-direction:row;align-items: center;justify-content: space-around;">
 					<div style="flex-direction: row; display: flex;">
-						<availability-linear-gauge *ngFor="let item of availability"
-													   [value]="item.availability"
-													   [borderValue]="item.availability"
-													   [units]="item.name"
-													   stringToAdd="%"
-						>
-						</availability-linear-gauge>
+            <availability-linear-gauge *ngFor="let availability of sensorAvailability"
+                             [value]="availability.value"
+                             [borderValue]="availability.target"
+                             [units]="availability.text"
+                             stringToAdd="%"
+            >
+            </availability-linear-gauge>
 					</div>
 
 				</div>
@@ -22,21 +22,21 @@
 			<div class="card" style="margin-bottom: 30px; margin-top: 30px">
 				<div class="card-body">
 					<div style="height: 180px;">
-						<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
-											   [xAxis]="true"
-											   [yAxis]="true"
-											   [xAxisLabel]="xAxisLabel"
-											   [yAxisLabel]="yAxisLabelTemperature"
-											   [results]="copyOfSensorData"
-											   [animations]="animations">
-						</ngx-charts-line-chart>
+            <!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
+                         [xAxis]="true"
+                         [yAxis]="true"
+                         [xAxisLabel]="xAxisLabel"
+                         [yAxisLabel]="yAxisLabelTemperature"
+                         [results]="copyOfSensorData"
+                         [animations]="animations">
+            </ngx-charts-line-chart>-->
 					</div>
 				</div>
 			</div>
 			<div class="card add-bottom-padding-when-small">
 				<div class="card-body">
 					<div style="height: 180px;">
-						<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
+						<!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
 											   [xAxis]="true"
 											   [yAxis]="true"
 											   [xAxisLabel]="xAxisLabel"
@@ -44,7 +44,7 @@
 											   [results]="data"
 											   [animations]="animations"
 						>
-						</ngx-charts-line-chart>
+						</ngx-charts-line-chart>-->
 					</div>
 				</div>
 			</div>

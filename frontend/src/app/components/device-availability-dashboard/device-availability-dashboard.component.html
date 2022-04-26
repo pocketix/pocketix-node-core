@@ -3,10 +3,12 @@
   [device]="device"
   [sparklineMapping]="mapping"
   [availabilities]="availabilities"
-  [(lineState)]=lineState
   [boxData]=boxData
   [bulletsState]=bulletsState
   [sparklineState]=sparklineState
+  [sensorAvailabilities]="sensorAvailabilities"
   (lineStateChanged)="updateMainChart()"
+  (availabilityClicked)="updateAvailabilityData($event)"
+  [(lineState)]=lineState
 >
 </dashboard-availability>

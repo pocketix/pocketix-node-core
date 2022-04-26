@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ComponentFactoryResolver, EventEmitter,
-  Input, Output,
-  ViewContainerRef
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
 import {Availability} from "../../model/availability.model";
 
@@ -17,6 +17,10 @@ import {Availability} from "../../model/availability.model";
 export class AvailabilityComponent implements AfterViewInit {
   @Input()
   availabilities!: Availability[];
+  @Input()
+  sensorAvailabilities?: Availability[];
+  @Output()
+  onAvailabilityClicked: EventEmitter<Availability> = new EventEmitter<Availability>();
 
 	availability?: number;
 	showXAxis = true;
@@ -25,10 +29,9 @@ export class AvailabilityComponent implements AfterViewInit {
 	units = "Average availability";
   displayModal: boolean = false;
 
-  @Output()
-  onAvailabilityClicked: EventEmitter<Availability> = new EventEmitter<Availability>();
+  clickedSensorLabel: string = "";
 
-	constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+	constructor() {
 	}
 
 	ngAfterViewInit(): void {
@@ -40,6 +43,7 @@ export class AvailabilityComponent implements AfterViewInit {
 	}
 
   availabilityClick($event: Availability) {
+    this.clickedSensorLabel = $event.text;
     this.onAvailabilityClicked.emit($event);
     this.displayModal = true;
   }

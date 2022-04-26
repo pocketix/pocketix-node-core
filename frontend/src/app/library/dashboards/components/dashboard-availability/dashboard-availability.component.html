@@ -52,7 +52,9 @@
   <div class="col-11 gutter-hack p-card">
     <availability
       *ngIf="availabilities"
+      (onAvailabilityClicked)="onAvailabilityClicked($event)"
       [availabilities]="availabilities"
+      [sensorAvailabilities]="sensorAvailabilities"
     >
     </availability>
   </div>
