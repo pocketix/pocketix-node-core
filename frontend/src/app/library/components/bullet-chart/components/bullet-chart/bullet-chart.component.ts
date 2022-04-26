@@ -33,6 +33,9 @@ enum ElementType {
   Units = 'units'
 }
 
+/**
+ * Component representing bullet chart
+ */
 @Component({
   selector: 'bullet-chart',
   templateUrl: './bullet-chart.component.html',
@@ -41,19 +44,44 @@ enum ElementType {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BulletChartComponent extends BaseChartComponent implements AfterViewInit {
-  @Input() min = 0;
-  @Input() max = 100;
-  @Input() value = 0;
-  @Input() name = '';
-  @Input() units = '';
-  @Input() previousValue = 0;
-  @Input() valueFormatting: any;
-  @Input() valueTextStyle: any;
-  @Input() unitsTextStyle: any;
-  @Input() ticksTextStyle: any;
-  @Input() otherColors = ['#DDDDDD', '#BBBBBB', '#999999'];
-  @Input() thresholds = [70, 50, 30];
-  @Input() resizeAutomatically: boolean = false;
+  @Input()
+  min = 0;
+  @Input()
+  max = 100;
+  @Input()
+  value = 0;
+  /**
+   * Value to display bellow the chart
+   */
+  @Input()
+  name = '';
+  /**
+   * String to append behind the value
+   */
+  @Input()
+  units = '';
+  @Input()
+  previousValue = 0;
+  @Input()
+  valueFormatting: any;
+  @Input()
+  valueTextStyle: any;
+  @Input()
+  unitsTextStyle: any;
+  @Input()
+  ticksTextStyle: any;
+  /**
+   * Threshold colors
+   */
+  @Input()
+  otherColors = ['#DDDDDD', '#BBBBBB', '#999999'];
+  @Input()
+  thresholds = [70, 50, 30];
+  /**
+   * Resize the text automatically
+   */
+  @Input()
+  resizeAutomatically: boolean = false;
 
   @ViewChild('valueTextEl') valueTextEl?: ElementRef;
   @ViewChild('unitsTextEl') unitsTextEl?: ElementRef;

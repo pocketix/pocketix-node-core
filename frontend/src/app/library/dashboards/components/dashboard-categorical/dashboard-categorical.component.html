@@ -20,9 +20,9 @@
       <h3>
         State changes
       </h3>
-      <div style="width: 100%" *ngIf="data && start">
+      <div style="width: 100%" *ngIf="switchData && start">
         <switch-display *ngFor="let field of fields"
-          [data]="data"
+          [data]="switchData"
           [states]="states"
           [status]="field"
           [start]="start"

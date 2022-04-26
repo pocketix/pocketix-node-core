@@ -5,6 +5,9 @@ import {GeovistoThemesTool} from 'geovisto-themes';
 import * as L from "leaflet"
 import {icon, Marker} from "leaflet"
 
+/**
+ * Simple map component showing a pin
+ */
 @Component({
   selector: 'sensor-map',
   templateUrl: './map.component.html',

@@ -10,15 +10,48 @@ import {CurrentDayState, KPIOptions, PastDaysState} from "../../../components/ca
   styleUrls: ['./dashboard-categorical.component.css']
 })
 export class DashboardCategoricalComponent implements OnInit {
-  @Input() device!: Device;
-  @Input() keyValue?: {key: string, value: string}[] = [];
-  @Input() data?: OutputData[];
-  @Input() states?: (string | number)[];
-  @Input() fields?: string[];
-  @Input() bullets?: Bullet[];
-  @Input() start?: Date;
-  @Input() KPIs!: KPIOptions;
-  @Input() mapping!: (field: string) => string;
+  /**
+   * Current device
+   */
+  @Input()
+  device!: Device;
+  /**
+   * Values to display on the top left
+   */
+  @Input()
+  keyValue?: {key: string, value: string}[] = [];
+  /**
+   * Raw OutputData from Influx for the switch display component
+   */
+  @Input()
+  switchData?: OutputData[];
+  /**
+   * States for the switch display component
+   */
+  @Input()
+  states?: (string | number)[];
+  /**
+   * Fields to make the switch display components for (2 fields === 2 graphs)
+   */
+  @Input()
+  fields?: string[];
+  /**
+   * Start date of the switch display
+   */
+  @Input()
+  start?: Date;
+  /**
+   * Data for bullet charts
+   */
+  @Input()
+  bullets?: Bullet[];
+  @Input()
+  KPIs!: KPIOptions;
+  /**
+   * Field to viewable string
+   */
+  @Input()
+  mapping!: (field: string) => string;
 
   @Input()
   set currentDay(currentDay: CurrentDayState) {

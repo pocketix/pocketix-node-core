@@ -2,7 +2,7 @@
   <div class="max-height-on-lg-screen p-card col-11 lg:col-7 flex-grow-1 fadeinleft animation-duration-500">
     <div class="flex justify-content-between">
       <h5 class="p-card-title">{{deviceName}}</h5>
-      <div class="flex align-items-center">
+      <div class="flex align-items-center" *ngIf="showReloadSwitch">
         <label for="reload" class="reload">Automatic reload:</label>
         <p-inputSwitch id="reload" (onChange)="onReloadSwitch($event)"></p-inputSwitch>
       </div>

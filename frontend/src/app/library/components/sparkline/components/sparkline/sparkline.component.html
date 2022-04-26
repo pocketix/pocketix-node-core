@@ -2,7 +2,7 @@
   <span class="full-width">
     {{name}}
   </span>
-  <span class="padding-04">
+  <span class="padding-04" *ngIf="!ignoreReferenceLines">
     <p-checkbox
       pRipple
       styleClass="padding-04"
@@ -16,6 +16,7 @@
     </p-checkbox>
   </span>
 </div>
+
 <div class="sparkline-graph" *ngIf="loaded">
   <ngx-charts-line-chart
     [showRefLines]="showReferenceLines"

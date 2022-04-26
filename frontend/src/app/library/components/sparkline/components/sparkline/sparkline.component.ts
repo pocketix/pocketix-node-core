@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -10,6 +9,11 @@ import {
 } from '@angular/core';
 import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
+/**
+ * Sparkline component
+ * Allows to pass reference lines and automatically resized maximum or minimum Y when the reference lines are
+ * Smaller / bigger than the y ticks
+ */
 @Component({
   selector: 'sparkline',
   templateUrl: './sparkline.component.html',
@@ -17,13 +21,33 @@ import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SparklineComponent implements OnInit, OnChanges {
-  @Input() name?: string;
-  @Input() data!: Series[];
-  @Input() referenceLines?: DataItem[];
-  @Output() clickOnChart = new EventEmitter<any>();
-  showReferenceLines: boolean = false;
-  state: boolean = false;
+  /**
+   * Sparkline name
+   */
+  @Input()
+  name?: string;
+  /**
+   * Series to display should only contain one series or more, for stacking.
+   * Don't overuse this as no legend is and should be shown
+   */
+  @Input()
+  data!: Series[];
+  /**
+   * Chart reference lines. Useful for displaying maximum or minimum line, or any other thresholds.
+   */
+  @Input()
+  referenceLines?: DataItem[];
+  /**
+   * Ignore passed reference lines. This option hides the checkbox and any interaction with reference lines.
+   */
+  ignoreReferenceLines: boolean = false;
 
+  showReferenceLines: boolean = false;
+  @Output()
+  clickOnChart = new EventEmitter<any>();
+
+
+  state: boolean = false;
   min!: number;
   max!: number;
   minY: number = 0;
@@ -45,6 +69,10 @@ export class SparklineComponent implements OnInit, OnChanges {
   }
 
   onSparkLineSwitch($event: any) {
+    if (this.ignoreReferenceLines) {
+      return;
+    }
+
     this.showReferenceLines = !this.showReferenceLines && !!this.referenceLines;
     this.minY = this.showReferenceLines && this.referenceLines ? Math.min(...this.referenceLines?.map(item => item.value), this.min) : this.min;
     this.maxY = this.showReferenceLines && this.referenceLines ? Math.max(...this.referenceLines?.map(item => item.value), this.max) : this.max;

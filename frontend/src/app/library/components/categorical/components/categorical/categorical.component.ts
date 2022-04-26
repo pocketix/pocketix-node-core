@@ -11,6 +11,9 @@ import {Color, LegendPosition} from "@swimlane/ngx-charts";
 import {CurrentDayState, KPIOptions, PastDaysState} from "../../model/categorical.model";
 
 
+/**
+ * Categorical component displaying how are the categories distributed in the last week, day and hours of the day.
+ */
 @Component({
   selector: 'categorical',
   templateUrl: './categorical.component.html',
@@ -22,9 +25,26 @@ export class Categorical {
   constructor() {
   }
 
-  @Input() deviceUid!: string;
-  @Input() KPIs!: KPIOptions;
+  /**
+   * Name of the device
+   */
+  @Input()
+  deviceUid!: string;
 
+  /**
+   * All KPI that can be selected
+   */
+  @Input()
+  KPIs!: KPIOptions;
+
+  @Input()
+  colorScheme: Color = {
+    domain: ['#5AA454', '#C7B42C', '#AAAAAA']
+  } as Color;
+
+  /**
+   * The current state of the day view
+   */
   @Input()
   set currentDay(currentDay: CurrentDayState) {
     this._currentDay = currentDay
@@ -34,6 +54,9 @@ export class Categorical {
   @Output()
   currentDayChanged: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * The current state of the week view
+   */
   @Input()
   set pastDays(pastDays: PastDaysState) {
     this._pastDays = pastDays;
@@ -57,11 +80,6 @@ export class Categorical {
   showYAxisLabel = true;
   labelSwitchCount = 'Switch count';
   animations = true;
-
-  @Input()
-  colorScheme: Color = {
-    domain: ['#5AA454', '#C7B42C', '#AAAAAA']
-  } as Color;
 
   hourTicks: string[] = _.range(0, 24, 2).map(item => item.toString());
 
