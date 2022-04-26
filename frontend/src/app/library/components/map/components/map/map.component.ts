@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
-import {GeoJSONTypes, Geovisto, IMap} from 'geovisto';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import { Geovisto, IMap} from 'geovisto';
 import { GeovistoTilesLayerTool } from 'geovisto-layer-tiles';
 import { GeovistoThemesTool } from 'geovisto-themes';
-import { GeovistoMarkerLayerTool } from 'geovisto-layer-marker';
 
 
 @Component({
@@ -10,7 +9,7 @@ import { GeovistoMarkerLayerTool } from 'geovisto-layer-marker';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, AfterViewInit, OnChanges {
+export class MapComponent implements OnInit, AfterViewInit {
 
   constructor() { }
   @Input()
