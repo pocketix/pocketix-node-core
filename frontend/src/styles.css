@@ -3,6 +3,11 @@
 @import '../node_modules/primeng/resources/themes/saga-blue/theme.css';
 @import '../node_modules/primeicons/primeicons.css';
 @import '../node_modules/primeflex/primeflex.css';
+@import "~geovisto/dist/index.css";
+@import "~geovisto-layer-connection/dist/index.css";
+@import "~geovisto-layer-marker/dist/index.css";
+@import "~leaflet/dist/leaflet.css";
+
 
 .no-bottom-padding {
   padding-bottom: 0 !important;

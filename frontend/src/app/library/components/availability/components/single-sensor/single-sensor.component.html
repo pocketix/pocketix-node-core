@@ -1,20 +1,25 @@
 <div>
-	<div class="grid">
-		<div class="md:col-6 col-12">
-			<div>
-        <div class="grid justify-content-between">
-          <availability-linear-gauge *ngFor="let availability of sensorAvailability"
-                           [value]="availability.value"
-                           [borderValue]="availability.target"
-                           [units]="availability.text"
-                           stringToAdd="%"
-          >
-          </availability-linear-gauge>
+  <div class="grid">
+    <div class="col md:col-6 col-12">
+      <div class="p-card no-top-margin">
+        <div class="p-card-body flex-column">
+          <span class="p-card-title">
+            Availability
+          </span>
+          <div class="grid justify-content-between ">
+            <availability-linear-gauge *ngFor="let availability of sensorAvailability"
+                                       [value]="availability.value"
+                                       [borderValue]="availability.target"
+                                       [units]="availability.text"
+                                       stringToAdd="%"
+            >
+            </availability-linear-gauge>
+          </div>
         </div>
-			</div>
-			<div class="card" style="margin-bottom: 30px; margin-top: 30px">
-				<div class="card-body">
-					<div style="height: 180px;">
+      </div>
+      <div class="card" style="margin-bottom: 30px; margin-top: 30px">
+        <div class="card-body">
+          <div style="height: 180px;">
             <!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
                          [xAxis]="true"
                          [yAxis]="true"
@@ -23,26 +28,35 @@
                          [results]="copyOfSensorData"
                          [animations]="animations">
             </ngx-charts-line-chart>-->
-					</div>
-				</div>
-			</div>
-			<div class="card add-bottom-padding-when-small">
-				<div class="card-body">
-					<div style="height: 180px;">
-						<!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
-											   [xAxis]="true"
-											   [yAxis]="true"
-											   [xAxisLabel]="xAxisLabel"
-											   [yAxisLabel]="yAxisLabel"
-											   [results]="data"
-											   [animations]="animations"
-						>
-						</ngx-charts-line-chart>-->
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="md:col-6 col-12" style="width: 100%;">
-		</div>
-	</div>
+          </div>
+        </div>
+      </div>
+      <div class="card add-bottom-padding-when-small">
+        <div class="card-body">
+          <div style="height: 180px;">
+            <!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
+                         [xAxis]="true"
+                         [yAxis]="true"
+                         [xAxisLabel]="xAxisLabel"
+                         [yAxisLabel]="yAxisLabel"
+                         [results]="data"
+                         [animations]="animations"
+            >
+            </ngx-charts-line-chart>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col md:col-6 col-12">
+      <div class="p-card no-top-margin">
+        <div class="p-card-body">
+          <span class="p-card-title">
+          Location
+          </span>
+          <sensor-map >
+          </sensor-map>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

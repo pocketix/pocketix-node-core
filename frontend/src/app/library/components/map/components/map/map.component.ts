@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {GeoJSONTypes, Geovisto, IMap} from 'geovisto';
 import { GeovistoTilesLayerTool } from 'geovisto-layer-tiles';
 import { GeovistoThemesTool } from 'geovisto-themes';
-import { GeovistoConnectionLayerTool } from 'geovisto-layer-connection';
 import { GeovistoMarkerLayerTool } from 'geovisto-layer-marker';
 
 
@@ -73,10 +72,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 				  GeovistoThemesTool.createThemeBasic(),
 			  ])
 			  }),
-		  GeovistoConnectionLayerTool.createTool({
-			  id: "geovisto-tool-layer-connection",
-			  geoData: Geovisto.getGeoDataManager([geo])
-		  }),
 			  GeovistoMarkerLayerTool.createTool({
 				  id: "geovisto-tool-layer-marker",
 				  geoData:  Geovisto.getGeoDataManager([geo])
