@@ -18,6 +18,7 @@ export class DashboardCategoricalComponent implements OnInit {
   @Input() bullets?: Bullet[];
   @Input() start?: Date;
   @Input() KPIs!: KPIOptions;
+  @Input() mapping!: (field: string) => string;
 
   @Input()
   set currentDay(currentDay: CurrentDayState) {

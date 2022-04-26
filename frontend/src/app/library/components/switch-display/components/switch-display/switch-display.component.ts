@@ -32,6 +32,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
   @Input()
   colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
   @Input()
+  mapping!: (field: string) => string;
+  @Input()
   disableItemsOnLegendClick: boolean = true;
   @Output()
   switchDisplayClicked: EventEmitter<SwitchDisplayClickedEvent> = new EventEmitter<SwitchDisplayClickedEvent>();
@@ -43,6 +45,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
   statesShown: EventEmitter<SingleSimpleValue[]> = new EventEmitter<SingleSimpleValue[]>();
 
   filtered?: OutputData[];
+  mappedStatus?: string;
   private mainChartElement!: any;
   private innerChartElement!: any;
   private tooltip!: any;
@@ -79,6 +82,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   private drawCustomChart() {
     const status = this.status;
+    this.mappedStatus = this.mapping(this.status);
     this.filtered = this.data.filter(item =>item.hasOwnProperty(status) && item[status] !== null);
     const mainElement = d3.select(this.chart?.nativeElement);
 
