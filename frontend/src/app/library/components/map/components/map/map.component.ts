@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import { Geovisto, IMap} from 'geovisto';
-import { GeovistoTilesLayerTool } from 'geovisto-layer-tiles';
-import { GeovistoThemesTool } from 'geovisto-themes';
-
+import {Geovisto, IMap} from 'geovisto';
+import {GeovistoTilesLayerTool} from 'geovisto-layer-tiles';
+import {GeovistoThemesTool} from 'geovisto-themes';
+import * as L from "leaflet"
+import {icon, Marker} from "leaflet"
 
 @Component({
   selector: 'sensor-map',
@@ -17,11 +18,27 @@ export class MapComponent implements OnInit, AfterViewInit {
   @Input()
   longitude: number = 16.60796;
   private map: IMap | undefined;
+  private marker?: Marker;
 
   ngOnChanges() {
+    this.marker?.setLatLng({lat: this.latitude, lng: this.longitude});
   }
 
   ngOnInit(): void {
+    const iconRetinaUrl = 'assets/marker-icon-2x.png';
+    const iconUrl = 'assets/marker-icon.png';
+    const shadowUrl = 'assets/marker-shadow.png';
+    Marker.prototype.options.icon = icon({
+      iconRetinaUrl,
+      iconUrl,
+      shadowUrl,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+    this.map?.getState().getLeafletMap();
 	  this.map = Geovisto.createMap({
 		  id: "geovisto",
 		  globals: {
@@ -86,6 +103,11 @@ export class MapComponent implements OnInit, AfterViewInit {
 					}
 				]
 		}));
+
+    if (this.map?.getState()?.getLeafletMap()) {
+      console.log("map:", this.map?.getState()?.getLeafletMap());
+      this.marker = L.marker({lat: this.latitude, lng: this.longitude}).addTo(this.map.getState().getLeafletMap() as L.Map);
+    }
   }
 
 }
