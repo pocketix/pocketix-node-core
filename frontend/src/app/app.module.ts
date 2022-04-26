@@ -23,12 +23,11 @@ import {
 import {DashboardsModule} from "./library/dashboards/dashboards.module";
 import {CategoricalDashboardComponent} from './components/categorical-dashboard/categorical-dashboard.component';
 import {CategoricalModule} from "./library/components/categorical/categorical.module";
-import {
-  KeyValueDisplayComponent
-} from "./library/components/key-value-display/components/key-value-display/key-value-display.component";
 import {KeyValueDisplayModule} from "./library/components/key-value-display/key-value-display.module";
 import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard.component';
 import {ToastModule} from "primeng/toast";
+import {ApiModule} from "./generated/api.module";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -55,7 +54,8 @@ import {ToastModule} from "primeng/toast";
     ScrollPanelModule,
     CategoricalModule,
     KeyValueDisplayModule,
-    ToastModule
+    ToastModule,
+    ApiModule.forRoot({rootUrl: environment.api})
   ],
   providers: [],
   exports: [],

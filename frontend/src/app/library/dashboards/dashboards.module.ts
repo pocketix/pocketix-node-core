@@ -10,11 +10,9 @@ import {DashboardAvailabilityComponent} from "./components/dashboard-availabilit
 import {LineModule} from "../components/line/line.module";
 import {SparklineModule} from "../components/sparkline/sparkline.module";
 import {BulletChartModule} from "../components/bullet-chart/bullet-chart.module";
-import {ApiModule} from "../../generated/api.module";
 import {AvailabilityModule} from "../components/availability/availability.module";
 import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard.component';
 import {MainChartTemplateModule} from "../components/main-chart-template/components/main-chart-template.module";
-import {environment} from "../../../environments/environment";
 import {DashboardCategoricalComponent} from "./components/dashboard-categorical/dashboard-categorical.component";
 import {CategoricalModule} from "../components/categorical/categorical.module";
 import {KeyValueDisplayModule} from "../components/key-value-display/key-value-display.module";
@@ -38,7 +36,6 @@ import {SwitchDisplayModule} from "../components/switch-display/switch-display.m
     BulletChartModule,
     NgApexchartsModule,
     TooltipModule,
-    ApiModule.forRoot({rootUrl: environment.api}),
     AvailabilityModule,
     MainChartTemplateModule,
     CategoricalModule,
