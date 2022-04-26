@@ -25,8 +25,9 @@
       [header]="clickedSensorLabel"
     >
       <single-sensor
-        *ngIf="sensorAvailabilities"
+        *ngIf="sensorAvailabilities && sensorSparkline"
         [sensorAvailability]="sensorAvailabilities"
+        [sensorSparkline]="sensorSparkline"
       >
       </single-sensor>
     </p-dialog>

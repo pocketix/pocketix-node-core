@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Availability} from "../../model/availability.model";
+import {SparklineState} from "../../../../dashboards/model/dashboards.model";
 
 @Component({
 	selector: 'single-sensor',
@@ -11,6 +12,8 @@ export class SingleSensorComponent implements OnInit {
   sensorName: string = "";
   @Input()
   sensorAvailability!: Availability[];
+  @Input()
+  sensorSparkline!: SparklineState;
 
   animations = true;
 

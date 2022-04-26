@@ -7,6 +7,8 @@ import {
   Output
 } from '@angular/core';
 import {Availability} from "../../model/availability.model";
+import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
+import {SparklineState} from "../../../../dashboards/model/dashboards.model";
 
 @Component({
 	selector: 'availability',
@@ -19,6 +21,8 @@ export class AvailabilityComponent implements AfterViewInit {
   availabilities!: Availability[];
   @Input()
   sensorAvailabilities?: Availability[];
+  @Input()
+  sensorSparkline?: SparklineState;
   @Output()
   onAvailabilityClicked: EventEmitter<Availability> = new EventEmitter<Availability>();
 

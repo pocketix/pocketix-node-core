@@ -17,18 +17,16 @@
           </div>
         </div>
       </div>
-      <div class="card" style="margin-bottom: 30px; margin-top: 30px">
-        <div class="card-body">
-          <div style="height: 180px;">
-            <!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
-                         [xAxis]="true"
-                         [yAxis]="true"
-                         [xAxisLabel]="xAxisLabel"
-                         [yAxisLabel]="yAxisLabelTemperature"
-                         [results]="copyOfSensorData"
-                         [animations]="animations">
-            </ngx-charts-line-chart>-->
-          </div>
+      <div class="p-card">
+        <div class="p-card-body">
+          <span class="p-card-title">
+            Last Year Statistics
+          </span>
+          <sparkline
+            [data]="sensorSparkline.data[0]"
+            [referenceLines]="sensorSparkline.minMax[sensorSparkline.data[0][0].name]"
+          >
+          </sparkline>
         </div>
       </div>
       <div class="card add-bottom-padding-when-small">
@@ -53,7 +51,10 @@
           <span class="p-card-title">
           Location
           </span>
-          <sensor-map >
+          <sensor-map
+            [latitude]="sensorSparkline.device.latitude"
+            [longitude]="sensorSparkline.device.longitude"
+          >
           </sensor-map>
         </div>
       </div>

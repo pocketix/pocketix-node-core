@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {GeoJSONTypes, Geovisto, IMap} from 'geovisto';
 import { GeovistoTilesLayerTool } from 'geovisto-layer-tiles';
 import { GeovistoThemesTool } from 'geovisto-themes';
@@ -10,12 +10,18 @@ import { GeovistoMarkerLayerTool } from 'geovisto-layer-marker';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor() { }
-  private x: number = 49.975317;
-  private y: number = 16.866098;
+  @Input()
+  latitude: number = 49.19522;
+  @Input()
+  longitude: number = 16.60796;
   private map: IMap | undefined;
+
+  ngOnChanges() {
+    console.log(this.latitude, this.longitude);
+  }
 
   ngOnInit(): void {
 	  const json = {
@@ -49,12 +55,12 @@ export class MapComponent implements OnInit, AfterViewInit {
 		  globals: {
 			  zoom: 15,
 			  mapCenter: {
-				  lat: this.x,
-				  lng: this.y
+				  lat: this.latitude,
+				  lng: this.longitude
 			  },
 			  mapStructure: {
 				  maxZoom: 20,
-				  maxBounds: [[this.x + 3, this.y + 3], [this.x - 3, this.y - 3]]
+				  maxBounds: [[this.latitude + 3, this.longitude + 3], [this.latitude - 3, this.longitude - 3]]
 			  }
 		  },
 		  tools: Geovisto.createMapToolsManager([

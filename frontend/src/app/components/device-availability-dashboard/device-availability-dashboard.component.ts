@@ -2,10 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {MessageService} from "primeng/api";
 import {Device} from "../../generated/models/device";
 import {environment} from "../../../environments/environment";
-import {Bullet} from "../../library/dashboards/model/dashboards.model";
+import {Bullet, SparklineState} from "../../library/dashboards/model/dashboards.model";
 import {Operation} from "../../generated/models/operation";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
-import {parameterValueToBullet} from "../../library/dashboards/shared/tranformFunctions";
+import {
+  createStorage,
+  parameterValueToBullet, storageToSparklines,
+  twoDatesAndPointCountToAggregationMinutes, updatePreviousValue
+} from "../../library/dashboards/shared/tranformFunctions";
 import {Availability} from "../../library/components/availability/model/availability.model";
 
 @Component({
@@ -20,6 +24,7 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
   bullets: Bullet[] = [];
   availabilities?: Availability[];
   sensorAvailabilities?: Availability[];
+  sensorSparklineLastYear?: SparklineState;
 
   async ngOnInit() {
     await super.ngOnInit();
@@ -97,7 +102,28 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
     const thirtyDaysBack = new Date();
     sevenDaysBack.setDate(startDay.getDate() - 7);
     thirtyDaysBack.setDate(startDay.getDate() - 30);
-    console.log($event);
+    const yearBack = new Date();
+    yearBack.setDate(startDay.getDate() - 365);
+
+    const yearBackData = await this.influxService.aggregate({
+      operation: Operation.Mean,
+      aggregateMinutes: twoDatesAndPointCountToAggregationMinutes(yearBack, to, 300),
+      body: {
+        bucket: environment.bucket,
+        sensors: {[this.deviceUid]: [$event.field as string]}
+      }
+    }).toPromise();
+
+    const {storage, thresholdLines} = createStorage(this.lineState, yearBackData, [$event.field as string], this.mapping);
+    const sparklineData = storageToSparklines(this.lineState, storage);
+
+    this.sensorSparklineLastYear = {
+      minMax: thresholdLines,
+      device: this.device,
+      data: Object.values(sparklineData)
+    };
+
+    console.log(this.sensorSparklineLastYear.device)
 
     const data = await this.influxService.parameterAggregationWithMultipleStarts({
       body: {
@@ -114,7 +140,6 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
       }
     }).toPromise();
 
-    console.log(data);
     const transformedData = {
       "Thirty days back": data.data[0][$event.field as string] as number,
       "Seven days back": data.data[1][$event.field as string] as number,
@@ -126,8 +151,6 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
       "Seven days back": (to.getTime() - sevenDaysBack.getTime()) / (1000 * 3600 * 24),
       "Today": (to.getTime() - startDay.getTime()) / (1000 * 3600 * 24),
     };
-
-    console.log("Overrides", availabilityOverrides, thirtyDaysBack, sevenDaysBack, startDay, to);
 
     this.sensorAvailabilities = this.numericalDataToAvailability(transformedData, availabilityOverrides);
   }

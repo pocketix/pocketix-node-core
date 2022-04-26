@@ -8,6 +8,7 @@ import {AvailabilityComponent} from "./components/availability-component/availab
 import {SingleSensorComponent} from "./components/single-sensor/single-sensor.component";
 import {DialogModule} from "primeng/dialog";
 import {MapModule} from "../map/map.module";
+import {SparklineModule} from "../sparkline/sparkline.module";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {MapModule} from "../map/map.module";
     LineChartModule,
     DialogModule,
     MapModule,
+    SparklineModule,
   ],
   exports: [
     AvailabilityLinearGaugeComponent,

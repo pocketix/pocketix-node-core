@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
 import {Availability} from "../../../components/availability/model/availability.model";
+import { Series } from '@swimlane/ngx-charts';
+import {SparklineState} from "../../model/dashboards.model";
 
 @Component({
   selector: 'dashboard-availability',
@@ -12,6 +14,8 @@ export class DashboardAvailabilityComponent extends BaseDashboardComponent imple
   availabilities: Availability[] = [];
   @Input()
   sensorAvailabilities?: Availability[];
+  @Input()
+  sensorSparkline?: SparklineState;
   @Output()
   availabilityClicked: EventEmitter<Availability> = new EventEmitter<Availability>();
 

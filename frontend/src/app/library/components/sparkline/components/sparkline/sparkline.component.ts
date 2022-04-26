@@ -1,4 +1,13 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from '@angular/core';
 import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 
 @Component({
@@ -7,7 +16,7 @@ import {DataItem, Series} from "@swimlane/ngx-charts/lib/models/chart-data.model
   styleUrls: ['./sparkline.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SparklineComponent implements OnInit, AfterViewInit {
+export class SparklineComponent implements OnInit, OnChanges {
   @Input() name?: string;
   @Input() data!: Series[];
   @Input() referenceLines?: DataItem[];
@@ -26,7 +35,7 @@ export class SparklineComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
+  ngOnChanges(): void {
     const values = this.data[0].series.map(item => item.value);
     this.min = Math.min(...values);
     this.max = Math.max(...values);
@@ -40,6 +49,7 @@ export class SparklineComponent implements OnInit, AfterViewInit {
     this.minY = this.showReferenceLines && this.referenceLines ? Math.min(...this.referenceLines?.map(item => item.value), this.min) : this.min;
     this.maxY = this.showReferenceLines && this.referenceLines ? Math.max(...this.referenceLines?.map(item => item.value), this.max) : this.max;
     $event['showReferenceLines'] = this.showReferenceLines;
+    console.log(this.min, this.maxY, this.referenceLines);
     this.clickOnChart.emit($event);
   }
 }
