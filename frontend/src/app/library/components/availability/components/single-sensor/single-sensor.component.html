@@ -1,7 +1,20 @@
 <div>
   <div class="grid">
     <div class="col md:col-6 col-12">
-      <div class="p-card no-top-margin">
+      <div class="p-card  no-top-margin">
+        <div class="p-card-body">
+          <span class="p-card-title">
+            Sensor detail
+          </span>
+          <div>
+            {{currentParameterType?.name}}
+            <key-value-display
+            >
+            </key-value-display>
+          </div>
+        </div>
+      </div>
+      <div class="p-card">
         <div class="p-card-body flex-column">
           <span class="p-card-title">
             Availability
@@ -27,21 +40,6 @@
             [referenceLines]="sensorSparkline.minMax[sensorSparkline.data[0][0].name]"
           >
           </sparkline>
-        </div>
-      </div>
-      <div class="card add-bottom-padding-when-small">
-        <div class="card-body">
-          <div style="height: 180px;">
-            <!--<ngx-charts-line-chart [showXAxisLabel]="true" [showYAxisLabel]="true" [legend]="false"
-                         [xAxis]="true"
-                         [yAxis]="true"
-                         [xAxisLabel]="xAxisLabel"
-                         [yAxisLabel]="yAxisLabel"
-                         [results]="data"
-                         [animations]="animations"
-            >
-            </ngx-charts-line-chart>-->
-          </div>
         </div>
       </div>
     </div>

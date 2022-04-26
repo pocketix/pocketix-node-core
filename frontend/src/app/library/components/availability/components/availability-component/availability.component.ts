@@ -7,8 +7,9 @@ import {
   Output
 } from '@angular/core';
 import {Availability} from "../../model/availability.model";
-import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {SparklineState} from "../../../../dashboards/model/dashboards.model";
+import {Device} from "../../../../../generated/models/device";
+import {ParameterType} from "../../../../../generated/models/parameter-type";
 
 @Component({
 	selector: 'availability',
@@ -17,6 +18,8 @@ import {SparklineState} from "../../../../dashboards/model/dashboards.model";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AvailabilityComponent implements AfterViewInit {
+  @Input()
+  device!: Device;
   @Input()
   availabilities!: Availability[];
   @Input()
@@ -34,12 +37,12 @@ export class AvailabilityComponent implements AfterViewInit {
   displayModal: boolean = false;
 
   clickedSensorLabel: string = "";
+  selectedType?: ParameterType;
 
 	constructor() {
 	}
 
 	ngAfterViewInit(): void {
-    console.log(this.availabilities)
     this.availability = Math.round(this.availabilities.reduce(
       (sum, availability) => sum + availability.value, 0
     ) / this.availabilities.length * 100) / 100;
@@ -48,6 +51,7 @@ export class AvailabilityComponent implements AfterViewInit {
 
   availabilityClick($event: Availability) {
     this.clickedSensorLabel = $event.text;
+    this.selectedType = this.device.parameterValues?.find(item => item.type.name === $event.field)?.type;
     this.onAvailabilityClicked.emit($event);
     this.displayModal = true;
   }

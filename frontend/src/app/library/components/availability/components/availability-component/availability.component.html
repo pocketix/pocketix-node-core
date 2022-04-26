@@ -26,11 +26,13 @@
       [modal]="true"
       [blockScroll]="true"
       [dismissableMask]="true"
+      [draggable]="false"
     >
       <single-sensor
         *ngIf="sensorAvailabilities && sensorSparkline"
         [sensorAvailability]="sensorAvailabilities"
         [sensorSparkline]="sensorSparkline"
+        [currentParameterType]="selectedType"
       >
       </single-sensor>
     </p-dialog>

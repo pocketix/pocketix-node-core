@@ -9,6 +9,7 @@ import {SingleSensorComponent} from "./components/single-sensor/single-sensor.co
 import {DialogModule} from "primeng/dialog";
 import {MapModule} from "../map/map.module";
 import {SparklineModule} from "../sparkline/sparkline.module";
+import {KeyValueDisplayModule} from "../key-value-display/key-value-display.module";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {SparklineModule} from "../sparkline/sparkline.module";
     DialogModule,
     MapModule,
     SparklineModule,
+    KeyValueDisplayModule,
   ],
   exports: [
     AvailabilityLinearGaugeComponent,
