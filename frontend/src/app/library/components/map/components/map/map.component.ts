@@ -20,36 +20,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   private map: IMap | undefined;
 
   ngOnChanges() {
-    console.log(this.latitude, this.longitude);
   }
 
   ngOnInit(): void {
-	  const json = {
-		  "type": "FeatureCollection",
-		  "features":
-			  [
-				  {
-					  "type": "Feature",
-					  "id": "CZ0100",
-					  "properties": {
-						  "name": "Praha-město"
-					  },
-					  "geometry":  {
-						  "type": GeoJSONTypes.Point,
-						  "coordinates":
-							  [
-								  [49.975317, 70],
-								  [49.98, 16.9],
-								  [49.99, 16.95],
-								  [75, 40]
-							  ]
-					  }
-				  }
-			  ]
-	  };
-
-	  const geo = Geovisto.getGeoDataFactory().geojson("data", json);
-
 	  this.map = Geovisto.createMap({
 		  id: "geovisto",
 		  globals: {
@@ -77,10 +50,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 			  manager: GeovistoThemesTool.createThemesManager([
 				  GeovistoThemesTool.createThemeBasic(),
 			  ])
-			  }),
-			  GeovistoMarkerLayerTool.createTool({
-				  id: "geovisto-tool-layer-marker",
-				  geoData:  Geovisto.getGeoDataManager([geo])
 			  }),
 		  ])
 	  });
