@@ -23,6 +23,9 @@
       [breakpoints]="{'1280px': '75vw', '720px': '100vw'}"
       [style]="{width: '75vw'}"
       [header]="clickedSensorLabel"
+      [modal]="true"
+      [blockScroll]="true"
+      [dismissableMask]="true"
     >
       <single-sensor
         *ngIf="sensorAvailabilities && sensorSparkline"
