@@ -250,4 +250,162 @@ describe('Tests of the data path of the InfluxController', () => {
     });
 });
 
+describe('Tests of the differenceBetweenFirstAndLast path of the InfluxController', () => {
+    it('Fail, missing body', async () => {
+        const result = await request(app).post('/statistics/differenceBetweenFirstAndLast');
+        expect(result.statusCode).toEqual(422);
+    });
 
+    it('Fail, wrong operation', async () => {
+        const result = await request(app).post('/statistics/differenceBetweenFirstAndLast')
+            .send({
+                operation: "unknown operation",
+                bucket: "",
+                param: {
+                    sensors: ["test"]
+                }
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+
+    it('Pass, ok', async () => {
+        const result = await request(app).post('/statistics/differenceBetweenFirstAndLast')
+            .send({
+                operation: "mean",
+                bucket: "",
+                param: {
+                    sensors: ["test"]
+                }
+            });
+        expect(result.statusCode).toEqual(200);
+    });
+});
+
+describe('Tests of the lastOccurrenceOfValue path of the InfluxController', () => {
+    it('Fail, missing body', async () => {
+        const result = await request(app).post('/statistics/lastOccurrenceOfValue/eq');
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, wrong operator', async () => {
+        const result = await request(app).post('/statistics/lastOccurrenceOfValue/unknownOperator')
+            .send({input: {
+                    operation: "unknown operation",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                },
+                value: {key: "value"}
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, missing value in body', async () => {
+        const result = await request(app).post('/statistics/lastOccurrenceOfValue/unknownOperator')
+            .send({input: {
+                    operation: "unknown operation",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                }
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, missing input in body', async () => {
+        const result = await request(app).post('/statistics/lastOccurrenceOfValue/eq')
+            .send({value: {key: "value"}});
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('pass, Ok', async () => {
+        const result = await request(app).post('/statistics/lastOccurrenceOfValue/eq')
+            .send({input: {
+                    operation: "",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                },
+                value: {key: "value"}
+            });
+        expect(result.statusCode).toEqual(200);
+    });
+});
+
+describe('Tests of the parameterAggregationWithMultipleStarts path of the InfluxController', () => {
+    it('Fail, missing body', async () => {
+        const result = await request(app).post('/statistics/parameterAggregationWithMultipleStarts');
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, starts as numbers', async () => {
+        const result = await request(app).post('/statistics/parameterAggregationWithMultipleStarts')
+            .send({
+                data: {
+                    operation: "",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                },
+                starts: [1, 2, 3]
+            })
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Pass, Ok', async () => {
+        const result = await request(app).post('/statistics/parameterAggregationWithMultipleStarts')
+            .send({
+                data: {
+                    operation: "",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                },
+                starts: ["1", "2", "3"]
+            })
+        expect(result.statusCode).toEqual(200);
+    });
+});
+
+describe('Tests of the filterDistinctValue path of the InfluxController', () => {
+    it('Fail, missing body', async () => {
+        const result = await request(app).post('/statistics/filterDistinctValue?isString=false&shouldCount=false');
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, missing query', async () => {
+        const result = await request(app).post('/statistics/filterDistinctValue')
+            .send({
+                values: [1, 2, 3],
+                data: {
+                    operation: "",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                }
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Pass, Ok', async () => {
+        const result = await request(app).post('/statistics/filterDistinctValue?isString=false&shouldCount=false')
+            .send({
+                values: [1, 2, 3],
+                data: {
+                    operation: "",
+                    bucket: "",
+                    param: {
+                        sensors: ["test"]
+                    }
+                }
+            });
+        expect(result.statusCode).toEqual(200);
+    });
+});
