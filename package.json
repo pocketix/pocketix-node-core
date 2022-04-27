@@ -15,9 +15,10 @@
 	"run-express": "npm --prefix ./backend/express run dev",
 	"run-angular": "npm --prefix frontend run start",
     "frontend": "npm --prefix ./frontend install ./frontend",
-	"test": "concurrently \"npm run test-express\" \"npm run test-influx\"",
+	"test": "concurrently \"npm run test-express\" \"npm run test-influx\" \"npm run test-frontend\"",
 	"test-express": "npm --prefix ./backend/express run test",
-	"test-influx": "npm --prefix ./backend/InfluxDataBase run test"
+	"test-influx": "npm --prefix ./backend/InfluxDataBase run test",
+	"test-frontend": "npm --prefix ./frontend run single-test"
   },
   "keywords": [],
   "author": "",
