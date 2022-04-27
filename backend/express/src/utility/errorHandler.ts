@@ -12,8 +12,6 @@ type VoidableResponse = Response | void;
  */
 const errorHandler = (error: unknown, request: Request, response: Response, next: NextFunction): VoidableResponse => {
     if (error instanceof ValidateError) {
-        console.warn(`Validation error ${request.path} ${JSON.stringify(error.fields)}`);
-
         return response.status(422).json({
             message: 'Validation errors',
             details: error?.fields
