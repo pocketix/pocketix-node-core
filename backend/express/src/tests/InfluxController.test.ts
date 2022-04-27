@@ -166,3 +166,88 @@ describe('Tests of the aggregate path of the InfluxController', () => {
     });
 });
 
+describe('Tests of the data path of the InfluxController', () => {
+    it('Fail, missing body', async () => {
+        const result = await request(app).post('/statistics/data');
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, missing bucket', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                data: {tst: 1}
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Fail, missing tst', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                bucket: "",
+                data: {}
+            });
+        expect(result.statusCode).toEqual(422);
+    });
+
+    it('Pass, but no data', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                bucket: "",
+                data: {tst: 1000}
+            });
+        expect(result.statusCode).toEqual(201);
+    });
+
+    it('Pass, with custom data field', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                bucket: "",
+                data: {
+                    tst: 1000,
+                    field: 1
+                }
+            });
+        expect(result.statusCode).toEqual(201);
+    });
+
+    it('Pass, with multiple fields', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                bucket: "",
+                data: [{
+                    tst: 1000,
+                    field: 1,
+                    temperature: 1,
+                    humidity: 50,
+                    doorState: "open"
+                }]
+            });
+        expect(result.statusCode).toEqual(201);
+    });
+
+    it('Pass, with multiple data points', async () => {
+        const result = await request(app).post('/statistics/data')
+            .send({
+                bucket: "",
+                data: [
+                    {
+                        tst: 1000,
+                        field: 1,
+                        temperature: 1,
+                        humidity: 50,
+                        doorState: "open"
+                    },
+                    {
+                        tst: 1001,
+                        field: 1,
+                        temperature: 1,
+                        humidity: 50,
+                        doorState: "open"
+                    }
+                ]
+            });
+        expect(result.statusCode).toEqual(201);
+    });
+});
+
+
