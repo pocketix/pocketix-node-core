@@ -23,7 +23,7 @@ const defaultDBConfig = {
 }
 
 const defaultConfig = {
-	region: 'us-east-1',
+	region: 'localhost',
 	endpoint: "http://localhost:8000",
 	accessKeyId: "AKIAIOSFODNN7EXAMPLE",
 	secretAccessKey: "xxwJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYxx",
@@ -73,6 +73,15 @@ const transformMany = (documents) => {
 	return documents.map(document => transformOne(document));
 }
 
+/**
+ * Inserts multiple documents to DynamoDB
+ * It would be possible to use BatchWriteItem https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/batchwriteitemcommand.html
+ * here, but it wouldn't overcome most of the limitations (still only 25 requests can be sent). This is not the main part of the benchmark
+ * as there is generally no need to seed series tables (this happens only in some edge cases, like switching from one database to another).
+ * @param document
+ * @param table
+ * @return {Promise<void>}
+ */
 const insertMany = async ({document, table}) => {
 	const documentClient = new AWS.DynamoDB.DocumentClient();
 	for (const item of document) {
