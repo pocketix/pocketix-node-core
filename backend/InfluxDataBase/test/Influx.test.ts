@@ -504,8 +504,8 @@ describe('Test filterDistinctValue generation', () => {
                           table
                             |> map(
                               fn: (r) => ({r with level_value:
-                                  if strings.toLower(v: r._value) == "open" then 0
-                                  else if strings.toLower(v: r._value) == "closed" then 1
+                                  if r._value == open then 0
+                                  else if r._value == closed then 1
                                   else -1,
                               }),
                             )
@@ -554,7 +554,7 @@ describe('Test filterDistinctValue generation', () => {
                           table
                             |> map(
                               fn: (r) => ({r with level_value:
-                                  if strings.toLower(v: r._value) == "open" then 0
+                                  if r._value == open then 0
                                   else -1,
                               }),
                             )

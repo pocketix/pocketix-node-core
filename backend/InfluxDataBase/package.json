@@ -4,7 +4,7 @@
   "description": "",
   "main": "aws_api/index.ts",
   "scripts": {
-    "test": "node api/test.ts",
+    "test": "npx jest",
     "run": "node aws_api/index.ts"
   },
   "keywords": [],
