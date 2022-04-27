@@ -46,9 +46,6 @@ const headers = {
 
 import {IInflux} from "../../InfluxDataBase/api/IInflux"
 import {Influx} from "../../InfluxDataBase/api/Influx";
-import {InfluxQueryInput} from "../../InfluxDataBase/api/influxTypes";
-
-import {WriteRequestBody} from "./generated/models/write-request-body";
 
 const influx: IInflux = new Influx(
     process.env.URL || "",
@@ -118,7 +115,7 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
     }
 
     const input = {
-        operation: "",
+        operation: "" as any,
         bucket: request.body.bucket,
         param: {
             sensors: request.body.sensors,
@@ -126,7 +123,7 @@ export const statistics: APIGatewayProxyHandler = async (event, context) => {
             to: request.query.to || undefined,
             timezone: request.body.timezone || undefined
         }
-    } as InfluxQueryInput
+    };
 
     const results = await influx.queryApi(input);
     return createResponse(results);
@@ -153,7 +150,7 @@ export const aggregate: APIGatewayProxyHandler = async (event, context) => {
             timezone: request.body.timezone || undefined,
             aggregateMinutes: request.query.aggregateMinutes || undefined
         }
-    } as InfluxQueryInput
+    };
 
     const results = await influx.queryApi(input);
     return createResponse(results);
@@ -220,7 +217,7 @@ export const saveData: APIGatewayProxyHandler = async (event, context) => {
 
     context.callbackWaitsForEmptyEventLoop = false;
 
-    const body = JSON.parse(JSON.stringify(event.body)) as WriteRequestBody;
+    const body = JSON.parse(JSON.stringify(event.body));
 
     const results = await influx.saveData(body.data, body.bucket);
     return createResponse(results);
