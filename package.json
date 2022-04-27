@@ -12,6 +12,8 @@
     "express": "npm --prefix ./backend/express install ./backend/express",
     "influx-lambda": "npm --prefix ./backend/influx-lambda install ./backend/influx-lambda",
     "InfluxDataBase": "npm --prefix ./backend/InfluxDataBase install ./backend/InfluxDataBase",
+	"run-express": "npm --prefix ./backend/express run dev",
+	"run-angular": "npm --prefix frontend run start",
     "frontend": "npm --prefix ./frontend install ./frontend",
 	"test": "concurrently \"npm run test-express\" \"npm run test-influx\"",
 	"test-express": "npm --prefix ./backend/express run test",

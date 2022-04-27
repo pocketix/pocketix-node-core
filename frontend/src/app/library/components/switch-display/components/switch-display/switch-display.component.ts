@@ -32,7 +32,7 @@ export class SwitchDisplayComponent implements AfterViewInit {
   @Input()
   colors: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
   @Input()
-  mapping!: (field: string) => string;
+  mapping: (field: string) => string = (key: string) => key;
   @Input()
   disableItemsOnLegendClick: boolean = true;
   @Output()

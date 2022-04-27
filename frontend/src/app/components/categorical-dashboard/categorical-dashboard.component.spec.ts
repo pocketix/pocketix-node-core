@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoricalDashboardComponent } from './categorical-dashboard.component';
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('CategoricalDashboardComponent', () => {
   let component: CategoricalDashboardComponent;
@@ -8,6 +10,7 @@ describe('CategoricalDashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule],
       declarations: [ CategoricalDashboardComponent ]
     })
     .compileComponents();

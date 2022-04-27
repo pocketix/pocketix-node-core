@@ -28,6 +28,8 @@ import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard
 import {ToastModule} from "primeng/toast";
 import {ApiModule} from "./generated/api.module";
 import {environment} from "../environments/environment";
+import { RouterTestingModule } from "@angular/router/testing";
+
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ import {environment} from "../environments/environment";
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule,
+    RouterModule.forRoot([]),
     AvailabilityModule,
     AppRoutingModule,
     DashboardsModule,
@@ -55,6 +57,7 @@ import {environment} from "../environments/environment";
     CategoricalModule,
     KeyValueDisplayModule,
     ToastModule,
+    RouterTestingModule,
     ApiModule.forRoot({rootUrl: environment.api})
   ],
   providers: [],

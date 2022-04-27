@@ -51,7 +51,7 @@
           <span class="p-card-title">
             Last Year Statistics
           </span>
-          <sparkline
+          <sparkline *ngIf="sensorSparkline.data && sensorSparkline.data.length"
             [data]="sensorSparkline.data[0]"
             [referenceLines]="sensorSparkline.minMax[sensorSparkline.data[0][0].name]"
           >

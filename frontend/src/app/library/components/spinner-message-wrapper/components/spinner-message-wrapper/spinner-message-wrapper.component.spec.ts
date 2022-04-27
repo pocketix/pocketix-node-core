@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpinnerMessageWrapperComponent } from './spinner-message-wrapper.component';
 
-describe('LgmcGSpinnerMessageWrapperComponent', () => {
+describe('SpinnerMessageWrapperComponent', () => {
   let component: SpinnerMessageWrapperComponent;
   let fixture: ComponentFixture<SpinnerMessageWrapperComponent>;
 

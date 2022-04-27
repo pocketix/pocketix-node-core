@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SparklineComponent } from './sparkline.component';
 
-describe('LgmcGSparklineComponent', () => {
+describe('SparklineComponent', () => {
   let component: SparklineComponent;
   let fixture: ComponentFixture<SparklineComponent>;
 

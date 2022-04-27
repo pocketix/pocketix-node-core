@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BulletChartComponent } from './bullet-chart.component';
 
-describe('LgmcGBulletChartComponent', () => {
+describe('BulletChartComponent', () => {
   let component: BulletChartComponent;
   let fixture: ComponentFixture<BulletChartComponent>;
 
@@ -16,6 +16,7 @@ describe('LgmcGBulletChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BulletChartComponent);
     component = fixture.componentInstance;
+    component.update();
     fixture.detectChanges();
   });
 
