@@ -1,10 +1,10 @@
 const influxSingle = ({bucket}) => `from(bucket: "${bucket}") 
   |> range(start: 2021-09-09T09:44:00.892Z, stop: 2021-09-09T09:44:02.192Z)`;
 
-const influxAll = ({bucket}) => `from(bucket: "${bucket}") |> range(start: -60d)`;
+const influxAll = ({bucket}) => `from(bucket: "${bucket}") |> range(start: 2021-09-09T09:44:01.892Z)`;
 
 const influxAggregateAvg = ({bucket, minutes}) => `from(bucket: "${bucket}")
-  |> range(start: -60d)
+  |> range(start: 2021-09-09T09:44:01.892Z)
   |> filter(fn: (r) => r["_measurement"] == "boiler")
   |> filter(fn: (r) => r["host"] == "host1")
   |> aggregateWindow(every: ${minutes}m, fn: mean, createEmpty: false)
