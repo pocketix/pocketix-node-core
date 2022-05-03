@@ -28,7 +28,6 @@
     "@types/lodash": "^4.14.181",
     "d3": "^7.4.3",
     "d3-scale": "^4.0.2",
-    "dip": "file:..",
     "geovisto": "^1.0.0",
     "geovisto-layer-connection": "^1.0.0",
     "geovisto-layer-marker": "^1.0.1",
