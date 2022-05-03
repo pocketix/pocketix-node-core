@@ -59,8 +59,12 @@ export class SparklineComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(): void {
-    const values = this.data[0].series.map(item => item.value);
+  ngOnChanges(changes:any): void {
+    const data = this.data.reduce((previous, items) => {
+      previous.push(...items.series);
+      return previous;
+    }, [] as DataItem[]);
+    const values = data.map(item => item.value);
     this.min = Math.min(...values);
     this.max = Math.max(...values);
     this.minY = this.min;

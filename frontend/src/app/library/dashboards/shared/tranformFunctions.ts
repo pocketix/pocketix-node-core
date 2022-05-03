@@ -192,7 +192,7 @@ const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: str
   const takePreviousValuesFromStorage = data[0][1];
 
   bulletsState.data.forEach(bullet => {
-    const items = takePreviousValuesFromStorage[`${bullet.name} ${bullet.units}`];
+    const items = takePreviousValuesFromStorage[`${bullet.name}`];
     const lastItem = items[items.length - 1];
     bullet.previousValue = lastItem.value;
   });
@@ -316,7 +316,7 @@ const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
     dates.push(start.toDateString());
     start.setDate(start.getDate() + 1);
   }
-
+  console.log(dates);
   pastDays.ticks = dates;
 };
 

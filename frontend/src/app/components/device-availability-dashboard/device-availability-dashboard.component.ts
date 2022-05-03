@@ -8,7 +8,7 @@ import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component
 import {
   createStorage,
   parameterValueToBullet, storageToSparklines,
-  twoDatesAndPointCountToAggregationMinutes, updatePreviousValue
+  twoDatesAndPointCountToAggregationMinutes,
 } from "../../library/dashboards/shared/tranformFunctions";
 import {Availability} from "../../library/components/availability/model/availability.model";
 

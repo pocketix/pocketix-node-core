@@ -103,7 +103,7 @@ export class CategoricalDashboardComponent implements OnInit {
           bucket: environment.bucket,
           operation: Operation._,
           param: {
-            to: to.toISOString(), from: startDay.toISOString(), sensors: {boiler: this.switchFields}
+            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: this.switchFields}
           }
         },
         values: this.states
@@ -154,11 +154,12 @@ export class CategoricalDashboardComponent implements OnInit {
       aggregateMinutes: 60 * 2,
       body: {
         bucket: environment.bucket,
-        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)},
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     }).subscribe(items => {
-      console.log(items);
       this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
+      console.log("current day",this.currentDay.data, items);
     });
 
     this.influxService.aggregate({
@@ -191,6 +192,7 @@ export class CategoricalDashboardComponent implements OnInit {
       body: {
         bucket: environment.bucket,
         sensors: [this.deviceUid],
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     }).subscribe(items => {
       this.pastDays.data = itemsToBarChart(items,
@@ -198,12 +200,12 @@ export class CategoricalDashboardComponent implements OnInit {
         this.currentDay.fields,
         (time) => new Date(time).toDateString());
       createPastDaysSwitchDataTicks(this.pastDays);
+      console.log(this.pastDays, Intl.DateTimeFormat().resolvedOptions().timeZone);
       this.pastDays.dataLoading = false;
     });
   }
 
   currentDayChanged(_: any) {
-    console.log("change");
     if (!this.currentDay.fields?.length) {
       return;
     }

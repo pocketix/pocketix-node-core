@@ -8,7 +8,7 @@
   [sparklineState]=sparklineState
   [sensorAvailabilities]="sensorAvailabilities"
   [sensorSparkline]="sensorSparklineLastYear"
-  (lineStateChanged)="updateMainChart()"
+  (lineStateChanged)="onMainChartUpdate()"
   (availabilityClicked)="updateAvailabilityData($event)"
   [(lineState)]=lineState
 >

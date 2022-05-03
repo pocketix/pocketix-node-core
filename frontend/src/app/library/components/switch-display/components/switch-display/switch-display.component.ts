@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
+  Input, OnInit,
   Output,
   ViewChild,
   ViewEncapsulation
@@ -20,7 +20,7 @@ import {Changes, SwitchDisplayClickedEvent} from "../../model/switch-display.mod
   styleUrls: ['./switch-display.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SwitchDisplayComponent implements AfterViewInit {
+export class SwitchDisplayComponent implements AfterViewInit, OnInit {
   @Input()
   data!: OutputData[];
   @Input()
@@ -61,6 +61,10 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   constructor() { }
 
+  ngOnInit() {
+    this.mappedStatus = this.mapping(this.status);
+  }
+
   ngAfterViewInit(): void {
     this.drawCustomChart();
   }
@@ -82,8 +86,8 @@ export class SwitchDisplayComponent implements AfterViewInit {
 
   private drawCustomChart() {
     const status = this.status;
-    this.mappedStatus = this.mapping(this.status);
     this.filtered = this.data.filter(item =>item.hasOwnProperty(status) && item[status] !== null);
+    this.filtered = this.filtered.slice(this.filtered.length - 10, this.filtered.length);
     const mainElement = d3.select(this.chart?.nativeElement);
 
     if (!this.filtered?.length) {

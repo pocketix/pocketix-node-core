@@ -81,7 +81,7 @@ export class Categorical {
   labelSwitchCount = 'Switch count';
   animations = true;
 
-  hourTicks: string[] = _.range(0, 24, 2).map(item => item.toString());
+  hourTicks: string[] = _.range(2, 25, 2).map(item => item.toString());
 
   sort = (first: { name: any; }, second: { name: any; }) => toNumber(first.name) > toNumber(second.name) ? 1 : -1;
   sortDates = (first: { name: string | number | Date; }, second: { name: string | number | Date; }) =>

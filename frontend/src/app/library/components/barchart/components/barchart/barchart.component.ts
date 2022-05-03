@@ -65,6 +65,8 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
 
     const data = this.data ? [...this.data] : [];
 
+    console.log("ticks", this.fillTicks, this.xAxisTicks);
+
     if (this.fillTicks && this.xAxisTicks) {
       this.xAxisTicks.forEach(tick => {
         if (!data.find(series => series.name === tick)) {

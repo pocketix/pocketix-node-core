@@ -114,11 +114,11 @@ export class BaseDashboardComponent implements OnInit {
     }).subscribe(items => {
       if (items?.data) {
         const {storage, thresholdLines} = createStorage(this.lineState, items, sparklines, this.mapping);
-        updatePreviousValue(this.bulletsState,storage);
+        updatePreviousValue(this.bulletsState, storage);
         const sparklineData = storageToSparklines(this.lineState, storage);
         this.sparklineState.minMax = thresholdLines;
         this.sparklineState.data = Object.values(sparklineData);
-        console.log(items.data);
+        console.log(this.sparklineState);
       } else {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }
@@ -191,5 +191,11 @@ export class BaseDashboardComponent implements OnInit {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }
     });
+  }
+
+  public onMainChartUpdate() {
+    this.updateMainChart();
+    this.updateSparklines(this.sparklines);
+    this.updateBoxPlots(this.sparklines);
   }
 }
