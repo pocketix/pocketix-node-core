@@ -31,6 +31,7 @@ type BarchartElementRef = {
     nativeElement: {
       querySelector: (arg0: string) =>
         { (): any; new(): any; querySelectorAll: { (arg0: string): Iterable<unknown> | ArrayLike<unknown>; new(): any; }; };
+      querySelectorAll(s: string): ArrayLike<any>;
     };
   };
 } | undefined;

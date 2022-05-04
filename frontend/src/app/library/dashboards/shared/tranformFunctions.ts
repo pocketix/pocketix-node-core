@@ -310,13 +310,13 @@ const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} =>
  */
 const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
   const start = new Date(pastDays.startDate.setHours(0, 0, 0, 0));
+  start.setDate(start.getDate() + 1);
   const dates = [];
 
   while (start < pastDays.endDate) {
     dates.push(start.toDateString());
     start.setDate(start.getDate() + 1);
   }
-  console.log(dates);
   pastDays.ticks = dates;
 };
 

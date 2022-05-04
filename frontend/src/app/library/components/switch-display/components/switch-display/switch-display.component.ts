@@ -13,6 +13,7 @@ import {ScaleBand, ScaleTime} from "d3";
 import {OutputData} from "../../../../../generated/models/output-data";
 import {SingleSimpleValue} from "../../../../../generated/models/single-simple-value";
 import {Changes, SwitchDisplayClickedEvent} from "../../model/switch-display.model";
+import {getTextWidth} from "../../../../dashboards/shared/resizeUtility";
 
 @Component({
   selector: 'switch-display',
@@ -49,6 +50,8 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
   private mainChartElement!: any;
   private innerChartElement!: any;
   private tooltip!: any;
+  private canvas: any;
+  private font: string = "";
 
   @ViewChild('chart') chart?: ElementRef;
   private mappedStates: { [p: string]: any[] } = {};
@@ -125,6 +128,7 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
       .range(this.colors);
 
     this.createLegend(mainElement);
+    this.updateFont(mainElement);
 
     this.tooltip = mainElement
       .append("div")
@@ -148,6 +152,13 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
 
     this.stackData();
     this.render();
+  }
+
+  updateFont(element: any) {
+    const fontSize = getComputedStyle(element.node()).fontSize;
+    const fontWeight = getComputedStyle(element.node()).fontWeight;
+    const fontFamily = getComputedStyle(element.node()).fontFamily;
+    this.font = `${fontWeight} ${fontSize} ${fontFamily}`;
   }
 
   private stackData() {
@@ -193,7 +204,6 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
       .on("mouseleave", ($event: any) => this.mouseLeave($event))
       .on("click", ($event: PointerEvent) => this.mouseClick($event));
 
-    console.log("draw");
     this.innerChartElement?.selectAll("g > *")?.remove();
     this.innerChartElement = this.mainChartElement.append("g")
       .selectAll("g")
@@ -208,24 +218,34 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
       .attr("x", (d: (Date | d3.NumberValue)[]) => this.xAxis(d[0]))
       .attr("y", this.yAxis(this.status))
       .attr("height", 30)
-      .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0])));
+      .attr("width", (data: (Date | d3.NumberValue)[]) => this.getWidth(data)));
 
     this.innerChartElement.append("foreignObject")
       .attr("x", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[0]))
       .attr("y", this.yAxis(this.status))
       .attr("height", 30)
-      .attr("width", (data: (Date | d3.NumberValue)[]) => this.xAxis(data[1]) - this.xAxis(data[0]))
+      .attr("width", (data: (Date | d3.NumberValue)[]) => this.getWidth(data))
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
       .append("xhtml:div")
       .style("pointer-events", "none")
       .append("p")
-      .text((d: { data: { [x: string]: { toString: () => any; }; }; }) => d.data[this.status].toString())
+      .text((d: { data: { [x: string]: { toString: () => any; }; }; }) => this.scaleText(d))
       .style("width", "100%")
       .style("text-align", "center")
       .style("pointer-events", "none")
       .style("margin-top", "6px");
-    console.log(this.innerChartElement);
+  }
+
+  private getWidth(data: any): number {
+    return this.xAxis(data[1]) - this.xAxis(data[0]);
+  }
+
+  private scaleText(data: any) : string {
+    const text = data.data[this.status].toString();
+    const width = this.getWidth(data);
+    console.log(data, text, width);
+    return this.formattingHack(text, width);
   }
 
   private createLegend(mainElement: any) {
@@ -243,7 +263,6 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
         $event.target.classList.toggle("legend-disabled");
         this.legendClicked.emit(state);
         if (this.disableItemsOnLegendClick) {
-          console.log(this.allStackedData);
           this.enabledOrDisabledStates[state] = !this.enabledOrDisabledStates[state];
           const states = Object.entries(this.allStackedData).filter(([key, _]) =>
             this.enabledOrDisabledStates[key]).map(([item, _]) => item);
@@ -342,4 +361,18 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
       .style("opacity", 0.9)
       .style("stroke", "black");
   };
+
+  formattingHack(textContent: string, width: number): string {
+    while (this.updateCanvas(textContent) > width) {
+      textContent = textContent.slice(0, -1);
+    }
+
+    return textContent;
+  }
+
+  updateCanvas(textContent: string) {
+    const {width, canvas} = getTextWidth(textContent, this.canvas, this.font);
+    this.canvas = canvas;
+    return width;
+  }
 }

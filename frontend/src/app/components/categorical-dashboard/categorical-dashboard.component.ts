@@ -73,7 +73,6 @@ export class CategoricalDashboardComponent implements OnInit {
       this.KPIs.default = this.KPIs.all.slice(0,3);
 
       this.currentDay.fields = this.KPIs.default || [];
-      console.log(this.currentDay, this.pastDays)
       this.switchInDays();
       this.loadDataForBarCharts();
 
@@ -109,7 +108,6 @@ export class CategoricalDashboardComponent implements OnInit {
         values: this.states
       },
     }).subscribe(data => {
-      console.log(data);
       this.data = data.data
     });
 
@@ -158,8 +156,10 @@ export class CategoricalDashboardComponent implements OnInit {
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     }).subscribe(items => {
-      this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
-      console.log("current day",this.currentDay.data, items);
+      this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => {
+        const hours = Math.ceil((new Date(time)).getHours() / 2) * 2;
+        return hours.toString();
+      });
     });
 
     this.influxService.aggregate({
@@ -200,7 +200,6 @@ export class CategoricalDashboardComponent implements OnInit {
         this.currentDay.fields,
         (time) => new Date(time).toDateString());
       createPastDaysSwitchDataTicks(this.pastDays);
-      console.log(this.pastDays, Intl.DateTimeFormat().resolvedOptions().timeZone);
       this.pastDays.dataLoading = false;
     });
   }

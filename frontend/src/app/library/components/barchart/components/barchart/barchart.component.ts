@@ -13,6 +13,7 @@ import {
 import {BarchartElementRef, BarchartEvent, BarchartEventValue, BarchartValues} from '../../model/barchart.model';
 import {Series} from '@swimlane/ngx-charts/lib/models/chart-data.model';
 import {LegendPosition} from "@swimlane/ngx-charts";
+import {getTextWidth, waitForElement} from "../../../../dashboards/shared/resizeUtility";
 
 @Component({
   selector: 'barchart',
@@ -21,6 +22,8 @@ import {LegendPosition} from "@swimlane/ngx-charts";
   encapsulation:  ViewEncapsulation.None
 })
 export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
+  private font = "";
+  private canvas: any;
 
   constructor(public currentElement: ElementRef) { }
 
@@ -40,6 +43,9 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() fillTicks = false;
   @Input() hideSeriesOnClick = true;
   @Input() sortFunction: ((a: Series, b: Series) => number) | undefined;
+  @Input() maxXAxisTickLength = 0;
+  @Input() maxYAxisTickLength = 0;
+  @Input() manuallyFixTicksOverflow = false;
 
   position = LegendPosition.Below;
 
@@ -64,8 +70,6 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     const data = this.data ? [...this.data] : [];
-
-    console.log("ticks", this.fillTicks, this.xAxisTicks);
 
     if (this.fillTicks && this.xAxisTicks) {
       this.xAxisTicks.forEach(tick => {
@@ -136,7 +140,45 @@ export class BarchartComponent implements OnInit, OnChanges, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     this.values.visibleData = [...this.values.visibleData];
+    const element: any = await waitForElement('.bar:not(.hidden)');
+    if (this.manuallyFixTicksOverflow) {
+      new ResizeObserver(() => this.formattingHack()).observe(element);
+    }
+    element.parentElement.parentElement.parentElement.addEventListener('resize', () => this.formattingHack());
+  }
+
+  formattingHack() {
+    const bar = document.querySelector('.bar:not(.hidden)');
+    if (this.chartElement && bar) {
+      const width = bar.getBoundingClientRect().width - 20;
+      const fontSize = getComputedStyle(bar).fontSize;
+      const fontWeight = getComputedStyle(bar).fontWeight;
+      const fontFamily = getComputedStyle(bar).fontFamily;
+      this.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+
+      Array.from(
+        this.chartElement.chartElement.nativeElement.querySelectorAll('.tick')
+      ).forEach((node: any) => {
+        if (node.childNodes && node.childNodes.length === 2) {
+          const title = node.childNodes[0];
+          const text = node.childNodes[1];
+
+          let textContent = title.innerHTML.trim();
+          while (this.updateCanvas(textContent) > width) {
+            textContent = textContent.slice(0, -1);
+          }
+
+          text.innerHTML = textContent;
+        }
+      });
+    }
+  }
+
+  updateCanvas(textContent: string) {
+    const {width, canvas} = getTextWidth(textContent, this.canvas, this.font);
+    this.canvas = canvas;
+    return width;
   }
 }
