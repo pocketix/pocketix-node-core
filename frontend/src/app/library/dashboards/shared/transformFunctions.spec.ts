@@ -1,7 +1,6 @@
 import {Device, Operation, ParameterValue} from "app/generated/models";
 import {createStorage, minMaxSeries} from "./tranformFunctions";
 import {LineState} from "../../components/line/model/line.model";
-import {MultiSeries} from "@swimlane/ngx-charts";
 
 const getMockDeviceType = () => ({devices: [], id: 1, name: "test"});
 
