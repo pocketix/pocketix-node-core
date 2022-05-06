@@ -17,14 +17,14 @@ import * as _ from "lodash";
  */
 const toBoxData = (series: DataItem[]) => {
   const sortedSeries = series.map(item => item.value).sort();
-  const q1 = +(d3.quantile(sortedSeries, .25) as number).toFixed(2);
-  const median = +(d3.quantile(sortedSeries, .5) as number).toFixed(2);
-  const q3 = +(d3.quantile(sortedSeries, .75) as number).toFixed(2);
+  const q1 = _.round(d3.quantile(sortedSeries, .25) as number, 2);
+  const median = _.round(d3.quantile(sortedSeries, .5) as number, 2);
+  const q3 = _.round(d3.quantile(sortedSeries, .75) as number, 2);
   const interQuantileRange = q3 - q1;
   const min = q1 - 1.5 * interQuantileRange;
   const max = q1 + 1.5 * interQuantileRange;
 
-  const data = [min.toFixed(2), q1, median, q3, max.toFixed(2)];
+  const data = [_.round(min, 2), q1, median, q3, _.round(max, 2)];
 
   return (max - min) < 0.5 ? undefined : data;
 }
@@ -70,7 +70,7 @@ const getFieldByType = (param: ParameterValue) => {
     case "number":
       return param.number;
   }
-  return "";
+  return undefined;
 }
 
 /**
@@ -110,9 +110,11 @@ const createStorage = (lineState: LineState,
  */
 const pushOrInsertArray = (key: string, object: any, value: any) => {
   if (object[key])
-    return object[key].push(value);
+    object[key].push(value);
   else
-    return object[key] = [value];
+    object[key] = [value];
+
+  return object;
 };
 
 /**
