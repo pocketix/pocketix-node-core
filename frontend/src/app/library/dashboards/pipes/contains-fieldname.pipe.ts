@@ -8,7 +8,6 @@ export class ContainsFieldNamePipe implements PipeTransform {
 
   transform(value: {[key: string]: DataItem[] }, name: string, ...args: unknown[]): DataItem[] {
     const fieldData = Object.entries(value).find(([valueName, _]) => valueName.includes(name));
-    console.log(fieldData, name);
     return fieldData ? fieldData[1] : [];
   }
 

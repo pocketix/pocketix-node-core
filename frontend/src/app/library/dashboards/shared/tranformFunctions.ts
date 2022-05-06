@@ -96,7 +96,7 @@ const createStorage = (lineState: LineState,
   items.data.forEach((item: { [x: string]: any; sensor: string | number; time: string | number | Date; }) => {
     fields.forEach(field => {
       thresholdLines[mapping(field)] = minMaxSeries(lineState.device, field)
-      storage[item.sensor][mapping(field)].push({value: Number(item[field]).toFixed(2), name: new Date(item.time)});
+      storage[item.sensor][mapping(field)].push({value: _.round(Number(item[field]), 2), name: new Date(item.time)});
     })
   });
   return {storage, thresholdLines};
