@@ -46,7 +46,6 @@ export class AvailabilityComponent implements AfterViewInit {
     this.availability = Math.round(this.availabilities.reduce(
       (sum, availability) => sum + availability.value, 0
     ) / this.availabilities.length * 100) / 100;
-    console.log(this.availability);
 	}
 
   availabilityClick($event: Availability) {

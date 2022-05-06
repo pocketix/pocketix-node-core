@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AvailabilityLinearGaugeComponent } from './availability-linear-gauge.component';
+import {GaugeModule} from "@swimlane/ngx-charts";
 
 describe('AvailabilityLinearGaugeComponent', () => {
   let component: AvailabilityLinearGaugeComponent;
@@ -8,7 +9,10 @@ describe('AvailabilityLinearGaugeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AvailabilityLinearGaugeComponent ]
+      declarations: [ AvailabilityLinearGaugeComponent ],
+      imports: [
+        GaugeModule
+      ]
     })
     .compileComponents();
   });

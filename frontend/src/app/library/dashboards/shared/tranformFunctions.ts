@@ -17,14 +17,14 @@ import * as _ from "lodash";
  */
 const toBoxData = (series: DataItem[]) => {
   const sortedSeries = series.map(item => item.value).sort();
-  const q1 = +(d3.quantile(sortedSeries, .25) as number).toFixed(2);
-  const median = +(d3.quantile(sortedSeries, .5) as number).toFixed(2);
-  const q3 = +(d3.quantile(sortedSeries, .75) as number).toFixed(2);
+  const q1 = _.round(d3.quantile(sortedSeries, .25) as number, 2);
+  const median = _.round(d3.quantile(sortedSeries, .5) as number, 2);
+  const q3 = _.round(d3.quantile(sortedSeries, .75) as number, 2);
   const interQuantileRange = q3 - q1;
   const min = q1 - 1.5 * interQuantileRange;
   const max = q1 + 1.5 * interQuantileRange;
 
-  const data = [min.toFixed(2), q1, median, q3, max.toFixed(2)];
+  const data = [_.round(min, 2), q1, median, q3, _.round(max, 2)];
 
   return (max - min) < 0.5 ? undefined : data;
 }
@@ -70,7 +70,7 @@ const getFieldByType = (param: ParameterValue) => {
     case "number":
       return param.number;
   }
-  return "";
+  return undefined;
 }
 
 /**
@@ -96,7 +96,7 @@ const createStorage = (lineState: LineState,
   items.data.forEach((item: { [x: string]: any; sensor: string | number; time: string | number | Date; }) => {
     fields.forEach(field => {
       thresholdLines[mapping(field)] = minMaxSeries(lineState.device, field)
-      storage[item.sensor][mapping(field)].push({value: Number(item[field]).toFixed(2), name: new Date(item.time)});
+      storage[item.sensor][mapping(field)].push({value: _.round(Number(item[field]), 2), name: new Date(item.time)});
     })
   });
   return {storage, thresholdLines};
@@ -110,9 +110,11 @@ const createStorage = (lineState: LineState,
  */
 const pushOrInsertArray = (key: string, object: any, value: any) => {
   if (object[key])
-    return object[key].push(value);
+    object[key].push(value);
   else
-    return object[key] = [value];
+    object[key] = [value];
+
+  return object;
 };
 
 /**
@@ -120,14 +122,22 @@ const pushOrInsertArray = (key: string, object: any, value: any) => {
  * @param device current device
  * @param field fields to get thresholds for
  */
-const minMaxSeries = (device: Device, field: string) => {
+const minMaxSeries = (device: Device, field: string): {name: string, value: number}[] => {
   const parameter = device?.parameterValues?.find(parameter => parameter?.type?.name === field);
   // sort the thresholds
-  const thresholds = [parameter?.type?.threshold1 || 0, parameter?.type?.threshold2 || 0].sort();
+  let thresholds = [parameter?.type?.threshold1, parameter?.type?.threshold2].sort();
+  thresholds = thresholds.filter(threshold => threshold !== undefined);
 
-  return thresholds[0] === thresholds[1] ?
-    [{value: thresholds[0], name: "Threshold"}] : // Same thresholds clip label and don't look too good
-    [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
+  if (!thresholds)
+    return [];
+
+  // Same thresholds clip label and don't look too good
+  if (thresholds[0] === thresholds[1])
+    delete thresholds[1];
+
+  return thresholds.length === 1 ?
+    [{value: thresholds[0] || 0, name: "Threshold"}] :
+    [{value: thresholds[0] || 0, name: "Minimum"}, {value: thresholds[1] || 0, name: "Maximum"}];
 }
 
 /**
@@ -192,7 +202,7 @@ const updatePreviousValue = (bulletsState: BulletsState, storage: { [sensor: str
   const takePreviousValuesFromStorage = data[0][1];
 
   bulletsState.data.forEach(bullet => {
-    const items = takePreviousValuesFromStorage[`${bullet.name} ${bullet.units}`];
+    const items = takePreviousValuesFromStorage[`${bullet.name}`];
     const lastItem = items[items.length - 1];
     bullet.previousValue = lastItem.value;
   });
@@ -310,13 +320,13 @@ const createDefaultValue = (fields: ParameterType[]): {[key: string]: number} =>
  */
 const createPastDaysSwitchDataTicks = (pastDays: PastDaysState) => {
   const start = new Date(pastDays.startDate.setHours(0, 0, 0, 0));
+  start.setDate(start.getDate() + 1);
   const dates = [];
 
   while (start < pastDays.endDate) {
     dates.push(start.toDateString());
     start.setDate(start.getDate() + 1);
   }
-
   pastDays.ticks = dates;
 };
 

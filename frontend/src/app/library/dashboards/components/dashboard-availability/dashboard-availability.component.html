@@ -39,7 +39,7 @@
           <sparkline
             [name]="data[0].name"
             [data]="data"
-            [referenceLines]="sparklineState.minMax[data[0].name]"
+            [referenceLines]="sparklineState.minMax | containsFieldName: data[0].name"
           >
           </sparkline>
         </div>

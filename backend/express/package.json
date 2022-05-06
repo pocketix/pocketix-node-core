@@ -43,7 +43,6 @@
     "@influxdata/influxdb-client-apis": "^1.18.0",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
-    "dip": "file:../..",
     "express": "^4.17.2",
     "express-validator": "^6.14.0",
     "mysql": "^2.18.1",

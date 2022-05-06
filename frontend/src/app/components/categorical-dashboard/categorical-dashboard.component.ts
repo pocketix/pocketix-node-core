@@ -73,7 +73,6 @@ export class CategoricalDashboardComponent implements OnInit {
       this.KPIs.default = this.KPIs.all.slice(0,3);
 
       this.currentDay.fields = this.KPIs.default || [];
-      console.log(this.currentDay, this.pastDays)
       this.switchInDays();
       this.loadDataForBarCharts();
 
@@ -103,13 +102,12 @@ export class CategoricalDashboardComponent implements OnInit {
           bucket: environment.bucket,
           operation: Operation._,
           param: {
-            to: to.toISOString(), from: startDay.toISOString(), sensors: {boiler: this.switchFields}
+            to: to.toISOString(), from: sevenDaysBack.toISOString(), sensors: {boiler: this.switchFields}
           }
         },
         values: this.states
       },
     }).subscribe(data => {
-      console.log(data);
       this.data = data.data
     });
 
@@ -154,11 +152,14 @@ export class CategoricalDashboardComponent implements OnInit {
       aggregateMinutes: 60 * 2,
       body: {
         bucket: environment.bucket,
-        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
+        sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)},
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     }).subscribe(items => {
-      console.log(items);
-      this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => (new Date(time)).getHours().toString());
+      this.currentDay.data = itemsToBarChart(items, this.KPIs.all, this.currentDay.fields, (time) => {
+        const hours = Math.ceil((new Date(time)).getHours() / 2) * 2;
+        return hours.toString();
+      });
     });
 
     this.influxService.aggregate({
@@ -171,7 +172,6 @@ export class CategoricalDashboardComponent implements OnInit {
         sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      console.log(items);
       this.currentDay.switchComposition = [{
         name: 'Today',
         series: Object.entries(sumGroups(items, this.currentDay, this.KPIs.all)).map(([name, value]) => ({name, value}))
@@ -191,6 +191,7 @@ export class CategoricalDashboardComponent implements OnInit {
       body: {
         bucket: environment.bucket,
         sensors: [this.deviceUid],
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     }).subscribe(items => {
       this.pastDays.data = itemsToBarChart(items,
@@ -203,7 +204,6 @@ export class CategoricalDashboardComponent implements OnInit {
   }
 
   currentDayChanged(_: any) {
-    console.log("change");
     if (!this.currentDay.fields?.length) {
       return;
     }

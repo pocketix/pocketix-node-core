@@ -2,6 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardAvailabilityComponent } from './dashboard-availability.component';
 import {Device} from "../../../../generated/models/device";
+import {AvailabilityModule} from "../../../components/availability/availability.module";
+import {MainChartTemplateModule} from "../../../components/main-chart-template/components/main-chart-template.module";
+import {ToastModule} from "primeng/toast";
+import {BulletChartModule} from "../../../components/bullet-chart/bullet-chart.module";
+import {SparklineModule} from "../../../components/sparkline/sparkline.module";
+import {LineModule} from "../../../components/line/line.module";
+import {MessageService} from "primeng/api";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 describe('DashboardAvailabilityComponent', () => {
   let component: DashboardAvailabilityComponent;
@@ -9,7 +17,19 @@ describe('DashboardAvailabilityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardAvailabilityComponent ]
+      declarations: [ DashboardAvailabilityComponent ],
+      imports: [
+        AvailabilityModule,
+        MainChartTemplateModule,
+        ToastModule,
+        BulletChartModule,
+        SparklineModule,
+        LineModule,
+        NgxChartsModule
+      ],
+      providers: [
+        MessageService
+      ]
     })
     .compileComponents();
   });

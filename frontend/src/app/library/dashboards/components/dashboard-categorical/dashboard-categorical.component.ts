@@ -83,7 +83,6 @@ export class DashboardCategoricalComponent implements OnInit {
   }
 
   currentDayChanges($event: CurrentDayState) {
-    console.log($event);
     this.currentDayChanged.emit($event)
   }
 }

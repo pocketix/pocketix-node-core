@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KeyValueDisplayComponent } from './key-value-display.component';
+import {CommonModule} from "@angular/common";
 
 describe('KeyValueDisplayComponent', () => {
   let component: KeyValueDisplayComponent;
@@ -8,7 +9,10 @@ describe('KeyValueDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KeyValueDisplayComponent ]
+      declarations: [ KeyValueDisplayComponent ],
+      imports: [
+        CommonModule
+      ]
     })
     .compileComponents();
   });

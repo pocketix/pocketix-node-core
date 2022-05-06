@@ -59,8 +59,12 @@ export class SparklineComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(): void {
-    const values = this.data[0].series.map(item => item.value);
+  ngOnChanges(changes:any): void {
+    const data = this.data.reduce((previous, items) => {
+      previous.push(...items.series);
+      return previous;
+    }, [] as DataItem[]);
+    const values = data.map(item => item.value);
     this.min = Math.min(...values);
     this.max = Math.max(...values);
     this.minY = this.min;
@@ -77,7 +81,6 @@ export class SparklineComponent implements OnInit, OnChanges {
     this.minY = this.showReferenceLines && this.referenceLines ? Math.min(...this.referenceLines?.map(item => item.value), this.min) : this.min;
     this.maxY = this.showReferenceLines && this.referenceLines ? Math.max(...this.referenceLines?.map(item => item.value), this.max) : this.max;
     $event['showReferenceLines'] = this.showReferenceLines;
-    console.log(this.min, this.maxY, this.referenceLines);
     this.clickOnChart.emit($event);
   }
 }

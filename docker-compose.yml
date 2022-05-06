@@ -85,7 +85,7 @@ services:
       - network
 
   influxdb:
-    image: influxdb:2.2.0
+    image: influxdb:2.1.0
     build:
       context: backend
       dockerfile: InfluxDockerfile
@@ -102,6 +102,7 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=home
       - DOCKER_INFLUXDB_INIT_BUCKET=bucket
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=Fgp2ozMxmkYnUBkzwLpkx6ydOVXyQqF4-ZPctGjv8-xkirYPYRvoBtrpAHMCr_joYoJMOqZjl8djjuyOx-MR_A==
+      - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=configname
     healthcheck:
       test: [ "CMD", "influx", "ping" ]
       interval: 5s

@@ -17,6 +17,7 @@ import {DashboardCategoricalComponent} from "./components/dashboard-categorical/
 import {CategoricalModule} from "../components/categorical/categorical.module";
 import {KeyValueDisplayModule} from "../components/key-value-display/key-value-display.module";
 import {SwitchDisplayModule} from "../components/switch-display/switch-display.module";
+import { ContainsFieldNamePipe } from './pipes/contains-fieldname.pipe';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {SwitchDisplayModule} from "../components/switch-display/switch-display.m
     StatisticDeviceDetailDashboard,
     DashboardAvailabilityComponent,
     BaseDashboardComponent,
-    DashboardCategoricalComponent
+    DashboardCategoricalComponent,
+    ContainsFieldNamePipe
   ],
   imports: [
     BrowserAnimationsModule,

@@ -6,7 +6,7 @@
   "main": "",
   "scripts": {
 	"docker": "docker-compose build & docker-compose up",
-	"offlineLambda": "cd backend/influx-lambda & serverless offline start",
+	"offline-lambda": "cd backend/influx-lambda & serverless offline start",
     "all": "concurrently \"npm run db-benchmark\" \"npm run express\" \"npm run influx-lambda\" \"npm run InfluxDataBase\" \"npm run frontend\"",
     "db-benchmark": "npm --prefix ./backend/db-benchmark install ./backend/db-benchmark",
     "express": "npm --prefix ./backend/express install ./backend/express",
@@ -14,6 +14,7 @@
     "InfluxDataBase": "npm --prefix ./backend/InfluxDataBase install ./backend/InfluxDataBase",
 	"run-express": "npm --prefix ./backend/express run dev",
 	"run-angular": "npm --prefix frontend run start",
+	"run-local-dev": "concurrently \"npm run run-express\" \"npm run run-angular\"",
     "frontend": "npm --prefix ./frontend install ./frontend",
 	"test": "concurrently \"npm run test-express\" \"npm run test-influx\" \"npm run test-frontend\"",
 	"test-express": "npm --prefix ./backend/express run test",

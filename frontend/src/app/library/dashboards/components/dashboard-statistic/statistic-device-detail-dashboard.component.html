@@ -11,10 +11,10 @@
         (onChanges)="lineStateChanges()"
   >
   </line>
-  <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column-total">
+  <div rightColumn class="max-height-on-lg-screen p-card col-11 lg:col-4 sparkline-column-total gutter-hack">
     <h5 class="p-card-title">Statistics</h5>
-    <div class="sparkline-column">
-      <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1" style="width: 300px" *ngFor="let data of sparklineState.data">
+    <div class="sparkline-column grid">
+      <div class="fadeinright animation-duration-500 sparkline-item flex-grow-1 col-12 md:col-6" *ngFor="let data of sparklineState.data">
         <sparkline
           [name]="data[0].name"
           [data]="data"
@@ -30,10 +30,15 @@
   <div class="p-card col-11 gutter-hack">
     <div>
       <div class="p-card-body grid">
-        <div class="sm:col-6 md:col-2 col-12">
-          <img class="full-width full-height" id="image" alt="image" style="max-width: 90px; max-height: 90px;" [src]="device.image">
+        <div class="sm:col-6 md:col-1 col-12 no-padding flex justify-content-evenly">
+          <img class="full-width full-height" id="image" alt="image"
+               style="max-width: 80px; max-height: 80px;" [src]="device.image"
+          >
         </div>
-        <div *ngFor="let item of otherData" class="fadeindown animation-duration-500 not-numeric-data-item sm:col-6 md:col-2 col-12">
+        <div *ngFor="let item of otherData"
+             class="fadeindown animation-duration-500 not-numeric-data-item sm:col-6 md:col-2 col-12
+             justify-content-center"
+        >
             <h5 class="p-card-title" style="text-align: center">{{item[1]}}</h5>
             <span class="emphasize align-content-center">{{item[0]}}</span>
         </div>

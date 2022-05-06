@@ -8,7 +8,7 @@ import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component
 import {
   createStorage,
   parameterValueToBullet, storageToSparklines,
-  twoDatesAndPointCountToAggregationMinutes, updatePreviousValue
+  twoDatesAndPointCountToAggregationMinutes,
 } from "../../library/dashboards/shared/tranformFunctions";
 import {Availability} from "../../library/components/availability/model/availability.model";
 
@@ -122,8 +122,6 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
       device: this.device,
       data: Object.values(sparklineData)
     };
-
-    console.log(this.sensorSparklineLastYear.device)
 
     const data = await this.influxService.parameterAggregationWithMultipleStarts({
       body: {
