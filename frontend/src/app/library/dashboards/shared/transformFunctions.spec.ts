@@ -1,5 +1,8 @@
 import {Device, Operation, ParameterValue} from "app/generated/models";
 import {
+  createMappingFromParameterValues,
+  createNgxNameValuePair,
+  createPastDaysSwitchDataTicks,
   createSensors,
   createStorage,
   extractDataFromDeviceDefinition,
@@ -7,14 +10,21 @@ import {
   getFieldByType,
   handleMultipleLines,
   handleOtherParam,
+  itemsToBarChart,
+  kpiParamToKpi,
   minMaxSeries,
+  parameterValueToBullet,
   parseOtherParams,
   pushOrInsertArray,
+  storageToSparklines,
+  sumGroups,
   toBoxData,
+  twoDatesAndPointCountToAggregationMinutes,
   updatePreviousValue
 } from "./tranformFunctions";
 import {LineState} from "../../components/line/model/line.model";
 import {Bullet, BulletsState} from "../model/dashboards.model";
+import {CurrentDayState, PastDaysState} from "../../components/categorical/model/categorical.model";
 
 const getMockDeviceType = () => ({devices: [], id: 1, name: "test"});
 
@@ -36,7 +46,7 @@ const getBaseParameterValue = () => ({
   // @ts-ignore
   type: {
     id: 1,
-    label: "test",
+    label: "Test",
     min: 1,
     max: 2,
     measurementsPerMinute: 1,
@@ -499,10 +509,258 @@ describe('handleMultipleLines', () => {
     };
 
     const lines = handleMultipleLines(lineState, ["device2"], storage);
-    console.log(JSON.stringify(lines));
+
     expect(lines).toEqual([
       {name: "device: name", series: storage.device.name},
       {name: "device2: name", series: storage.device2.name}
     ]);
+  });
+});
+
+describe('storageToSparklines', () => {
+  it('has only single line', () => {
+    const device = getMockDevice();
+    const lineState = getMockLineState(device);
+    const storage = {
+      device: {
+        name: [
+          {value: 1, name: new Date("2022-05-01T11:41:11.139Z")},
+          {value: 2, name: new Date("2022-05-01T12:41:11.139Z")}
+        ]
+      }
+    };
+
+    const lines = storageToSparklines(lineState, storage);
+
+    expect(lines).toEqual({"name": [{name: "name", series: storage.device.name}]});
+  });
+
+  it('has two lines', () => {
+    const device = getMockDevice();
+    const lineState = getMockLineState(device);
+    const secondDevice = [{name: "device2", id: "device2"}];
+    lineState.selectedDevicesToCompareWith = secondDevice;
+    lineState.allDevices = secondDevice;
+
+    const storage = {
+      device: {
+        name: [
+          {value: 1, name: new Date("2022-05-01T11:41:11.139Z")},
+          {value: 2, name: new Date("2022-05-01T12:41:11.139Z")}
+        ]
+      },
+      device2: {
+        name: [
+          {value: 1, name: new Date("2022-05-01T11:41:11.139Z")},
+          {value: 2, name: new Date("2022-05-01T12:41:11.139Z")}
+        ]
+      }
+    };
+
+    const lines = storageToSparklines(lineState, storage);
+
+    expect(lines).toEqual({"name": [
+          {name: "device: name", series: storage.device.name},
+          {name: "device2: name", series: storage.device2.name}
+        ]
+    });
+  });
+});
+
+describe('parameterValueToBullet', () => {
+  it('tests the convertion', () => {
+    const parameter = getBaseParameterValue();
+    parameter.type.units = "units";
+
+    const box = parameterValueToBullet(parameter);
+
+    expect(box).toEqual({
+      value: 0,
+      min: 1,
+      max: 2,
+      previousValue: 0,
+      thresholds: [0, 0],
+      units: "units",
+      name: "Test"
+    });
+  });
+});
+
+describe('createMappingFromParameterValues', () => {
+  it('create from one parameter value', () => {
+    const parameter = getBaseParameterValue();
+    parameter.type.units = "units";
+
+    const mapping = createMappingFromParameterValues([parameter]);
+
+    expect(mapping(parameter.type.name)).toEqual("Test");
+  });
+
+  it('create from multiple parameter values', () => {
+    const parameter = getBaseParameterValue();
+    parameter.type.units = "units";
+
+    const parameter2 = getBaseParameterValue();
+    parameter2.type.units = "units";
+    parameter2.type.name = "device2";
+    parameter2.type.label = "Second Device Name";
+
+    const mapping = createMappingFromParameterValues([parameter, parameter2]);
+
+    expect(mapping(parameter.type.name)).toEqual("Test");
+    expect(mapping(parameter2.type.name)).toEqual("Second Device Name");
+  });
+
+  it('create from multiple parameter values, one not in mapping, should fallback', () => {
+    const parameter = getBaseParameterValue();
+    parameter.type.units = "units";
+
+    const parameter2 = getBaseParameterValue();
+    parameter2.type.units = "units";
+    parameter2.type.name = "device2";
+    parameter2.type.label = "Second Device Name";
+
+    const mapping = createMappingFromParameterValues([parameter]);
+
+    expect(mapping(parameter.type.name)).toEqual("Test");
+    expect(mapping(parameter2.type.name)).toEqual("device2");
+  });
+});
+
+describe('twoDatesAndPointCountToAggregationMinutes', () => {
+  it('should be day in minutes', () => {
+    const start = new Date("2022-05-01T11:41:11.139Z");
+    const stop = new Date("2022-05-02T11:41:11.139Z");
+
+    const time = twoDatesAndPointCountToAggregationMinutes(start, stop, 1);
+
+    expect(time).toBe(1440);
+  });
+
+  it('should be hour in minutes, reversed dates', () => {
+    const start = new Date("2022-05-01T12:41:11.139Z");
+    const stop = new Date("2022-05-01T11:41:11.139Z");
+
+    const time = twoDatesAndPointCountToAggregationMinutes(start, stop, 1);
+
+    expect(time).toBe(60);
+  });
+
+  it('should be 30 minutes', () => {
+    const start = new Date("2022-05-01T11:41:11.139Z");
+    const stop = new Date("2022-05-01T12:41:11.139Z");
+
+    const time = twoDatesAndPointCountToAggregationMinutes(start, stop, 2);
+
+    expect(time).toBe(30);
+  });
+});
+
+describe('kpiParamToKpi', () => {
+  it('Should find correctly', () => {
+    const baseType = getBaseParameterValue().type;
+    const types = [
+      {...baseType, name: "first", label: "first label with longer string"},
+      {...baseType, name: "second", label: "second label with longer string"}
+    ];
+
+    expect(kpiParamToKpi("first", types)).toBe("first label with longer string");
+  });
+
+  it('should fallback to name', () => {
+    const baseType = getBaseParameterValue().type;
+    const types = [
+      {...baseType, name: "first", label: "first label with longer string"},
+      {...baseType, name: "second", label: "second label with longer string"}
+    ];
+
+    expect(kpiParamToKpi("third", types)).toBe("third");
+  });
+});
+
+describe('createPastDaysSwitchDataTicks', () => {
+  it('Should find correctly', () => {
+    const past = {
+      startDate: new Date("2022-05-01T11:41:11.139Z"),
+      endDate: new Date("2022-05-07T11:41:11.139Z")
+    } as PastDaysState;
+
+    createPastDaysSwitchDataTicks(past);
+
+    expect(past.ticks).toEqual([
+      new Date("2022-05-02T11:41:11.139Z").toDateString(),
+      new Date("2022-05-03T11:41:11.139Z").toDateString(),
+      new Date("2022-05-04T11:41:11.139Z").toDateString(),
+      new Date("2022-05-05T11:41:11.139Z").toDateString(),
+      new Date("2022-05-06T11:41:11.139Z").toDateString(),
+      new Date("2022-05-07T11:41:11.139Z").toDateString(),
+    ]);
+  });
+});
+
+describe('createNgxNameValuePair', () => {
+  it('Should create', () => {
+    const baseType = getBaseParameterValue().type;
+    const types = [
+      {...baseType, name: "first", label: "first label with longer string"},
+      {...baseType, name: "second", label: "second label with longer string"}
+    ];
+    const data = {time: '2022-05-01T11:41:11.139Z', first: 1, second: 2, sensor: 'device', result: '', table: 0};
+
+    const output = createNgxNameValuePair(data, "first", types);
+
+    expect(output).toEqual({name: "first label with longer string", value: 1});
+  });
+});
+
+describe('itemsToBarChart', () => {
+  it('Should create', () => {
+    const baseType = getBaseParameterValue().type;
+    const types = [
+      {...baseType, name: "first", label: "first label with longer string"},
+      {...baseType, name: "second", label: "second label with longer string"}
+    ];
+    const data = {
+      status: 0,
+      data: [
+        {time: '2022-05-01T11:41:11.139Z', first: 1, second: 2, sensor: 'device', result: '', table: 0},
+        {time: '2022-05-02T11:41:11.139Z', first: 1, second: 2, sensor: 'device', result: '', table: 0}
+      ]
+    };
+
+    const output = itemsToBarChart(data, types, types, (date) => date);
+
+    expect(output).toEqual([{
+      name: "2022-05-01T11:41:11.139Z", series: [
+        {name: "first label with longer string", value: 1},
+        {name: "second label with longer string", value: 2}
+      ]
+    }, {
+      name: "2022-05-02T11:41:11.139Z", series:[
+        {name: "first label with longer string", value: 1},
+        {name: "second label with longer string", value: 2}
+      ]}
+    ]);
+  });
+});
+
+describe('sumGroups', () => {
+  it('Should create', () => {
+    const baseType = getBaseParameterValue().type;
+    const types = [
+      {...baseType, name: "first", label: "first label with longer string"},
+      {...baseType, name: "second", label: "second label with longer string"}
+    ];
+
+    const data = {
+      status: 0,
+      data: [
+        {time: '2022-05-01T11:41:11.139Z', first: 1, second: 2, sensor: 'device', result: '', table: 0},
+        {time: '2022-05-02T11:41:11.139Z', first: 1, second: 2, sensor: 'device', result: '', table: 0}
+      ]
+    };
+
+    const result = sumGroups(data, {fields: types} as CurrentDayState, types);
+    expect(result).toEqual({"first label with longer string": 2,"second label with longer string": 4});
   });
 });
