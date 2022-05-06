@@ -21,7 +21,6 @@ export class DevicesOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.deviceService.getAllDevices().subscribe(devices => {
-      console.log(devices);
       this.devicesByType = devices.reduce((previousValue, device) => {
         if (!previousValue[device.type.name])
           previousValue[device.type.name] = []
@@ -29,7 +28,6 @@ export class DevicesOverviewComponent implements OnInit {
         previousValue[device.type.name].push(device);
         return previousValue;
       }, {} as any);
-      console.log(this.devicesByType);
     },
       () => this.messageService.add({
         severity: "error",

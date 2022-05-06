@@ -108,7 +108,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 		}));
 
     if (this.map?.getState()?.getLeafletMap()) {
-      console.log("map:", this.map?.getState()?.getLeafletMap());
       this.marker = L.marker({lat: this.latitude, lng: this.longitude}).addTo(this.map.getState().getLeafletMap() as L.Map);
     }
   }

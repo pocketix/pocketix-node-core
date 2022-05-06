@@ -118,7 +118,6 @@ export class BaseDashboardComponent implements OnInit {
         const sparklineData = storageToSparklines(this.lineState, storage);
         this.sparklineState.minMax = thresholdLines;
         this.sparklineState.data = Object.values(sparklineData);
-        console.log(this.sparklineState);
       } else {
         this.messageService.add({severity: "error", summary: "Could not retrieve data", detail: "Data could not be updated"});
       }

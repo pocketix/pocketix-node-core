@@ -172,7 +172,6 @@ export class CategoricalDashboardComponent implements OnInit {
         sensors: {[this.deviceUid]: this.currentDay.fields.map(kpi => kpi.name)}
       }
     }).subscribe(items => {
-      console.log(items);
       this.currentDay.switchComposition = [{
         name: 'Today',
         series: Object.entries(sumGroups(items, this.currentDay, this.KPIs.all)).map(([name, value]) => ({name, value}))

@@ -123,8 +123,6 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
       data: Object.values(sparklineData)
     };
 
-    console.log(this.sensorSparklineLastYear.device)
-
     const data = await this.influxService.parameterAggregationWithMultipleStarts({
       body: {
         starts: [thirtyDaysBack.toISOString(), sevenDaysBack.toISOString(), startDay.toISOString()],

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BarchartComponent } from './barchart.component';
+import {CommonModule} from "@angular/common";
+import {BarChartModule} from "@swimlane/ngx-charts";
 
 describe('BarchartComponent', () => {
   let component: BarchartComponent;
@@ -8,7 +10,11 @@ describe('BarchartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BarchartComponent ]
+      declarations: [ BarchartComponent ],
+      imports: [
+        CommonModule,
+        BarChartModule
+      ]
     })
     .compileComponents();
   });

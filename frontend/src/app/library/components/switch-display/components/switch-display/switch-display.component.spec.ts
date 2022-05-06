@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SwitchDisplayComponent } from './switch-display.component';
+import {CommonModule} from "@angular/common";
 
 describe('SwitchDisplayComponent', () => {
   let component: SwitchDisplayComponent;
@@ -8,7 +9,10 @@ describe('SwitchDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SwitchDisplayComponent ]
+      declarations: [ SwitchDisplayComponent ],
+      imports: [
+        CommonModule
+      ]
     })
     .compileComponents();
   });

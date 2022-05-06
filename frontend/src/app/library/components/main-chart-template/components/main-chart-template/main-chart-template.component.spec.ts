@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainChartTemplateComponent } from './main-chart-template.component';
+import {CommonModule} from "@angular/common";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 describe('MainChartTemplateComponent', () => {
   let component: MainChartTemplateComponent;
@@ -8,7 +10,11 @@ describe('MainChartTemplateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MainChartTemplateComponent ]
+      declarations: [ MainChartTemplateComponent ],
+      imports: [
+        CommonModule,
+        InputSwitchModule
+      ]
     })
     .compileComponents();
   });

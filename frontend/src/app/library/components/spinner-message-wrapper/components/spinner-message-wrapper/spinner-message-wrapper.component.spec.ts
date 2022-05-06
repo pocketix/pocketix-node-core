@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SpinnerMessageWrapperComponent } from './spinner-message-wrapper.component';
+import {CommonModule} from "@angular/common";
 
 describe('SpinnerMessageWrapperComponent', () => {
   let component: SpinnerMessageWrapperComponent;
@@ -8,7 +9,10 @@ describe('SpinnerMessageWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpinnerMessageWrapperComponent ]
+      declarations: [ SpinnerMessageWrapperComponent ],
+      imports: [
+        CommonModule,
+      ],
     })
     .compileComponents();
   });

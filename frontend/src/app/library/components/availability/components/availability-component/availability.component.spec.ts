@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AvailabilityComponent } from './availability.component';
 import {Device} from "../../../../../generated/models/device";
+import {SingleSensorComponent} from "../single-sensor/single-sensor.component";
+import {AvailabilityLinearGaugeComponent} from "../availability-linear-gauge/availability-linear-gauge.component";
+import {DialogModule} from "primeng/dialog";
 
 describe('AvailabilityComponent', () => {
   let component: AvailabilityComponent;
@@ -9,7 +12,10 @@ describe('AvailabilityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AvailabilityComponent ]
+      declarations: [ AvailabilityComponent, SingleSensorComponent, AvailabilityLinearGaugeComponent ],
+      imports: [
+        DialogModule
+      ]
     })
     .compileComponents();
   });

@@ -244,7 +244,6 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
   private scaleText(data: any) : string {
     const text = data.data[this.status].toString();
     const width = this.getWidth(data);
-    console.log(data, text, width);
     return this.formattingHack(text, width);
   }
 
