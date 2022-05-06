@@ -120,14 +120,22 @@ const pushOrInsertArray = (key: string, object: any, value: any) => {
  * @param device current device
  * @param field fields to get thresholds for
  */
-const minMaxSeries = (device: Device, field: string) => {
+const minMaxSeries = (device: Device, field: string): {name: string, value: number}[] => {
   const parameter = device?.parameterValues?.find(parameter => parameter?.type?.name === field);
   // sort the thresholds
-  const thresholds = [parameter?.type?.threshold1 || 0, parameter?.type?.threshold2 || 0].sort();
+  let thresholds = [parameter?.type?.threshold1, parameter?.type?.threshold2].sort();
+  thresholds = thresholds.filter(threshold => threshold !== undefined);
 
-  return thresholds[0] === thresholds[1] ?
-    [{value: thresholds[0], name: "Threshold"}] : // Same thresholds clip label and don't look too good
-    [{value: thresholds[0], name: "Minimum"}, {value: thresholds[1], name: "Maximum"}];
+  if (!thresholds)
+    return [];
+
+  // Same thresholds clip label and don't look too good
+  if (thresholds[0] === thresholds[1])
+    delete thresholds[1];
+
+  return thresholds.length === 1 ?
+    [{value: thresholds[0] || 0, name: "Threshold"}] :
+    [{value: thresholds[0] || 0, name: "Minimum"}, {value: thresholds[1] || 0, name: "Maximum"}];
 }
 
 /**
