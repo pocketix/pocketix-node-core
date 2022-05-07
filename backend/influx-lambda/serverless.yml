@@ -12,6 +12,7 @@ custom:
     httpPort: 4000
     useDocker: true
     noPrependStageInUrl: true
+    host: 0.0.0.0
 
 package:
     individually: true    

@@ -16,6 +16,7 @@ run `$ npm install` to install dependencies\
  - 8888 - MongoDB
  - 8086 - InfluxDB
  - 8000 - DynamoDB
+ - 5432 - PostgreSQL
 
 ## What is tested
  - Both DynamoDB and MongoDB are tested for storing the document with as little changes as possible

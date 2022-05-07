@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <dashboard-availability
   *ngIf="device && sparklines && fields && mapping && availabilities"
   [device]="device"
@@ -10,6 +11,7 @@
   [sensorSparkline]="sensorSparklineLastYear"
   (lineStateChanged)="onMainChartUpdate()"
   (availabilityClicked)="updateAvailabilityData($event)"
+  (onReloadSwitchChanged)="onReloadSwitch($event)"
   [(lineState)]=lineState
 >
 </dashboard-availability>

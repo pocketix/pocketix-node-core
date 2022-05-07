@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {deviceAvailabilityPath, deviceCategoricalPath, deviceDetailPath} from "../../app-routing.module";
 import {MessageService} from "primeng/api";
 import {originalOrder} from "../../library/dashboards/shared/utility";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-devices-overview',
@@ -13,6 +14,7 @@ import {originalOrder} from "../../library/dashboards/shared/utility";
   providers: [MessageService]
 })
 export class DevicesOverviewComponent implements OnInit {
+  baseUrl = environment.api
   originalOrder = originalOrder;
 
   constructor(private deviceService: DeviceService, private router: Router, private messageService: MessageService) { }

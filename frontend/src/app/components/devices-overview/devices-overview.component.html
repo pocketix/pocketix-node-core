@@ -13,8 +13,17 @@
       styleClass="p-card-shadow"
     >
       <ng-template pTemplate="header">
-        <div style="display: flex; justify-content: center;">
-          <img alt="Card" src="{{device.image}}" style="max-width: 320px; max-height: 320px; overflow: hidden">
+        <div class="image flex justify-content-center">
+          <img
+            *ngIf="device.image"
+            class="image"
+            alt="Card"
+            src="{{baseUrl}}/{{device.image}}"
+          >
+          <div *ngIf="!device.image" class="align-self-center text-align-center flex align-items-center gap-6">
+            <i class="pi pi-image"></i>
+            <span>No image</span>
+          </div>
         </div>
       </ng-template>
       <ng-template pTemplate="subtitle">

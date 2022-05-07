@@ -6,9 +6,9 @@ const {cloneDeep} = pkg;
 import {mongoSeriesTest, mongoTest} from "./tests/mongoTest.js";
 import {postgresTest} from "./tests/postgresTest.js";
 
-const benchmark = async () => {
+const benchmark = async (file) => {
 	const one = prepareOne();
-	const documents = prepareMany();
+	const documents = prepareMany(file);
 	const values = [];
 	const averages = {
 		influxTest: timeStorage(),

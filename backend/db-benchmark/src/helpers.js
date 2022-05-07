@@ -6,7 +6,7 @@ import * as csv from "fast-csv";
 const {cloneDeep} = pkg;
 
 const prepareMany = () => {
-	const data = JSON.parse(fs.readFileSync('boiler0910-series.json'));
+	const data = JSON.parse(fs.readFileSync(file));
 	return data.map((item) => {
 		delete item["_id"];
 		const date = item["date"]["$date"];

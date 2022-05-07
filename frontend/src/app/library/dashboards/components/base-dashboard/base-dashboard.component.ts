@@ -3,6 +3,7 @@ import {Device} from "../../../../generated/models/device";
 import {BoxState, BulletsState, SparklineState} from "../../model/dashboards.model";
 import {LineState} from "../../../components/line/model/line.model";
 import {chart, grid, plotOptions, yAxis } from '../../shared/boxSettings';
+import {ReloadEvent} from "../../../components/main-chart-template/components/model/main-chart-template.model";
 
 /**
  * Component representing the base statistical dashboard
@@ -48,15 +49,33 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
     this._lineState = value;
   }
   _lineState?: LineState;
-
+  /**
+   * Line reload switch changed
+   */
+  @Output() onReloadSwitchChanged = new EventEmitter<ReloadEvent>();
+  /**
+   * Label of the X axis of the main line chart
+   */
+  @Input()
   xAxisLabel: string = 'Date';
+  /**
+   * Label of the Y axis of the main line chart
+   */
+  @Input()
   yAxisLabel: string = 'Value';
-  otherData: any[] = [];
-
+  /**
+   * ApexCharts overrides, defaults to shared/boxSettings
+   */
+  @Input()
   plotOptions = plotOptions;
+  @Input()
   chart = chart;
+  @Input()
   yAxis = yAxis;
+  @Input()
   grid = grid;
+
+  otherData: any[] = [];
 
   constructor() { }
 
@@ -70,4 +89,7 @@ export class BaseDashboardComponent implements OnInit, AfterViewInit {
     this.lineStateChanged.emit();
   }
 
+  onReloadSwitch($event: ReloadEvent) {
+    this.onReloadSwitchChanged.emit($event);
+  }
 }

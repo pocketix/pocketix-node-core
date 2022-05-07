@@ -1,0 +1,75 @@
+version: "3.9"
+
+services:
+  dynamo:
+    image: amazon/dynamodb-local:1.16.0
+    build:
+      context: backend/db-benchmark
+    restart: unless-stopped
+    hostname: dynamo
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - network
+
+  postgres:
+    image: postgres:14.2
+    build:
+      context: backend/db-benchmark
+    restart: unless-stopped
+    hostname: postgres
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  influxdb:
+    image: influxdb:2.0.6
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    networks:
+      - network
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=my-user
+      - DOCKER_INFLUXDB_INIT_PASSWORD=my-password
+      - DOCKER_INFLUXDB_INIT_ORG=my-org
+      - DOCKER_INFLUXDB_INIT_ORG_ID=fc015024af17e8aa
+      - DOCKER_INFLUXDB_INIT_BUCKET=boilerSpeedTest
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=0srXHadc_qKZLnLP7396XeeFx6Fi2jUleVx4yrTZhU2MhCMaA-7RUjbR5Smtrupffy3AbBH9g1Ot6X1o_ZGeAA==
+    healthcheck:
+      test: [ "CMD", "influx", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongo:
+    image: mongo:5.0.3
+    expose:
+      - "8888"
+    ports:
+      - "8888:8888"
+    networks:
+      - network
+
+  test:
+
+
+networks:
+  network:
+    driver: bridge
+

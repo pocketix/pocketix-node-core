@@ -4,6 +4,7 @@ import {
   extractDataFromDeviceDefinition
 } from "../../shared/tranformFunctions";
 import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'statistic-device-detail-dashboard',
@@ -13,6 +14,7 @@ import {BaseDashboardComponent} from "../base-dashboard/base-dashboard.component
   providers: [MessageService]
 })
 export class StatisticDeviceDetailDashboard extends BaseDashboardComponent implements OnInit, AfterViewInit {
+  baseUrl = environment.api;
 
   ngOnInit(): void {}
 

@@ -2,6 +2,7 @@
 
 <main-chart-template
   [deviceName]="device.deviceName"
+  (onReloadSwitchEventEmitter)="onReloadSwitch($event)"
 >
   <line
     chart
