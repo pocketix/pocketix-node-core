@@ -8,7 +8,7 @@ import {
 } from "./library/components/availability/availability.module";
 import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {DeviceDetailDashboardComponent} from './components/device-detail-dashboard/device-detail-dashboard.component';
 import {DevicesOverviewComponent} from './components/devices-overview/devices-overview.component';
 import {PanelModule} from "primeng/panel";
@@ -26,9 +26,9 @@ import {CategoricalModule} from "./library/components/categorical/categorical.mo
 import {KeyValueDisplayModule} from "./library/components/key-value-display/key-value-display.module";
 import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard.component';
 import {ToastModule} from "primeng/toast";
-import {ApiModule} from "./generated/api.module";
 import {environment} from "../environments/environment";
 import { RouterTestingModule } from "@angular/router/testing";
+import {DeviceService, InfluxService} from "./generated/services";
 
 
 @NgModule({
@@ -57,10 +57,17 @@ import { RouterTestingModule } from "@angular/router/testing";
     CategoricalModule,
     KeyValueDisplayModule,
     ToastModule,
-    RouterTestingModule,
-    ApiModule.forRoot({rootUrl: environment.api})
+    RouterTestingModule
   ],
-  providers: [],
+  providers: [{
+    provide: DeviceService, useFactory: (http: HttpClient) =>
+      new DeviceService({rootUrl: environment.api}, http),
+    deps: [HttpClient]
+  }, {
+    provide: InfluxService, useFactory: (http: HttpClient) =>
+      new InfluxService({rootUrl: environment.influxApi}, http),
+    deps: [HttpClient]
+  }],
   exports: [],
   bootstrap: [AppComponent]
 })

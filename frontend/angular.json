@@ -67,6 +67,20 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "serverless": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.serverless.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -79,6 +93,9 @@
             },
             "development": {
               "browserTarget": "dip:build:development"
+            },
+            "serverless": {
+              "browserTarget": "dip:build:serverless"
             }
           },
           "defaultConfiguration": "development"
