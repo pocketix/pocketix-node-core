@@ -63,7 +63,7 @@ functions:
     handler: src/main.saveData
     events:
       - http:          
-          path: statistics/saveData
+          path: statistics/data
           method: post
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024

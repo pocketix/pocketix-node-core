@@ -213,12 +213,14 @@ export const filterDistinctValue: APIGatewayProxyHandler = async (event, context
  */
 export const saveData: APIGatewayProxyHandler = async (event, context) => {
     if (event.httpMethod.toLowerCase() !== 'post')
-        return createResponse({status: -1, error: "Unsupported method"}, 405)
+        return createResponse({status: -1, error: "Unsupported method"}, 405);
 
-    context.callbackWaitsForEmptyEventLoop = false;
-
-    const body = JSON.parse(JSON.stringify(event.body));
-
-    const results = await influx.saveData(body.data, body.bucket);
-    return createResponse(results);
+    let request;
+    try {
+        request = lambdaEntry(event, context, "/statistics/data");
+        await influx.saveData(request.body.data, request.body.bucket);
+        return createResponse("created", 201);
+    } catch (e) {
+        return createResponse(e, 500);
+    }
 }

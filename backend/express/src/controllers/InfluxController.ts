@@ -24,6 +24,7 @@ import {Request as ExpressRequest} from 'express';
 import {createBucketName} from '../utility/createBucketName';
 import {ReadRequestBody} from '../types/ReadRequestBody';
 import {WriteRequestBody} from '../types/WriteRequestBody';
+import {DeviceService} from "../services/DeviceService";
 
 @Service()
 @Route('statistics')
@@ -31,6 +32,8 @@ import {WriteRequestBody} from '../types/WriteRequestBody';
 class InfluxController extends Controller {
     @Inject()
     private influxService: InfluxService;
+    @Inject()
+    private deviceService: DeviceService;
 
     constructor() {
         super();
@@ -103,6 +106,7 @@ class InfluxController extends Controller {
     @SuccessResponse('201', 'Created')
     public async saveData(@Body() body: WriteRequestBody): Promise<void> {
         await this.influxService.saveData(body.data, body.bucket);
+        await this.deviceService.updateDeviceIfExists(body.data[body.data.length - 1]);
     }
 
     /**
