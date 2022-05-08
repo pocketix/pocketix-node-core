@@ -88,7 +88,6 @@ services:
 
   nginx:
     image: nginx:mainline-alpine
-    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -102,7 +101,6 @@ services:
     build:
       context: backend
       dockerfile: InfluxDockerfile
-    container_name: influxdb
     restart: unless-stopped
     ports:
       - "8086:8086"

@@ -8,10 +8,12 @@ import {aggregateQuery, create, preseed as preseedQuery} from "./sqlQueries.js";
 
 const init = async () => {
 	const clients = [postgres({
+        host: "postgres",
 		database: "test",
 		username: "postgres"
 	}), new Client(
 		{
+            host: "postgres",
 			database: "test",
 			user: "postgres"
 		}

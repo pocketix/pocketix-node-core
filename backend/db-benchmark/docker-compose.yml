@@ -3,8 +3,6 @@ version: "3.9"
 services:
   dynamo:
     image: amazon/dynamodb-local:1.16.0
-    build:
-      context: backend/db-benchmark
     restart: unless-stopped
     hostname: dynamo
     expose:
@@ -16,13 +14,12 @@ services:
 
   postgres:
     image: postgres:14.2
-    build:
-      context: backend/db-benchmark
     restart: unless-stopped
     hostname: postgres
     environment:
       - POSTGRES_DB=test
       - POSTGRES_USER=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
     expose:
       - "5432"
     ports:
@@ -37,7 +34,6 @@ services:
 
   influxdb:
     image: influxdb:2.0.6
-    container_name: influxdb
     restart: unless-stopped
     ports:
       - "8086:8086"
@@ -49,12 +45,12 @@ services:
       - DOCKER_INFLUXDB_INIT_PASSWORD=my-password
       - DOCKER_INFLUXDB_INIT_ORG=my-org
       - DOCKER_INFLUXDB_INIT_ORG_ID=fc015024af17e8aa
-      - DOCKER_INFLUXDB_INIT_BUCKET=boilerSpeedTest
+      - DOCKER_INFLUXDB_INIT_BUCKET=default
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=0srXHadc_qKZLnLP7396XeeFx6Fi2jUleVx4yrTZhU2MhCMaA-7RUjbR5Smtrupffy3AbBH9g1Ot6X1o_ZGeAA==
     healthcheck:
       test: [ "CMD", "influx", "ping" ]
       interval: 5s
-      timeout: 5s
+      timeout: 10s
       retries: 5
 
   mongo:
@@ -62,12 +58,31 @@ services:
     expose:
       - "8888"
     ports:
-      - "8888:8888"
+      - "8888:27017"
     networks:
       - network
 
   test:
-
+    build:
+      context: .
+      dockerfile: TestDockerFile
+    networks:
+      - network
+    restart: on-failure
+    links:
+      - postgres
+      - dynamo
+      - mongo
+      - influxdb
+    depends_on:
+      dynamo:
+        condition: service_started
+      mongo:
+        condition: service_started
+      postgres:
+        condition: service_started
+      influxdb:
+        condition: service_healthy
 
 networks:
   network:

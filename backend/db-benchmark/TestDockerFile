@@ -1,9 +1,7 @@
 FROM node:17.9
 
-WORKDIR /usr/src/app/backend/db-benchmark
-
 COPY . .
 
 RUN npm install
 
-CMD ["npm", "run", "dev"]
+CMD ["node", "src/index.js", "--benchmark", "first100.json"]

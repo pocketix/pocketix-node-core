@@ -24,7 +24,7 @@ const defaultDBConfig = {
 
 const defaultConfig = {
 	region: 'localhost',
-	endpoint: "http://localhost:8000",
+	endpoint: "http://dynamo:8000",
 	accessKeyId: "AKIAIOSFODNN7EXAMPLE",
 	secretAccessKey: "xxwJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYxx",
 }

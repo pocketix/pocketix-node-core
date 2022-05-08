@@ -1,6 +1,6 @@
 import {MongoClient} from 'mongodb'
 
-const url = 'mongodb://localhost:8888';
+const url = 'mongodb://mongo:8888';
 
 
 const init = () => {

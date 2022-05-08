@@ -20,10 +20,10 @@ const benchmark = async (file) => {
 	const repeatCount = 15;
 
 	for (const _ of [...Array(repeatCount).keys()]) {
-		values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
 		values.push(await runAndMeasure(postgresTest, cloneDeep(one), cloneDeep(documents)));
 	}
 

@@ -5,7 +5,7 @@ import * as csv from "fast-csv";
 
 const {cloneDeep} = pkg;
 
-const prepareMany = () => {
+const prepareMany = (file) => {
 	const data = JSON.parse(fs.readFileSync(file));
 	return data.map((item) => {
 		delete item["_id"];
