@@ -16,4 +16,15 @@ The project has the following structure:
 
 Each important part of the monorepo has its own `README.md` describing the usage or results gained from this part  
 
-The main application has docker support using `docker-compose` and `docker`. Run `docker-compose build` and `docker-compose up` and be patient. Some dependencies are quite large and it can take a while 
+## Running the application
+The main application has docker support using `docker-compose` and `docker`. Run `docker-compose build` and `docker-compose up` and be patient. Some dependencies are quite large and it can take a while.
+The following are containers are hosted
+ - databases
+   - InfluxDB - stores the time-series data from IoT devices (port: 8086)
+   - PostgreSQL - handles device metadata, for example units, last value, thresholds, etc (port: 5432)
+ - backend servers
+   - serverless - the `influx-lambda` AWS lambda (for testing purposes only) (port: 4000)
+   - express - main express application (port: 3000)
+ - frontend
+   - app using the serverless server (port: 4300)
+   - app using the express backend (port: 4200)

@@ -5,12 +5,10 @@ This project was made to test these following databases and their versions
  - InfluxDB (2.0.6)
  - DynamoDB (2021-04-27)
 
-All databases were locally hosted in docker on 7300 HQ laptop with 16 GB DDR4
+All databases were locally hosted in docker on 7300 HQ laptop with 16 GB DDR4 one by one to limit the number of other processes currently running on the native system. Space on the disc was checked manually.
 
 ## Usage
-run `$ npm install` to install dependencies\
-`$ node src/index.js --benchmark` - run benchmark for boiler.*.json data.\
-`$ node src/index.js --temp` - run benchmark for internal data contained in 
+Run the `docker-compose build` and `docker-compose up` to run the tests. The dataset used can be changed by changing the environment variable `file` in `docker-compose.yml`.
 
 ## Used ports
  - 8888 - MongoDB

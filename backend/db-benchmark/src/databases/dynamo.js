@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
-import {defaultDict} from "../helpers.js"
-const dbName = 'boilerSpeedTest'
+import {defaultDict} from "../helpers.js";
+const dbName = 'boilerSpeedTest';
+
+const host = process.env.dynamo || "dynamo";
 
 const defaultDBConfig = {
 	TableName: dbName,
@@ -24,7 +26,7 @@ const defaultDBConfig = {
 
 const defaultConfig = {
 	region: 'localhost',
-	endpoint: "http://dynamo:8000",
+	endpoint: `http://${host}:8000`,
 	accessKeyId: "AKIAIOSFODNN7EXAMPLE",
 	secretAccessKey: "xxwJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYxx",
 }
