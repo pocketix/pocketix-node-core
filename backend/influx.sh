@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 influx ping
 
 influx bucket delete -n dip -o home
