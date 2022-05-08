@@ -55,10 +55,12 @@ services:
 
   mongo:
     image: mongo:5.0.3
+    hostname: mongo
+    command: mongod --port 8888
     expose:
       - "8888"
     ports:
-      - "8888:27017"
+      - "8888:8888"
     networks:
       - network
 
@@ -69,6 +71,9 @@ services:
     networks:
       - network
     restart: on-failure
+    environment:
+      file: "first100.json"
+      #file: "boiler0910-series.json" this is a large file, and it will take a considerable amount of time to finish
     links:
       - postgres
       - dynamo

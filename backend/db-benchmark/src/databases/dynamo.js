@@ -93,8 +93,8 @@ const insertMany = async ({document, table}) => {
 	}
 };
 
-const createDb = (client, dbConfig = defaultDBConfig) => {
-	return client.createTable(dbConfig, function(err, data) {
+const createDb = async (client, dbConfig = defaultDBConfig) => {
+	return await client.createTable(dbConfig, function (err, data) {
 		if (err) {
 			console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
 		}
