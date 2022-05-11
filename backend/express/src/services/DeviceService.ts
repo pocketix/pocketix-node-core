@@ -58,6 +58,7 @@ class DeviceService {
 
             const device = await this.dataSource.getRepository(Device).findOneBy({deviceUid: id});
             const parameters = await this.dataSource.getRepository(ParameterValue).findBy({device});
+
             parameters.forEach(
                 parameter => parameter[parameter.type.type] = input[parameter.type.name] ?? parameter[parameter.type.type]
             );

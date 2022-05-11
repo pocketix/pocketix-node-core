@@ -7,7 +7,7 @@ import {InfluxService} from "../../generated/services/influx.service";
 import {SingleSimpleValue} from "../../generated/models/single-simple-value";
 import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
-import { Bullet } from 'app/library/dashboards/model/dashboards.model';
+import {Bullet} from 'app/library/dashboards/model/dashboards.model';
 import {
   createMappingFromParameterValues,
   createPastDaysSwitchDataTicks,
@@ -18,6 +18,7 @@ import {
 import {CurrentDayState, KPIOptions, PastDaysState} from "../../library/components/categorical/model/categorical.model";
 import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {ParameterType} from "../../generated/models/parameter-type";
+import {ParameterValue} from "../../generated/models/parameter-value";
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -64,21 +65,18 @@ export class CategoricalDashboardComponent implements OnInit {
     this.type = this.route.snapshot.params["type"] ?? "";
     this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
 
-    this.deviceService.getDeviceById({
+    this.device = await this.deviceService.getDeviceById({
       deviceUid: this.deviceUid
-    }).subscribe(device => {
-      this.device = device;
-      this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
-      this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
-      this.KPIs.default = this.KPIs.all.slice(0,3);
+    }).toPromise();
 
-      this.currentDay.fields = this.KPIs.default || [];
-      this.switchInDays();
-      this.loadDataForBarCharts();
+    this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
+    this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
+    this.KPIs.default = this.KPIs.all.slice(0,3);
 
-      this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
-      this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
-    });
+    this.currentDay.fields = this.KPIs.default || [];
+
+    this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
+    this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
 
     const to = new Date();
     const startDay = new Date();
@@ -88,11 +86,13 @@ export class CategoricalDashboardComponent implements OnInit {
     sevenDaysBack.setDate(startDay.getDate() - 7);
     thirtyDaysBack.setDate(startDay.getDate() - 30);
 
-
-    const fields = ["boiler_temperature", "outside_temperature"];
-    this.switchFields = ["boiler_status", "out_pomp1"];
+    const fields = this.device?.parameterValues?.sort((first: ParameterValue, second: ParameterValue) => first.id - second.id)?.slice(0, 2).map(parameter => parameter.type.name) || [];
+    this.switchFields = this.device?.parameterValues?.filter(parameter => parameter.visibility === 4).map(parameter => parameter.type.name) || [];
     this.start = startDay;
     this.pastDays.startDate.setDate(this.pastDays.endDate.getDate() - 7);
+
+    this.switchInDays();
+    this.loadDataForBarCharts();
 
     this.influxService.filterDistinctValue({
       isString: false,
@@ -132,7 +132,7 @@ export class CategoricalDashboardComponent implements OnInit {
         Object.entries(storage).forEach(([field, array]) => array.map(
           item => keyValue.push({
             key: this.mapping(field),
-            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item
+            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item || "no data"
           })
         ));
         this.keyValue = keyValue;

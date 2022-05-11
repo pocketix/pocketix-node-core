@@ -29,7 +29,7 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    URL: "http://192.168.0.103:8086"
+    URL: "http://influxdb:8086"
     ORG: "home"
     TOKEN: "Fgp2ozMxmkYnUBkzwLpkx6ydOVXyQqF4-ZPctGjv8-xkirYPYRvoBtrpAHMCr_joYoJMOqZjl8djjuyOx-MR_A=="
     bucket: "bruli"

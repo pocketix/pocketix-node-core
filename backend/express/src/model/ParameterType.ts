@@ -6,13 +6,13 @@ class ParameterType {
     /**
      * Type identifier
      */
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({type: "int"})
     id: number;
 
     /**
      * Type name
      */
-    @Column()
+    @Column({type: "varchar", length: 255})
     name: string;
 
     /**
@@ -24,7 +24,7 @@ class ParameterType {
     /**
      * Type measured in units
      */
-    @Column({default: "°C"})
+    @Column({type: "varchar", length: 255, default: "°C"})
     units: string;
 
     /**
@@ -42,7 +42,7 @@ class ParameterType {
     /**
      * Type name
      */
-    @Column()
+    @Column({type: "varchar", length: 255})
     type: string;
 
     /**

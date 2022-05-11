@@ -7,19 +7,19 @@ class Device {
     /**
      * Device identifier or serial number
      */
-    @PrimaryColumn()
+    @PrimaryColumn({type: "varchar", length: 255})
     deviceUid: string;
 
     /**
      * Human friendly device name
      */
-    @Column()
+    @Column({type: "varchar", length: 255})
     deviceName: string;
 
     /**
      * Device image
      */
-    @Column()
+    @Column({type: "varchar", length: 255})
     image?: string
 
     /**
@@ -43,13 +43,13 @@ class Device {
     /**
      * Device registered at
      */
-    @Column()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     registrationDate: Date;
 
     /**
      * Human friendly device description
      */
-    @Column()
+    @Column({type: "varchar", length: 1024})
     description: string;
 
     /**
