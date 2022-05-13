@@ -4,9 +4,10 @@ import {BucketsAPI, OrgsAPI} from "@influxdata/influxdb-client-apis";
 const dbName = 'boilerSpeedTest';
 const token = '0srXHadc_qKZLnLP7396XeeFx6Fi2jUleVx4yrTZhU2MhCMaA-7RUjbR5Smtrupffy3AbBH9g1Ot6X1o_ZGeAA==';
 const org = "my-org";
+const host = process.env.influx || "influxdb";
 
 const init = () => {
-	return new InfluxDB({url: 'http://influxdb:8086', token: token});
+	return new InfluxDB({url: `http://${host}:8086`, token: token});
 };
 
 const executeQuery = async ({query, client}) => {

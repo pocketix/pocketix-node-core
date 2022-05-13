@@ -1,6 +1,7 @@
 import postgres from 'postgres';
 import pkg from 'pg';
 const {Client} = pkg;
+const host = process.env.postgres || "postgres";
 
 import {aggregateQuery, create, preseed as preseedQuery} from "./sqlQueries.js";
 
@@ -8,12 +9,12 @@ import {aggregateQuery, create, preseed as preseedQuery} from "./sqlQueries.js";
 
 const init = async () => {
 	const clients = [postgres({
-        host: "postgres",
+        host,
 		database: "test",
 		username: "postgres"
 	}), new Client(
 		{
-            host: "postgres",
+            host,
 			database: "test",
 			user: "postgres"
 		}

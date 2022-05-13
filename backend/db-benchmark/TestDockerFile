@@ -4,4 +4,4 @@ COPY . .
 
 RUN npm install
 
-CMD ["node", "src/index.js", "--benchmark", "first100.json"]
+CMD ["node", "src/index.js"]
