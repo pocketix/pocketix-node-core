@@ -10,6 +10,7 @@
           *ngFor="let item of keyValue"
           [key]="item.key"
           [value]="item.value"
+          [tooltip]="item.tooltip"
           [keySize]="30"
           [valueSize]="24"
         >
@@ -20,7 +21,7 @@
       <h3>
         State changes
       </h3>
-      <div style="width: 100%" *ngIf="switchData && start">
+      <div class="full-width" *ngIf="switchData && switchData.length && start">
         <switch-display *ngFor="let field of fields"
           [data]="switchData"
           [states]="states"
@@ -29,6 +30,9 @@
           [mapping]="mapping"
         >
         </switch-display>
+      </div>
+      <div *ngIf="!fields?.length" class="full-height full-width">
+        No data
       </div>
     </div>
 

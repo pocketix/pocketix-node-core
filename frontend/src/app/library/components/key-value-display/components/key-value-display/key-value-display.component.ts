@@ -11,6 +11,8 @@ export class KeyValueDisplayComponent implements OnInit {
   @Input()
   value!: string;
   @Input()
+  tooltip?: string;
+  @Input()
   keySize: number = 16;
   @Input()
   valueSize: number = 16;

@@ -31,7 +31,7 @@ export class CategoricalDashboardComponent implements OnInit {
   deviceUid!: string;
   device?: Device;
   fields?: string[]
-  keyValue?: {key: string, value: string}[] = [];
+  keyValue?: {key: string, value: string, tooltip?: string}[] = [];
   data?: OutputData[];
   states = [0, 1, 2] as SingleSimpleValue[];
   switchFields?: string[] = [];
@@ -108,7 +108,8 @@ export class CategoricalDashboardComponent implements OnInit {
         values: this.states
       },
     }).subscribe(data => {
-      this.data = data.data
+      if (data.data)
+        this.data = data.data
     });
 
     this.influxService.parameterAggregationWithMultipleStarts({
@@ -117,22 +118,26 @@ export class CategoricalDashboardComponent implements OnInit {
         data: {
           bucket: environment.bucket,
           operation: Operation.Mean,
-          param: { sensors: {boiler: fields} }
+          param: { sensors: {[this.deviceUid]: fields} }
         }
       }
     }).subscribe(
       data => {
         const sortedData = data.data.sort((first, second) =>
-          new Date(first.time) < new Date(second.time) ? -1 : 1)
+          new Date(first.time) < new Date(second.time) ? -1 : 1);
+
+        const strings = ["Past 30 Days", "Past 7 Days", "Today"];
 
         const storage = Object.fromEntries(fields.map(field => [field, [] as (number | string)[]]));
-        const keyValue: { key: string; value: string; }[] = [];
+        const keyValue: { key: string; value: string; tooltip: string}[] = [];
 
         sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
+        console.log(storage, sortedData);
         Object.entries(storage).forEach(([field, array]) => array.map(
-          item => keyValue.push({
+          (item, index) => keyValue.push({
             key: this.mapping(field),
-            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item || "no data"
+            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item || "No data",
+            tooltip: strings[index] || ""
           })
         ));
         this.keyValue = keyValue;
