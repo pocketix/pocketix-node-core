@@ -307,31 +307,31 @@ INSERT INTO public.parameter_type VALUES (26, 'out_pomp1', 'Output Pump 1 Status
 --
 
 INSERT INTO public.parameter_value VALUES (3, NULL, 1, 'boiler', 5, 3);
-INSERT INTO public.parameter_value VALUES (4, NULL, 2, 'boiler', 22, 3);
+INSERT INTO public.parameter_value VALUES (4, NULL, 2, 'boiler', 22.06, 3);
 INSERT INTO public.parameter_value VALUES (5, NULL, 3, 'boiler', 0.27, 3);
-INSERT INTO public.parameter_value VALUES (6, NULL, 4, 'boiler', 34.5, 3);
+INSERT INTO public.parameter_value VALUES (6, NULL, 4, 'boiler', 21.37, 3);
 INSERT INTO public.parameter_value VALUES (7, NULL, 5, 'boiler', 21.1, 3);
 INSERT INTO public.parameter_value VALUES (8, NULL, 6, 'boiler', 19.2, 3);
-INSERT INTO public.parameter_value VALUES (9, NULL, 7, 'boiler', 21.52, 3);
+INSERT INTO public.parameter_value VALUES (9, NULL, 7, 'boiler', 20.44, 3);
 INSERT INTO public.parameter_value VALUES (10, NULL, 8, 'boiler', 0.89, 3);
-INSERT INTO public.parameter_value VALUES (11, NULL, 9, 'boiler', 41.12, 3);
+INSERT INTO public.parameter_value VALUES (11, NULL, 9, 'boiler', 37.93, 3);
 INSERT INTO public.parameter_value VALUES (12, NULL, 10, 'boiler', 1.64, 3);
-INSERT INTO public.parameter_value VALUES (13, NULL, 11, 'boiler', 31.07, 3);
+INSERT INTO public.parameter_value VALUES (13, NULL, 11, 'boiler', 19.37, 3);
 INSERT INTO public.parameter_value VALUES (14, NULL, 12, 'boiler', 0, 3);
 INSERT INTO public.parameter_value VALUES (15, NULL, 13, 'boiler', -1.8, 3);
 INSERT INTO public.parameter_value VALUES (16, NULL, 14, 'boiler', 1.46, 3);
-INSERT INTO public.parameter_value VALUES (17, NULL, 15, 'boiler', 31.43, 3);
+INSERT INTO public.parameter_value VALUES (17, NULL, 15, 'boiler', 20.77, 3);
 INSERT INTO public.parameter_value VALUES (18, NULL, 16, 'boiler', 0, 3);
-INSERT INTO public.parameter_value VALUES (19, NULL, 17, 'boiler', 31.82, 3);
+INSERT INTO public.parameter_value VALUES (19, NULL, 17, 'boiler', 20.08, 3);
 INSERT INTO public.parameter_value VALUES (20, NULL, 18, 'boiler', 0, 3);
-INSERT INTO public.parameter_value VALUES (21, NULL, 19, 'boiler', 21.52, 3);
-INSERT INTO public.parameter_value VALUES (22, NULL, 20, 'Arduino', 50, 3);
-INSERT INTO public.parameter_value VALUES (23, NULL, 20, 'Arduino2', 50, 3);
-INSERT INTO public.parameter_value VALUES (24, NULL, 20, 'NodeMCU', 50, 3);
-INSERT INTO public.parameter_value VALUES (25, NULL, 21, 'NodeMCU2', 30, 3);
-INSERT INTO public.parameter_value VALUES (26, NULL, 22, 'NodeMCU2', 30, 3);
-INSERT INTO public.parameter_value VALUES (27, NULL, 23, 'NodeMCU2', 30, 3);
-INSERT INTO public.parameter_value VALUES (28, NULL, 24, 'NodeMCU2', -70, 3);
+INSERT INTO public.parameter_value VALUES (21, NULL, 19, 'boiler', 20.44, 3);
+INSERT INTO public.parameter_value VALUES (22, NULL, 20, 'Arduino', 79.69, 3);
+INSERT INTO public.parameter_value VALUES (23, NULL, 20, 'Arduino2', 87.4, 3);
+INSERT INTO public.parameter_value VALUES (24, NULL, 20, 'NodeMCU', 100.1, 3);
+INSERT INTO public.parameter_value VALUES (25, NULL, 21, 'NodeMCU2', 40, 3);
+INSERT INTO public.parameter_value VALUES (26, NULL, 22, 'NodeMCU2', 23.8, 3);
+INSERT INTO public.parameter_value VALUES (27, NULL, 23, 'NodeMCU2', 52.2, 3);
+INSERT INTO public.parameter_value VALUES (28, NULL, 24, 'NodeMCU2', -84, 3);
 INSERT INTO public.parameter_value VALUES (29, NULL, 25, 'boiler', 0, 4);
 INSERT INTO public.parameter_value VALUES (30, NULL, 26, 'boiler', 0, 4);
 
