@@ -61,6 +61,10 @@ export class BaseDashboardComponent implements OnInit {
     minMax: {} as {[p: string]: DataItem[] }
   } as SparklineState
 
+  timer: any;
+
+  to: Date = new Date();
+
   constructor(private route: ActivatedRoute,
               protected influxService: InfluxService,
               protected deviceService: DeviceService,
@@ -68,7 +72,11 @@ export class BaseDashboardComponent implements OnInit {
 
   async ngOnInit() {
     this.type = this.route.snapshot.params["type"] ?? "";
+    let devices = this.route.snapshot.queryParams["additionalDevices"] ?? [];
+    devices = typeof devices === "string" ? [devices] : devices;
+
     this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
+    this.to = this.route.snapshot.queryParams["to"] ? new Date(this.route.snapshot.queryParams["to"]) : new Date();
 
     const devicesPromise = this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
@@ -79,11 +87,14 @@ export class BaseDashboardComponent implements OnInit {
     }).toPromise();
 
     [this.device, this.devices] = await Promise.all([devicePromise, devicesPromise]);
+
+    this.lineState.selectedDevicesToCompareWith = this.devices.filter(device => devices.includes(device.deviceUid)).map(device => ({name: device.deviceName, id: device.deviceUid}));
+
     this.lineState.device = this.device;
     this.bulletsState.device = this.device;
     this.sparklineState.device = this.device;
 
-    this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
+    this.fields = this.device.parameterValues?.filter(parameterValues => parameterValues.visibility === 3)?.map(parameterValues => parameterValues.type.name) || [];
     this.sparklines = this.fields;
     this.fields = this.fields.slice(0, 3);
     this.bulletsState.data = this.device.parameterValues?.map(parameterValueToBullet) || [];
@@ -99,9 +110,9 @@ export class BaseDashboardComponent implements OnInit {
   private updateSparklines(sparklines: string[]) {
     const {sensors} = createSensors(this.lineState, sparklines);
     const from = new Date();
-    const to = new Date();
+    const to = this.to;
     to.setHours(23, 59, 59 , 999);
-    from.setDate(from.getDate() - 30);
+    from.setDate(to.getDate() - 30);
     this.influxService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
@@ -126,11 +137,11 @@ export class BaseDashboardComponent implements OnInit {
 
   private updateBoxPlots(boxPlotFieldNames: string[]) {
     const from = new Date();
-    from.setDate(from.getDate() - 30);
+    from.setDate(this.to.getDate() - 30);
     this.influxService.aggregate({
       operation: Operation.Mean,
       from: from.toISOString(),
-      to: new Date().toISOString(),
+      to: this.to.toISOString(),
       aggregateMinutes: 1440,
       body: {
         bucket: this.bucket,
@@ -155,10 +166,10 @@ export class BaseDashboardComponent implements OnInit {
     this.devices = this.devices?.filter(device => device.deviceUid !== this.device.deviceUid);
     this.lineState.allDevices.push(...this.devices?.map(device => ({name: device.deviceName, id: device.deviceUid})) as any[]);
     const from = new Date();
-    from.setDate(from.getDate() - 7);
+    from.setDate(this.to.getDate() - 7);
     this.lineState.allKpis.push(...this.sparklines.map((field) => ({name: this.mapping(field), field: field})));
     this.lineState.selectedKpis.push(...this.fields.map(field => ({name: this.mapping(field), field})));
-    this.lineState.dates.push(from, new Date());
+    this.lineState.dates.push(from, this.to);
   }
 
   public updateMainChart() {
@@ -184,6 +195,7 @@ export class BaseDashboardComponent implements OnInit {
       body: {bucket: this.bucket, sensors}
     }).subscribe(items => {
       if (items?.data) {
+        console.log(items);
         const {storage} = createStorage(this.lineState, items, fields, this.mapping);
         this.lineState.results = handleMultipleLines(this.lineState, sensorIds, storage);
       } else {
@@ -195,6 +207,21 @@ export class BaseDashboardComponent implements OnInit {
   public onMainChartUpdate() {
     this.updateMainChart();
     this.updateSparklines(this.sparklines);
-    this.updateBoxPlots(this.sparklines);
+  }
+
+  onReloadSwitch($event: any) {
+    if ($event.checked) {
+      return this.timer = setInterval(() => this.handleAutomaticReload(), 5000);
+    }
+    return clearInterval(this.timer);
+  }
+
+  handleAutomaticReload() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Data updated",
+      detail: "Data was automatically refreshed"
+    });
+    this.updateMainChart();
   }
 }

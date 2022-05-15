@@ -16,4 +16,23 @@ The project has the following structure:
 
 Each important part of the monorepo has its own `README.md` describing the usage or results gained from this part  
 
-The main application has docker support using `docker-compose` and `docker`. Run `docker-compose build` and `docker-compose up` and be patient. Some dependencies are quite large and it can take a while 
+## Running the application
+The main application has docker support using `docker-compose` and `docker`. Run `docker-compose build` and `docker-compose up` and be patient. Some dependencies are quite large and it can take a while.
+The following are containers are hosted
+ - databases
+   - InfluxDB - stores the time-series data from IoT devices (port: 8086)
+   - PostgreSQL - handles device metadata, for example units, last value, thresholds, etc (port: 5432)
+ - backend servers
+   - serverless - the `influx-lambda` AWS lambda (for testing purposes only) (port: 4000)
+   - express - main express application (port: 3000)
+ - frontend
+   - app using the serverless server (port: 4300)
+   - app using the express backend (port: 4200)
+
+## Quick links and data
+The database contains data starting at `2022-04-20` and ending at `2022-05-07`
+ - [Statistic view of boiler at 2022-05-05](http://localhost:4200/details/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Availability view of boiler at 2022-05-05](http://localhost:4200/availability/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Categorical view of boiler at 2022-05-05](http://localhost:4200/categorical/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Statistic view of two devices at 2022-05-05](http://localhost:4200/details/Arduinos?deviceUid=Arduino&to=2022-05-05T09:28:42.201Z&additionalDevices=NodeMCU)
+ - [Availability view of two devices at 2022-05-05](http://localhost:4200/availability/Arduinos?deviceUid=Arduino&to=2022-05-05T09:28:42.201Z&additionalDevices=NodeMCU)

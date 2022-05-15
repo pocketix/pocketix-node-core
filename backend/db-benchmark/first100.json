@@ -1,0 +1,2802 @@
+[
+  {
+	"_id": {
+	  "$oid": "6139d7619a23528f32cae9e1"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:44:01.892Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.95,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.64,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.69,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d79e3e9c03f84337cb5e"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:45:02.092Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.95,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.66,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d7da44d3b310bcea3934"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:46:02.290Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.94,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.69,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d816636991c7b9281ff8"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:47:02.512Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.93,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.72,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d851013943c4abbb35fb"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:48:01.720Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.93,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.74,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d88dfb17d55e9dc32445"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:49:01.913Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.93,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.76,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.7,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d8ca840191873943217e"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:50:02.124Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.92,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.78,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d906fb90a77fccdaab95"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:51:02.325Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.76,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.92,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.77,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.76,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d942b1c4366f096c2cdd"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:52:02.523Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.9,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.58,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.75,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d97d22874fb78aa12f4c"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:53:01.728Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.92,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.9,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.59,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.76,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d9b96628647621f3f6f2"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:54:01.946Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.93,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.59,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.25,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.78,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139d9f63aba140cef8e1581"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:55:02.144Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.94,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.6,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.8,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139da321154ca650a1af35f"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:56:02.337Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.95,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.6,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.81,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.74,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139da6e0e9588fec7398556"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:57:02.525Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.97,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.9,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.62,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.25,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.84,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139daa973ccf577cabc81e2"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:58:01.716Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.97,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.61,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.24,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dae5ac6769fc5387fe04"
+	},
+	"date": {
+	  "$date": "2021-09-09T09:59:01.928Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.99,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.61,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.25,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.88,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139db22f1cba7199d1c45b8"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:00:02.131Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.98,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.61,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.25,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.9,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139db5ef7fe4a4b512aa1f7"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:01:02.347Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.98,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.61,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.27,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.9,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139db9a4d01f5e033dc9400"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:02:02.551Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.99,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.63,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.27,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.89,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dbd537afcb79e95ff849"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:03:01.745Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.99,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.89,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.63,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.27,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.87,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dc11d092154812b0d5e7"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:04:01.969Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.99,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.88,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.27,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.87,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dc4ed17b05401bf3d9e7"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:05:02.162Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 18.99,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.87,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.29,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dc8a0b386e0e7567d231"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:06:02.383Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.87,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.3,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.83,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dcc64b81f107caaf3049"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:07:02.588Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.87,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dd016c6960a628668cca"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:08:01.782Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.02,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.86,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dd3db22935601fecdcfa"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:09:01.982Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.04,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.85,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dd7a389778e42fbfa388"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:10:02.182Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ddb68b5991efeea12382"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:11:02.380Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.87,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ddf283851fed2a9d50f8"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:12:02.579Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.9,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139de2db2becf01190be81f"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:13:01.771Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.92,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139de6953a7d6e333ba4f0a"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:14:01.958Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.92,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dea642180bca887a3c27"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:15:02.172Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.92,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dee292f60642e023805a"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:16:02.374Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.94,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139df1e827e8a69fac2a2d3"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:17:02.554Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.97,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139df5918140e915de34e64"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:18:01.751Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 19.98,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139df959d786ac2c44a3b6d"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:19:01.948Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.06,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.01,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139dfd2db4b1c35419a5ed6"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:20:02.141Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.06,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.03,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e00ef0ca555062672722"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:21:02.348Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.05,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.05,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e04a3a5e444c455c6114"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:22:02.548Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.06,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.05,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 22.91,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e085fec546e70b5278f8"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:23:01.737Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.06,
+	"t2_calibration": 0,
+	"t2_temperature": 20.77,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.05,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.77,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e0c13f631850a0f7dd14"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:24:01.936Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.08,
+	"t2_calibration": 0,
+	"t2_temperature": 20.78,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.06,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.78,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e0fe509170f6ec907ef5"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:25:02.139Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.1,
+	"t2_calibration": 0,
+	"t2_temperature": 20.78,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.06,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.78,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e13a8ae44151dccaca4d"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:26:02.336Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.79,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.31,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.07,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.79,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e176d5b24661c50262f5"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:27:02.553Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.11,
+	"t2_calibration": 0,
+	"t2_temperature": 20.8,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.32,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.09,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.8,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e1b1b1ad6f6217e50617"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:28:01.793Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.8,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.32,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.11,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.8,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e1ee6f94ecc4485bf7c4"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:29:01.994Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.79,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.34,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.13,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.79,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e22aac0b3c0411b561dc"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:30:02.214Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.34,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.17,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.72,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e266f119ba68fc0f2771"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:31:02.397Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.35,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.2,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.73,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e2a140e2f92cf8de1031"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:32:01.587Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.64,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.34,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.24,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e2ddd8553b0f49cb78ed"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:33:01.837Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.84,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.36,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.22,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.71,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e31a21126f3390c0f881"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:34:02.031Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.83,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.65,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.23,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.72,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e35642d158ba894fdcf8"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:35:02.256Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.8,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.81,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.69,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.36,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.23,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.72,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.8,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e392f872c22011a72cfc"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:36:02.465Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.12,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.8,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.68,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.23,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.72,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e3cd2b9c93ffb61ba10c"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:37:01.722Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.14,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.82,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.67,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.24,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.74,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e409189fc40948f86e8c"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:38:01.910Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.13,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.81,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.68,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.24,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.75,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e44673f1d1ae81dab872"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:39:02.108Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.13,
+	"t2_calibration": 0,
+	"t2_temperature": 20.8,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.8,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.68,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.27,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.73,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.8,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e48267514b379f6ad0ff"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:40:02.307Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.14,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.67,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.3,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.74,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e4be32ad5b272242584f"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:41:02.524Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.15,
+	"t2_calibration": 0,
+	"t2_temperature": 20.81,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.79,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.3,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.73,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.81,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e4f9e9b82e3278f58ecc"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:42:01.727Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.16,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.79,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.31,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.75,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e53564180dbccc8fc45c"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:43:01.946Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.14,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.31,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.74,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e5726f47d5b2e5d36363"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:44:02.156Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.15,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.67,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.34,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.76,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e5aea656d9c0bb39448e"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:45:02.350Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.16,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.36,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.75,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e5ea546c4456890764e8"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:46:02.546Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.41,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e625c6c9bd373a39aa41"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:47:01.743Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.17,
+	"t2_calibration": 0,
+	"t2_temperature": 20.82,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.42,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.76,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.82,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e661c0670536d0b1b4c4"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:48:01.962Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.68,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.44,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e69e912104c75dff6892"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:49:02.146Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.66,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.46,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.75,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e6dafe7f244109803120"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:50:02.337Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.69,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.48,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e71623252022294a4901"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:51:02.520Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.7,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.5,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.76,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e7513a380b01050007e4"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:52:01.723Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.69,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.53,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e78d70452a440f5213c2"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:53:01.930Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.69,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.55,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e7ca1640746020663e30"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:54:02.141Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.7,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.37,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.55,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e806b0d5d9ded7a5a14d"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:55:02.346Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.83,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.7,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.38,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.56,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.83,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e84240c5d8158e5a1fce"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:56:02.532Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.18,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.7,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.38,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.56,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e87dc5240452765d22a5"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:57:01.733Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.19,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.78,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.38,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.57,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e8b9544ac1d617f39b74"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:58:01.946Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.21,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.77,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.39,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.57,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e8f6dce3864530ff2a98"
+	},
+	"date": {
+	  "$date": "2021-09-09T10:59:02.157Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.2,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.77,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.4,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.59,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e9324403dd18fb38c340"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:00:02.362Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.23,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.75,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.4,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.62,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e96e2fec0f58f480957d"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:01:02.548Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.22,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.77,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.41,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.65,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e9a92170a6ced6307989"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:02:01.698Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.22,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.76,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.41,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.69,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139e9e554eb0e6a6df80714"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:03:01.829Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.77,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.42,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.71,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ea22f988d52277ad6a45"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:04:02.020Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.75,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.42,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.74,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ea5e0b972c9d18cd31e0"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:05:02.203Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.77,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.43,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.77,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ea9a3c27a5536532b895"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:06:02.398Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.75,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.43,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.8,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ead5f6c19801b6653b35"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:07:01.592Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.76,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.8,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139eb116068321f669052cd"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:08:01.778Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.74,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.43,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.81,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139eb4d47900f734952da7e"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:09:01.983Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.74,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.82,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139eb8a6366bf377aaec6f4"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:10:02.205Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.73,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.84,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.08,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ebc6ec49c972fbdc3a34"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:11:02.413Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.24,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.84,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ec010138e54cd464ec0d"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:12:01.617Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.25,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.85,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ec3d6416e6e29eed4bb1"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:13:01.838Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.25,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ec7a9616c12554c098e4"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:14:02.024Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.26,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.86,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ecb6928ae608f8443cb5"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:15:02.257Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.27,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.88,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ecf24f8f302a8d4aab2d"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:16:02.397Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.26,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.73,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.89,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ed2d2d6c2d4111ae7acc"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:17:01.585Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.27,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.73,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.9,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ed693677434f840bfdfd"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:18:01.784Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.27,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139eda504a024169a6887cd"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:19:01.973Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.27,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ede28eec608026139958"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:20:02.159Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.28,
+	"t2_calibration": 0,
+	"t2_temperature": 20.84,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.73,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.84,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ee1e0e4609aa3a1428a4"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:21:02.370Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.31,
+	"t2_calibration": 0,
+	"t2_temperature": 20.85,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.85,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ee5a1ec149ca81233726"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:22:02.566Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.31,
+	"t2_calibration": 0,
+	"t2_temperature": 20.86,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.86,
+	"ch2_internal_normalized": 19.2
+  },
+  {
+	"_id": {
+	  "$oid": "6139ee9509521db41275a1f3"
+	},
+	"date": {
+	  "$date": "2021-09-09T11:23:01.751Z"
+	},
+	"t1_calibration": 0,
+	"t1_temperature": 19.31,
+	"t2_calibration": 0,
+	"t2_temperature": 20.85,
+	"dhw_calibration": 0.89,
+	"dhw_temperature": 40.72,
+	"boiler_calibration": 0.27,
+	"boiler_temperature": 19.71,
+	"feeder_calibration": 1.64,
+	"feeder_temperature": 18.44,
+	"outside_calibration": -1.8,
+	"outside_temperature": 20.93,
+	"indoor_calibration": 0,
+	"indoor_temperature": "unknown",
+	"return_calibration": 1.46,
+	"return_temperature": 18.77,
+	"ch1_internal_temperature": 23.18,
+	"ch1_internal_normalized": 21.4,
+	"ch2_internal_temperature": 20.85,
+	"ch2_internal_normalized": 19.2
+  }
+]

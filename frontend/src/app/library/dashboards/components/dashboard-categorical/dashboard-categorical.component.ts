@@ -19,7 +19,7 @@ export class DashboardCategoricalComponent implements OnInit {
    * Values to display on the top left
    */
   @Input()
-  keyValue?: {key: string, value: string}[] = [];
+  keyValue?: {key: string, value: string, tooltip?: string}[] = [];
   /**
    * Raw OutputData from Influx for the switch display component
    */

@@ -7,7 +7,7 @@ import {InfluxService} from "../../generated/services/influx.service";
 import {SingleSimpleValue} from "../../generated/models/single-simple-value";
 import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
-import { Bullet } from 'app/library/dashboards/model/dashboards.model';
+import {Bullet} from 'app/library/dashboards/model/dashboards.model';
 import {
   createMappingFromParameterValues,
   createPastDaysSwitchDataTicks,
@@ -18,6 +18,7 @@ import {
 import {CurrentDayState, KPIOptions, PastDaysState} from "../../library/components/categorical/model/categorical.model";
 import {Series} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {ParameterType} from "../../generated/models/parameter-type";
+import {ParameterValue} from "../../generated/models/parameter-value";
 
 @Component({
   selector: 'app-categorical-dashboard',
@@ -30,7 +31,7 @@ export class CategoricalDashboardComponent implements OnInit {
   deviceUid!: string;
   device?: Device;
   fields?: string[]
-  keyValue?: {key: string, value: string}[] = [];
+  keyValue?: {key: string, value: string, tooltip?: string}[] = [];
   data?: OutputData[];
   states = [0, 1, 2] as SingleSimpleValue[];
   switchFields?: string[] = [];
@@ -57,42 +58,46 @@ export class CategoricalDashboardComponent implements OnInit {
     ticks: [] as string[],
     dataLoading: false
   } as PastDaysState;
+  private to: Date = new Date();
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
   async ngOnInit(): Promise<void> {
     this.type = this.route.snapshot.params["type"] ?? "";
     this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
+    this.to = this.route.snapshot.queryParams["to"] ? new Date(this.route.snapshot.queryParams["to"]) : new Date();
+    this.currentDay.date = this.to;
+    this.pastDays.startDate = new Date(this.to);
+    this.pastDays.endDate = new Date(this.to);
 
-    this.deviceService.getDeviceById({
+    this.device = await this.deviceService.getDeviceById({
       deviceUid: this.deviceUid
-    }).subscribe(device => {
-      this.device = device;
-      this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
-      this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
-      this.KPIs.default = this.KPIs.all.slice(0,3);
+    }).toPromise();
 
-      this.currentDay.fields = this.KPIs.default || [];
-      this.switchInDays();
-      this.loadDataForBarCharts();
+    this.fields = this.device.parameterValues?.map(parameterValues => parameterValues.type.name) || [];
+    this.KPIs.all = this.device.parameterValues?.map(parameterValues => parameterValues.type) || [];
+    this.KPIs.default = this.KPIs.all.slice(0,3);
 
-      this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
-      this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
-    });
+    this.currentDay.fields = this.KPIs.default || [];
 
-    const to = new Date();
-    const startDay = new Date();
+    this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
+    this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
+
+    const to = this.to;
+    const startDay = to;
     startDay.setHours(0, 0, 0,0);
     const sevenDaysBack = new Date()
     const thirtyDaysBack = new Date();
     sevenDaysBack.setDate(startDay.getDate() - 7);
     thirtyDaysBack.setDate(startDay.getDate() - 30);
 
-
-    const fields = ["boiler_temperature", "outside_temperature"];
-    this.switchFields = ["boiler_status", "out_pomp1"];
+    const fields = this.device?.parameterValues?.sort((first: ParameterValue, second: ParameterValue) => first.id - second.id)?.slice(0, 2).map(parameter => parameter.type.name) || [];
+    this.switchFields = this.device?.parameterValues?.filter(parameter => parameter.visibility === 4).map(parameter => parameter.type.name) || [];
     this.start = startDay;
     this.pastDays.startDate.setDate(this.pastDays.endDate.getDate() - 7);
+
+    this.switchInDays();
+    this.loadDataForBarCharts();
 
     this.influxService.filterDistinctValue({
       isString: false,
@@ -108,7 +113,8 @@ export class CategoricalDashboardComponent implements OnInit {
         values: this.states
       },
     }).subscribe(data => {
-      this.data = data.data
+      if (data.data)
+        this.data = data.data
     });
 
     this.influxService.parameterAggregationWithMultipleStarts({
@@ -117,22 +123,26 @@ export class CategoricalDashboardComponent implements OnInit {
         data: {
           bucket: environment.bucket,
           operation: Operation.Mean,
-          param: { sensors: {boiler: fields} }
+          param: { sensors: {[this.deviceUid]: fields} }
         }
       }
     }).subscribe(
       data => {
         const sortedData = data.data.sort((first, second) =>
-          new Date(first.time) < new Date(second.time) ? -1 : 1)
+          new Date(first.time) < new Date(second.time) ? -1 : 1);
+
+        const strings = ["Past 30 Days", "Past 7 Days", "Today"];
 
         const storage = Object.fromEntries(fields.map(field => [field, [] as (number | string)[]]));
-        const keyValue: { key: string; value: string; }[] = [];
+        const keyValue: { key: string; value: string; tooltip: string}[] = [];
 
         sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
+
         Object.entries(storage).forEach(([field, array]) => array.map(
-          item => keyValue.push({
+          (item, index) => keyValue.push({
             key: this.mapping(field),
-            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item
+            value: typeof item === "number" ? Math.round(item * 100) / 100 + " °C": item || "No data",
+            tooltip: strings[index] || ""
           })
         ));
         this.keyValue = keyValue;

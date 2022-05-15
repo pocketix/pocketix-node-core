@@ -31,6 +31,9 @@ class App {
         this.app.use('/api-docs/swagger', express.static('src/swagger'));
         this.app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
 
+        // Static files
+        this.app.use('/static', express.static('src/static'));
+
         // Default server settings
         this.app.use((req: Request, res: Response, next: NextFunction) => {
             res.header('Access-Control-Allow-Origin', '*');

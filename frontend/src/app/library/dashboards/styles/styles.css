@@ -93,3 +93,16 @@
 .y-overflow-scroll {
   overflow-y: scroll;
 }
+
+.no-margin {
+  margin: 0;
+}
+
+@media screen and (max-width: 992px) {
+  .full-height-on-small-screen {
+    height: 100% !important;
+    flex-basis: initial;
+    overflow-x: initial;
+    overflow-y: initial;
+  }
+}

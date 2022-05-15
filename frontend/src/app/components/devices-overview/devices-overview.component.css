@@ -1,3 +1,8 @@
+:host {
+  --image-width: 320px;
+  --image-height: 320px;
+}
+
 .no-padding-top {
   padding-top: -0.5rem;
   margin-top: -0.5rem;
@@ -6,4 +11,20 @@
 .no-padding-bottom {
   padding-bottom: 0;
   margin-bottom: 0;
+}
+
+.image {
+  min-width: var(--image-width);
+  min-height: var(--image-height);
+  max-width: var(--image-width);
+  max-height: var(--image-height);
+  overflow: hidden;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.gap-6 {
+  gap: 6px;
 }

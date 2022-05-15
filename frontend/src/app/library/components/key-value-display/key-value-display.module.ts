@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {KeyValueDisplayComponent} from "./components/key-value-display/key-value-display.component";
+import {TooltipModule} from "primeng/tooltip";
 
 
 
@@ -8,9 +9,10 @@ import {KeyValueDisplayComponent} from "./components/key-value-display/key-value
   declarations: [
     KeyValueDisplayComponent
   ],
-  imports: [
-    CommonModule
-  ],
+    imports: [
+        CommonModule,
+        TooltipModule
+    ],
   exports: [
     KeyValueDisplayComponent
   ]

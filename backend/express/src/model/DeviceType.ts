@@ -6,7 +6,7 @@ class DeviceType {
     /**
      * ID of the type
      */
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({type: "int"})
     id: number;
 
     /**
@@ -18,7 +18,7 @@ class DeviceType {
     /**
      * Name of the type
      */
-    @Column()
+    @Column({type: "varchar", length: 255})
     name: string;
 }
 

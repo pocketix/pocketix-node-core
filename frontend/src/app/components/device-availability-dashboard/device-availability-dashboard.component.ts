@@ -95,8 +95,8 @@ export class DeviceAvailabilityDashboardComponent extends BaseDashboardComponent
   }
 
   async updateAvailabilityData($event: Availability) {
-    const to = new Date();
-    const startDay = new Date();
+    const to = new Date(this.to);
+    const startDay = new Date(this.to);
     startDay.setHours(0, 0, 0,0);
     const sevenDaysBack = new Date()
     const thirtyDaysBack = new Date();

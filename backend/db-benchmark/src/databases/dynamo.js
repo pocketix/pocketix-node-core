@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
-import {defaultDict} from "../helpers.js"
-const dbName = 'boilerSpeedTest'
+import {defaultDict} from "../helpers.js";
+const dbName = 'boilerSpeedTest';
+
+const host = process.env.dynamo || "dynamo";
 
 const defaultDBConfig = {
 	TableName: dbName,
@@ -24,7 +26,7 @@ const defaultDBConfig = {
 
 const defaultConfig = {
 	region: 'localhost',
-	endpoint: "http://localhost:8000",
+	endpoint: `http://${host}:8000`,
 	accessKeyId: "AKIAIOSFODNN7EXAMPLE",
 	secretAccessKey: "xxwJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYxx",
 }
@@ -93,8 +95,8 @@ const insertMany = async ({document, table}) => {
 	}
 };
 
-const createDb = (client, dbConfig = defaultDBConfig) => {
-	return client.createTable(dbConfig, function(err, data) {
+const createDb = async (client, dbConfig = defaultDBConfig) => {
+	return await client.createTable(dbConfig, function (err, data) {
 		if (err) {
 			console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
 		}
@@ -106,7 +108,7 @@ const removeDb = (client) => {
 		if (err) {
 			console.error("Unable to delete table. Error JSON:", JSON.stringify(err, null, 2));
 		} else {
-			console.log("Deleted table. Table description JSON:", JSON.stringify(data, null, 2));
+			//console.log("Deleted table. Table description JSON:", JSON.stringify(data, null, 2));
 		}
 	});
 }

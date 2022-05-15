@@ -5,6 +5,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
+import {ReloadEvent} from "../model/main-chart-template.model";
 
 /**
  * Main chart template with one chart on the right and smaller column on the right.
@@ -37,7 +38,7 @@ export class MainChartTemplateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onReloadSwitch($event: {originalEvent: Event, checked: boolean}) {
+  onReloadSwitch($event: ReloadEvent) {
     this.onReloadSwitchEventEmitter.emit($event);
   }
 }

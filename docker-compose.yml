@@ -19,23 +19,23 @@ services:
       - influxdb
     restart: unless-stopped
 
-#  serverless:
-      #    build:
-      #context: backend
-    #dockerfile: ServerlessDockerfile
-      #expose:
-    # - "4000"
-      #ports:
-    #- "4000:4000"
-      #networks:
-    #- network
-      #links:
-      #- postgres
-    #- influxdb
-      #depends_on:
-      #- postgres
-    #- influxdb
-    #restart: unless-stopped
+  serverless:
+    build:
+      context: backend
+      dockerfile: ServerlessDockerfile
+    expose:
+      - "4000"
+    ports:
+      - "4000:4000"
+    networks:
+      - network
+    links:
+      - postgres
+      - influxdb
+    depends_on:
+      - postgres
+      - influxdb
+    restart: unless-stopped
 
   postgres:
     image: postgres:14.2
@@ -73,9 +73,21 @@ services:
     depends_on:
       - express
 
+  frontend-express:
+    build:
+      context: frontend
+      dockerfile: DockerfileServerless
+    expose:
+      - "4300"
+    ports:
+      - "4300:4300"
+    networks:
+      - network
+    depends_on:
+      - express
+
   nginx:
     image: nginx:mainline-alpine
-    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -89,7 +101,6 @@ services:
     build:
       context: backend
       dockerfile: InfluxDockerfile
-    container_name: influxdb
     restart: unless-stopped
     ports:
       - "8086:8086"
@@ -102,7 +113,6 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=home
       - DOCKER_INFLUXDB_INIT_BUCKET=bucket
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=Fgp2ozMxmkYnUBkzwLpkx6ydOVXyQqF4-ZPctGjv8-xkirYPYRvoBtrpAHMCr_joYoJMOqZjl8djjuyOx-MR_A==
-      - DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=configname
     healthcheck:
       test: [ "CMD", "influx", "ping" ]
       interval: 5s

@@ -1,13 +1,13 @@
 import {InfluxDB, Point} from "@influxdata/influxdb-client";
-import {BucketsAPI} from "@influxdata/influxdb-client-apis";
+import {BucketsAPI, OrgsAPI} from "@influxdata/influxdb-client-apis";
 
-const dbName = 'boilerSpeedTest'
+const dbName = 'boilerSpeedTest';
 const token = '0srXHadc_qKZLnLP7396XeeFx6Fi2jUleVx4yrTZhU2MhCMaA-7RUjbR5Smtrupffy3AbBH9g1Ot6X1o_ZGeAA==';
 const org = "my-org";
-const orgID = "fc015024af17e8aa"
+const host = process.env.influx || "influxdb";
 
 const init = () => {
-	return new InfluxDB({url: 'http://localhost:8086', token: token});
+	return new InfluxDB({url: `http://${host}:8086`, token: token});
 };
 
 const executeQuery = async ({query, client}) => {
@@ -67,6 +67,7 @@ const insertMany = async ({data, client, key, bucket = dbName}) => {
 
 const deleteBucket = async ({name, client}) => {
 	const bucketsApi = new BucketsAPI(client);
+    const orgID = await getOrgIdFromOrgName(client);
 	const buckets = await bucketsApi.getBuckets({orgID, name});
 	if (buckets && buckets.buckets && buckets.buckets.length)
 		await bucketsApi.deleteBucketsID({bucketID: buckets.buckets[0].id});
@@ -74,7 +75,19 @@ const deleteBucket = async ({name, client}) => {
 
 const createBucket = async ({name, client}) => {
 	const bucketsApi = new BucketsAPI(client);
+    const orgID = await getOrgIdFromOrgName(client);
 	const bucket = await bucketsApi.postBuckets({body: {orgID: orgID, name: name, retentionRules: []}});
+}
+
+const getOrgIdFromOrgName = async (client) => {
+    const orgApi = new OrgsAPI(client);
+    const organizations = await orgApi.getOrgs({org});
+
+    if (!organizations || !organizations.orgs || !organizations.orgs.length || !organizations.orgs[0].id) {
+        throw Error('Organization does not exist');
+    }
+
+    return organizations.orgs[0].id;
 }
 
 export {executeQuery, init, insertOne, insertMany, deleteBucket, createBucket, transformToPointTags, insertManyPoints}

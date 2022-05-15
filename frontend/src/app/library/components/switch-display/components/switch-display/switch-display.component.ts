@@ -91,7 +91,9 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
     const status = this.status;
     this.filtered = this.data.filter(item =>item.hasOwnProperty(status) && item[status] !== null);
     this.filtered = this.filtered.slice(this.filtered.length - 10, this.filtered.length);
+    this.filtered.sort((a, b) => new Date(a.time) > new Date(b.time) ? 1 : -1);
     const mainElement = d3.select(this.chart?.nativeElement);
+    console.log(this.filtered);
 
     if (!this.filtered?.length) {
       mainElement.append("span").attr("text", "No data");
@@ -238,7 +240,9 @@ export class SwitchDisplayComponent implements AfterViewInit, OnInit {
   }
 
   private getWidth(data: any): number {
-    return this.xAxis(data[1]) - this.xAxis(data[0]);
+    if (this.status == "out_pomp1")
+      console.log(data);
+    return Math.abs(this.xAxis(data[1]) - this.xAxis(data[0]));
   }
 
   private scaleText(data: any) : string {

@@ -1,25 +1,18 @@
 import { Command } from 'commander';
 import {benchmark} from "./allDbBenchmark.js";
-import {getAndReconstruct, insertTempMany} from "./tempInflux.js";
-import {clone} from "./clone.js";
 
 
 const program = new Command();
-program.option("-b, --benchmark", "benchmark on boiler data (requires Mongo, Dynamo and Influx)");
-program.option("-t, --temp <action>", "run temp benchmark");
-program.option("-c, --clone", "clone data from dynamodb");
+program.option(
+	"-b, --benchmark <file>",
+	"benchmark on boiler data (requires Mongo, Dynamo and Influx)",
+	process.env.file || 'boiler0910-series.json'
+);
 program.parse(process.argv);
 const options = program.opts();
 
+const file = options.benchmark;
+console.log("Running benchmark on file:", file);
 
 if (options.benchmark)
-	await benchmark();
-
-if (options.temp === "insert-many")
-	await insertTempMany();
-
-if (options.temp === "get-all")
-	console.log(await getAndReconstruct());
-
-if (options.clone)
-	await clone()
+	await benchmark(file);

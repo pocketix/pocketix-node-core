@@ -1,0 +1,7 @@
+FROM node:17.9
+
+COPY . .
+
+RUN npm install
+
+CMD ["node", "src/index.js"]

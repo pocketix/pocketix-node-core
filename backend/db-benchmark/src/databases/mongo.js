@@ -1,6 +1,7 @@
 import {MongoClient} from 'mongodb'
+const host = process.env.mongo || "mongo";
 
-const url = 'mongodb://localhost:8888';
+const url = `mongodb://${host}:8888`;
 
 
 const init = () => {

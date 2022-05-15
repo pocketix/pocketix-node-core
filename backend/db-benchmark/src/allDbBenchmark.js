@@ -6,9 +6,9 @@ const {cloneDeep} = pkg;
 import {mongoSeriesTest, mongoTest} from "./tests/mongoTest.js";
 import {postgresTest} from "./tests/postgresTest.js";
 
-const benchmark = async () => {
+const benchmark = async (file) => {
 	const one = prepareOne();
-	const documents = prepareMany();
+	const documents = prepareMany(file);
 	const values = [];
 	const averages = {
 		influxTest: timeStorage(),
@@ -20,10 +20,10 @@ const benchmark = async () => {
 	const repeatCount = 15;
 
 	for (const _ of [...Array(repeatCount).keys()]) {
-		values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
-		values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
+        values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
 		values.push(await runAndMeasure(postgresTest, cloneDeep(one), cloneDeep(documents)));
 	}
 
