@@ -6,6 +6,7 @@ This project was made to test these following databases and their versions
  - DynamoDB (2021-04-27)
 
 All databases were locally hosted in docker on 7300 HQ laptop with 16 GB DDR4 one by one to limit the number of other processes currently running on the native system. Space on the disc was checked manually.
+Results of this run can be found in `database stats.xlsx`.
 
 ## Usage
 Run the `docker-compose build` and `docker-compose up` to run the tests. The dataset used can be changed by changing the environment variable `file` in `docker-compose.yml`.
