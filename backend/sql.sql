@@ -298,8 +298,8 @@ INSERT INTO public.parameter_type VALUES (7, 'ch2_internal_temperature', 'Normal
 INSERT INTO public.parameter_type VALUES (1, 'outside_temperature', 'Outside Temperature', 'number', 0, 10, '°C', -50, 50, 1);
 INSERT INTO public.parameter_type VALUES (2, 'ch1_internal_temperature', 'Room Temperature', 'number', 18, 25, '°C', -50, 50, 1);
 INSERT INTO public.parameter_type VALUES (17, 't1_temperature', 'T1 Temperature', 'number', -100, 100, '°C', -100, 100, 1);
-INSERT INTO public.parameter_type VALUES (25, 'boiler_status', 'Boiler Status', 'number', 0, 0, '""', 0, 3, 1);
-INSERT INTO public.parameter_type VALUES (26, 'out_pomp1', 'Output Pump 1 Status', 'number', 0, 0, '""', 0, 3, 1);
+INSERT INTO public.parameter_type VALUES (25, 'boiler_status', 'Boiler Status', 'number', 0, 0, '', 0, 3, 1);
+INSERT INTO public.parameter_type VALUES (26, 'out_pomp1', 'Output Pump 1 Status', 'number', 0, 0, '', 0, 3, 1);
 
 
 --

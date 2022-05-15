@@ -72,9 +72,11 @@ export class BaseDashboardComponent implements OnInit {
 
   async ngOnInit() {
     this.type = this.route.snapshot.params["type"] ?? "";
+    let devices = this.route.snapshot.queryParams["additionalDevices"] ?? [];
+    devices = typeof devices === "string" ? [devices] : devices;
+
     this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
     this.to = this.route.snapshot.queryParams["to"] ? new Date(this.route.snapshot.queryParams["to"]) : new Date();
-    console.log(this.route.snapshot.queryParams);
 
     const devicesPromise = this.deviceService.getDevicesByDeviceType({
       deviceType: this.type
@@ -85,6 +87,9 @@ export class BaseDashboardComponent implements OnInit {
     }).toPromise();
 
     [this.device, this.devices] = await Promise.all([devicePromise, devicesPromise]);
+
+    this.lineState.selectedDevicesToCompareWith = this.devices.filter(device => devices.includes(device.deviceUid)).map(device => ({name: device.deviceName, id: device.deviceUid}));
+
     this.lineState.device = this.device;
     this.bulletsState.device = this.device;
     this.sparklineState.device = this.device;
@@ -202,7 +207,6 @@ export class BaseDashboardComponent implements OnInit {
   public onMainChartUpdate() {
     this.updateMainChart();
     this.updateSparklines(this.sparklines);
-    this.updateBoxPlots(this.sparklines);
   }
 
   onReloadSwitch($event: any) {

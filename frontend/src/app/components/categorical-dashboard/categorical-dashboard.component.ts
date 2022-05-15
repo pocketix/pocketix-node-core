@@ -58,12 +58,17 @@ export class CategoricalDashboardComponent implements OnInit {
     ticks: [] as string[],
     dataLoading: false
   } as PastDaysState;
+  private to: Date = new Date();
 
   constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
 
   async ngOnInit(): Promise<void> {
     this.type = this.route.snapshot.params["type"] ?? "";
     this.deviceUid = this.route.snapshot.queryParams["deviceUid"];
+    this.to = this.route.snapshot.queryParams["to"] ? new Date(this.route.snapshot.queryParams["to"]) : new Date();
+    this.currentDay.date = this.to;
+    this.pastDays.startDate = new Date(this.to);
+    this.pastDays.endDate = new Date(this.to);
 
     this.device = await this.deviceService.getDeviceById({
       deviceUid: this.deviceUid
@@ -78,8 +83,8 @@ export class CategoricalDashboardComponent implements OnInit {
     this.bullets = this.device.parameterValues?.map(parameterValueToBullet) || [];
     this.mapping = createMappingFromParameterValues(this?.device?.parameterValues || []);
 
-    const to = new Date();
-    const startDay = new Date();
+    const to = this.to;
+    const startDay = to;
     startDay.setHours(0, 0, 0,0);
     const sevenDaysBack = new Date()
     const thirtyDaysBack = new Date();
@@ -132,7 +137,7 @@ export class CategoricalDashboardComponent implements OnInit {
         const keyValue: { key: string; value: string; tooltip: string}[] = [];
 
         sortedData.forEach(item => fields.forEach(field => storage[field].push(item[field])));
-        console.log(storage, sortedData);
+
         Object.entries(storage).forEach(([field, array]) => array.map(
           (item, index) => keyValue.push({
             key: this.mapping(field),

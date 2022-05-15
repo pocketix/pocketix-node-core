@@ -28,3 +28,11 @@ The following are containers are hosted
  - frontend
    - app using the serverless server (port: 4300)
    - app using the express backend (port: 4200)
+
+## Quick links and data
+The database contains data starting at `2022-04-20` and ending at `2022-05-07`
+ - [Statistic view of boiler at 2022-05-05](http://localhost:4200/details/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Availability view of boiler at 2022-05-05](http://localhost:4200/availability/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Categorical view of boiler at 2022-05-05](http://localhost:4200/categorical/Boiler%20Devices?deviceUid=boiler&to=2022-05-05T09:28:42.201Z)
+ - [Statistic view of two devices at 2022-05-05](http://localhost:4200/details/Arduinos?deviceUid=Arduino&to=2022-05-05T09:28:42.201Z&additionalDevices=NodeMCU)
+ - [Availability view of two devices at 2022-05-05](http://localhost:4200/availability/Arduinos?deviceUid=Arduino&to=2022-05-05T09:28:42.201Z&additionalDevices=NodeMCU)

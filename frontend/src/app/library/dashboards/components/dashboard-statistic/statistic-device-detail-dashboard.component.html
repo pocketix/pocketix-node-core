@@ -31,8 +31,8 @@
   <div class="p-card col-11 gutter-hack">
     <div>
       <div class="p-card-body grid">
-        <div class="sm:col-6 md:col-1 col-12 no-padding flex justify-content-evenly">
-          <img *ngIf="device.image" class="full-width full-height" id="image" alt="image"
+        <div *ngIf="device.image" class="sm:col-6 md:col-2 col-12 no-padding flex justify-content-evenly">
+          <img class="full-width full-height" id="image" alt="image"
                style="max-width: 80px; max-height: 80px;" src="{{baseUrl}}/{{device.image}}"
           >
         </div>
