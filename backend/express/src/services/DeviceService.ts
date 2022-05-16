@@ -10,7 +10,7 @@ class DeviceService {
     private dataSource: DataSource;
 
     constructor() {
-        this.dataSource = Container.get(DataSource)
+        this.dataSource = Container.get(DataSource);
     }
 
     public async upsertDevice(device: Device) {
@@ -20,15 +20,16 @@ class DeviceService {
     public async getDevice(deviceUid: string): Promise<Device> {
         const device = await this.dataSource.getRepository(Device).findOne({
             where: {
-                deviceUid: deviceUid
+                deviceUid
             },
             relations: {
                 parameterValues: true
             }
-        })
+        });
 
-        if (device === null)
+        if (device === null) {
             throw Error('not found');
+        }
 
         return device as Device;
     }

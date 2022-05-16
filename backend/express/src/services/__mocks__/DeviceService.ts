@@ -1,5 +1,6 @@
 import {Service} from "typedi";
 import {Device} from "../../model/Device";
+import {InputData} from "../../../../InfluxDataBase/api/influxTypes";
 
 @Service()
 class DeviceService {
@@ -9,6 +10,10 @@ class DeviceService {
 
     public async getDevice(deviceUid: string): Promise<Device> {
         return {} as unknown as Device;
+    }
+
+    public async updateDeviceIfExists(input: InputData): Promise<void> {
+
     }
 
     public async getAllDevices(): Promise<Device[]> {
