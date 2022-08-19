@@ -23,12 +23,12 @@ const prepareOne = () => {
 	return one;
 }
 
-const runAndMeasure = async (callback, one, documents) => {
+const runAndMeasure = async (callback, one, documents, port) => {
 	const start = performance.now();
-	const data = await callback(cloneDeep(documents), cloneDeep(one));
+	const data = await callback(cloneDeep(documents), cloneDeep(one), port);
 	const end = performance.now();
 
-	return {function: callback, time: end - start, start, end, ...data};
+	return {function: callback, name: callback.name + port, time: end - start, start, end, ...data};
 }
 
 const countTimers = (start, create, seed, single, all, avg, insert, del) => {

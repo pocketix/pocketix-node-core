@@ -8,8 +8,8 @@ import {performance} from "perf_hooks";
 import {mongoAggregateAvg, mongoAll, mongoSingle} from "../databases/queries.js";
 import {countTimers} from "../helpers.js";
 
-const commonMongo = async (database, collection, documents, one, series) => {
-	const mongo = mongoInit();
+const commonMongo = async (database, collection, documents, one, series, port) => {
+	const mongo = mongoInit(port);
 	const start = performance.now();
 	await createCollection({name: collection, database, client: mongo, series});
 	const settings = {client: mongo, collection: mongoCollection(mongo, database, collection)};
@@ -29,12 +29,12 @@ const commonMongo = async (database, collection, documents, one, series) => {
 	return countTimers(start, create, seed, single, all, avg, insert, del);
 }
 
-const mongoTest = async (documents, one) => {
-	return await commonMongo("boiler", "boilerSpeedTest", documents, one, false);
+const mongoTest = async (documents, one, port) => {
+	return await commonMongo("boiler", "boilerSpeedTest", documents, one, false, port);
 }
 
-const mongoSeriesTest = async (documents, one) => {
-	return await commonMongo("boiler_series", "boilerSpeedTest", documents, one, true);
+const mongoSeriesTest = async (documents, one, port) => {
+	return await commonMongo("boiler_series", "boilerSpeedTest", documents, one, true, port);
 }
 
 export {mongoTest, mongoSeriesTest};

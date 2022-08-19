@@ -4,8 +4,8 @@ const host = process.env.mongo || "mongo";
 const url = `mongodb://${host}:8888`;
 
 
-const init = () => {
-	return new MongoClient(url);
+const init = (port) => {
+	return new MongoClient(`mongodb://${host}:${typeof port === "number" ? port : 8888}`);
 };
 
 const selectCollection = (client, database, collection) => {
