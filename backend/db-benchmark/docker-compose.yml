@@ -64,16 +64,18 @@ services:
     networks:
       - network
 
-  mongo6:
-    image: mongo:6.0.0
-    hostname: mongo6
-    command: mongod --port 6666
-    expose:
-      - "6666"
-    ports:
-      - "6666:6666"
-    networks:
-      - network
+  # Mongo 6 isn't currently available as a docker image check  https://github.com/docker-library/mongo/issues/552 and
+  # https://github.com/docker-library/mongo/pull/553 for status
+  #mongo6:
+  #  image: mongo:6.0.0
+  #  hostname: mongo6
+  #  command: mongod --port 6666
+  #  expose:
+  #    - "6666"
+  #  ports:
+  #    - "6666:6666"
+  #  networks:
+  #    - network
 
   test:
     build:
