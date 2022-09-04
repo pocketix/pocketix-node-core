@@ -64,18 +64,16 @@ services:
     networks:
       - network
 
-  # Mongo 6 isn't currently available as a docker image check  https://github.com/docker-library/mongo/issues/552 and
-  # https://github.com/docker-library/mongo/pull/553 for status
-  #mongo6:
-  #  image: mongo:6.0.0
-  #  hostname: mongo6
-  #  command: mongod --port 6666
-  #  expose:
-  #    - "6666"
-  #  ports:
-  #    - "6666:6666"
-  #  networks:
-  #    - network
+  mongo6:
+    image: mongo:6.0.1
+    hostname: mongo6
+    command: mongod --port 6666
+    expose:
+      - "6666"
+    ports:
+      - "6666:6666"
+    networks:
+      - network
 
   test:
     build:
@@ -89,6 +87,7 @@ services:
       #file: "boiler0910-series.json" this is a large file, and it will take a considerable amount of time to finish
       postgres: "postgres"
       mongo: "mongo"
+      mongo6: "mongo6"
       influx: "influxdb"
       dynamo: "dynamo"
     links:
@@ -96,6 +95,7 @@ services:
       - dynamo
       - mongo
       - influxdb
+      - mongo6
     depends_on:
       dynamo:
         condition: service_started
@@ -105,6 +105,8 @@ services:
         condition: service_started
       influxdb:
         condition: service_healthy
+      mongo6:
+        condition: service_started
 
 networks:
   network:

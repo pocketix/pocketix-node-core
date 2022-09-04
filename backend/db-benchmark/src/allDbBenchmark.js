@@ -17,7 +17,7 @@ const benchmark = async (file) => {
 		dynamoTest: timeStorage(),
 		postgresTest: timeStorage()
 	};
-	const repeatCount = 15;
+	const repeatCount = 1;
 
 	for (const _ of [...Array(repeatCount).keys()]) {
         values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
@@ -34,7 +34,9 @@ const benchmark = async (file) => {
 		delete item.function;
 		delete item.start;
 		delete item.end;
-		Object.entries(item).forEach(([k, value]) => averages[key][k] += value);
+        console.log(item);
+        averages[key] = {};
+		Object.entries(item).forEach(([k, value]) => averages[key][k] = averages[key][k] ? averages[key][k] + value : value);
 	});
 
 	console.log(averages);

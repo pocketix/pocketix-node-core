@@ -1,5 +1,5 @@
 import {Influx} from '../../../InfluxDataBase/api/Influx';
-import { Service } from 'typedi';
+import {Service} from 'typedi';
 import {
     ComparisonOperator,
     InfluxQueryInput,
@@ -7,50 +7,51 @@ import {
     InputData,
     SingleSimpleValue
 } from '../../../InfluxDataBase/api/influxTypes';
+import {StatisticsService} from "./StatisticsService";
 
 /**
  * Simple service that wraps the 'Influx' class into an injectable service
  */
 @Service()
-class InfluxService {
+class InfluxService implements StatisticsService {
     private influx: Influx;
 
     constructor() {
         this.influx = new Influx(process.env.INFLUX_URL, process.env.INFLUX_ORG, process.env.INFLUX_TOKEN, process.env.INFLUX_BUCKET);
     }
 
-    public async statistics(query: InfluxQueryInput): Promise<InfluxQueryResult> {
+    async statistics(query: InfluxQueryInput): Promise<InfluxQueryResult> {
         return await this.influx.queryApi(query);
     }
 
-    public async average(query: InfluxQueryInput): Promise<InfluxQueryResult> {
+    async average(query: InfluxQueryInput): Promise<InfluxQueryResult> {
         return await this.influx.queryApi(query);
     }
 
-    public async saveOne(data: InputData, bucket: string): Promise<void> {
+    async saveOne(data: InputData, bucket: string): Promise<void> {
         await this.influx.saveOne(data, bucket);
     }
 
-    public async saveData(data: InputData[], bucket: string): Promise<void> {
+    async saveData(data: InputData[], bucket: string): Promise<void> {
         await this.influx.saveData(data, bucket);
     }
 
-    public async differenceBetweenFirstAndLast(data: InfluxQueryInput): Promise<InfluxQueryResult> {
+    async differenceBetweenFirstAndLast(data: InfluxQueryInput): Promise<InfluxQueryResult> {
         return await this.influx.differenceBetweenFirstAndLast(data);
     }
 
-    public async lastOccurrenceOfValue(data: InfluxQueryInput, operator: ComparisonOperator, value: {[key: string]: any}): Promise<InfluxQueryResult> {
+    async lastOccurrenceOfValue(data: InfluxQueryInput, operator: ComparisonOperator, value: { [key: string]: any }): Promise<InfluxQueryResult> {
         return await this.influx.lastOccurrenceOfValue(data, operator, value);
     }
 
-    public async parameterAggregationWithMultipleStarts(data: InfluxQueryInput, starts: string[]): Promise<InfluxQueryResult> {
+    async parameterAggregationWithMultipleStarts(data: InfluxQueryInput, starts: string[]): Promise<InfluxQueryResult> {
         return await this.influx.parameterAggregationWithMultipleStarts(data, starts);
     }
 
-    public async filterDistinctValue(data: InfluxQueryInput,
-                                     isString: boolean,
-                                     shouldCount: boolean,
-                                     values: SingleSimpleValue[]): Promise<InfluxQueryResult> {
+    async filterDistinctValue(data: InfluxQueryInput,
+                              isString: boolean,
+                              shouldCount: boolean,
+                              values: SingleSimpleValue[]): Promise<InfluxQueryResult> {
         return await this.influx.filterDistinctValue(data, isString, shouldCount, values);
     }
 

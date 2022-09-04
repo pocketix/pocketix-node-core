@@ -1,11 +1,11 @@
 import {MongoClient} from 'mongodb'
-const host = process.env.mongo || "mongo";
+const host = (port) => port === 8888 ? process.env.mongo : process.env.mongo6 || "localhost";
 
 const url = `mongodb://${host}:8888`;
 
 
 const init = (port) => {
-	return new MongoClient(`mongodb://${host}:${typeof port === "number" ? port : 8888}`);
+	return new MongoClient(`mongodb://${host(port)}:${typeof port === "number" ? port : 8888}`);
 };
 
 const selectCollection = (client, database, collection) => {

@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import pkg from 'pg';
 const {Client} = pkg;
-const host = process.env.postgres || "postgres";
+const host = process.env.postgres || "localhost";
 
 import {aggregateQuery, create, preseed as preseedQuery} from "./sqlQueries.js";
 
