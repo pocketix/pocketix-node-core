@@ -13,17 +13,6 @@ interface StatisticsService {
     saveOne(data: InputData, bucket: string): Promise<void>;
 
     saveData(data: InputData[], bucket: string): Promise<void>;
-
-    differenceBetweenFirstAndLast(data: InfluxQueryInput): Promise<InfluxQueryResult>;
-
-    lastOccurrenceOfValue(data: InfluxQueryInput, operator: ComparisonOperator, value: { [key: string]: any }): Promise<InfluxQueryResult>;
-
-    parameterAggregationWithMultipleStarts(data: InfluxQueryInput, starts: string[]): Promise<InfluxQueryResult>;
-
-    filterDistinctValue(data: InfluxQueryInput,
-                        isString: boolean,
-                        shouldCount: boolean,
-                        values: SingleSimpleValue[]): Promise<InfluxQueryResult>;
 }
 
 export {StatisticsService};

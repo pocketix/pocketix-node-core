@@ -1,12 +1,13 @@
 import {
-    ComparisonOperator,
     InfluxQueryInput,
     InfluxQueryResult,
-    InputData, OutputData, SingleSimpleValue
-} from "../../../InfluxDataBase/api/influxTypes";
-import {StatisticsService} from "./StatisticsService";
-import {Service} from "typedi";
-import {Collection, MongoClient} from "mongodb";
+    InputData,
+    Operation,
+    OutputData
+} from '../../../InfluxDataBase/api/influxTypes';
+import {StatisticsService} from './StatisticsService';
+import {Service} from 'typedi';
+import {Collection, MongoClient} from 'mongodb';
 
 
 @Service()
@@ -21,27 +22,11 @@ class MongoService implements StatisticsService {
     }
 
     async average(query: InfluxQueryInput): Promise<InfluxQueryResult> {
-        const data = await this.collection.aggregate(createPipeline(query.param.sensors, query.param.aggregateMinutes, '$avg')).toArray();
+        const data = await this.collection.aggregate(createPipeline(query)).toArray();
         return {
             data: data as OutputData[],
             status: 0
-        }
-    }
-
-    differenceBetweenFirstAndLast(data: InfluxQueryInput): Promise<InfluxQueryResult> {
-        return Promise.resolve(undefined);
-    }
-
-    filterDistinctValue(data: InfluxQueryInput, isString: boolean, shouldCount: boolean, values: SingleSimpleValue[]): Promise<InfluxQueryResult> {
-        return Promise.resolve(undefined);
-    }
-
-    lastOccurrenceOfValue(data: InfluxQueryInput, operator: ComparisonOperator, value: { [p: string]: any }): Promise<InfluxQueryResult> {
-        return Promise.resolve(undefined);
-    }
-
-    parameterAggregationWithMultipleStarts(data: InfluxQueryInput, starts: string[]): Promise<InfluxQueryResult> {
-        return Promise.resolve(undefined);
+        };
     }
 
     async saveData(data: InputData[], bucket: string): Promise<void> {
@@ -53,35 +38,88 @@ class MongoService implements StatisticsService {
     }
 
     async statistics(query: InfluxQueryInput): Promise<InfluxQueryResult> {
-
+        query.param.aggregateMinutes = undefined;
+        const data = await this.collection.aggregate(createPipeline(query)).toArray();
+        return {
+            data: data as OutputData[],
+            status: 0
+        };
     }
 
 }
 
 export {MongoService};
 
-const createPipeline = (fields: string[], minutes: number, aggregation: string) => {
-    const aggregationFields = fields.map(field => `${field}: {'${aggregation}': '$${field}'}`).join(',/n');
-    return [
+const createPipeline = (query: InfluxQueryInput) => {
+    const thirtyDaysBack = new Date();
+    thirtyDaysBack.setDate((new Date().getDate() - 30));
+
+    const from = query.param.from ?? thirtyDaysBack;
+    const to = query.param.to ?? new Date();
+
+    const operationToAggregation = {
+        ['mean' as Operation]: 'avg'
+    };
+
+    const fields = (Object.entries(query.param.sensors).map(([_, value]: [string, string[]]) => value) as Array<string[]>).flat();
+
+    const aggregationFields = fields.map(
+        field => `${field}: {'${operationToAggregation[query.operation ?? 'mean']}': '$${field}'}`
+    ).join(',/n');
+
+    const sensors = typeof query.param.sensors === 'object' ?
+        Object.entries(query.param.sensors).map(([key, _]) => key) : query.param.sensors;
+
+    const mongoQuery: any[] = [
         {
-            '$group': {
-                '_id': {
-                    '$toDate': {
-                        '$subtract': [
-                            {'$toLong': '$date'},
-                            {'$mod': [{'$toLong': '$date'}, 60000 * minutes]}
-                        ]
-                    }
-                }, 
-                aggregationFields
-            }
-        },
-        {
-            '$set': {
-                'date': {
-                    '$toDate': '$_id'
+            $match: {
+                date: {
+                    $gte: from,
+                    $lt: to
+                },
+                sensor: {
+                    $in: [
+                        sensors.join(', ')
+                    ]
                 }
             }
+        }, {
+            $set: {
+                date: '$_id.date',
+                sensor: '$_id.sensor'
+            }
+        }, {
+            $unset: [
+                '_id'
+            ]
         }
     ];
+
+    if (query.param.aggregateMinutes) {
+        mongoQuery.splice(1, 0, {
+            $group: {
+                _id: {
+                    date: {
+                        $toDate: {
+                            $subtract: [
+                                {
+                                    $toLong: '$date'
+                                }, {
+                                    $mod: [
+                                        {
+                                            $toLong: '$date'
+                                        }, 60000 * (query.param.aggregateMinutes ?? 15)
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    sensor: '$sensor'
+                },
+                aggregationFields
+            }
+        });
+    }
+
+    return mongoQuery;
 };
