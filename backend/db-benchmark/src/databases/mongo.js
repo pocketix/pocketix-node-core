@@ -1,10 +1,10 @@
 import {MongoClient} from 'mongodb'
-const host = (port) => port === 8888 ? process.env.mongo : process.env.mongo6 || "localhost";
-
-const url = `mongodb://${host}:8888`;
+const host = (port) => port ? process.env.mongo6 : process.env.mongo || "localhost";
 
 
 const init = (port) => {
+    console.log(port, );
+    console.log(`mongodb://${host(port)}:${port ?? 8888}`);
 	return new MongoClient(`mongodb://${host(port)}:${typeof port === "number" ? port : 8888}`);
 };
 

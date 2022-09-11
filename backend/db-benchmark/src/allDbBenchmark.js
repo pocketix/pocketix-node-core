@@ -34,7 +34,6 @@ const benchmark = async (file) => {
 		delete item.function;
 		delete item.start;
 		delete item.end;
-        console.log(item);
         averages[key] = {};
 		Object.entries(item).forEach(([k, value]) => averages[key][k] = averages[key][k] ? averages[key][k] + value : value);
 	});
