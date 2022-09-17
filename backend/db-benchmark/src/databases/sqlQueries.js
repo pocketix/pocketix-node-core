@@ -109,4 +109,73 @@ const single = "SELECT * FROM test_schema.measurements LEFT JOIN test_schema.sen
 	"    LEFT JOIN test_schema.sensor ON test_schema.sensor_fields.sensor = test_schema.sensor.id LIMIT 1"
 
 
-export {create, preseed, aggregateQuery, all, single};
+const aggregateQuery30Days = "SELECT AVG(test_schema.measurements.value) as value,\n" +
+    "       date_trunc('hour', test_schema.measurements.timestamp) +\n" +
+    "       (\n" +
+    "           (\n" +
+    "               (\n" +
+    "                   date_part('minute', test_schema.measurements.timestamp)::integer\n" +
+    "                       /\n" +
+    "                   10::integer\n" +
+    "               ) * 10::integer\n" +
+    "           ) || ' minutes'\n" +
+    "       )::interval AS \"timestamp\",\n" +
+    "       test_schema.sensor.name as sensor,\n" +
+    "       test_schema.types.name as field,\n" +
+    "       test_schema.sensor_fields.field_name as \"type\"\n" +
+    "FROM test_schema.measurements\n" +
+    "    LEFT JOIN test_schema.sensor_fields ON test_schema.measurements.field = test_schema.sensor_fields.id\n" +
+    "    LEFT JOIN test_schema.types ON test_schema.sensor_fields.type = test_schema.types.id\n" +
+    "    LEFT JOIN test_schema.sensor ON test_schema.sensor_fields.sensor = test_schema.sensor.id\n" +
+    "WHERE test_schema.measurements.timestamp >= \"2021-09-09T09:44:01.892Z\" OR test_schema.measurements.timestamp <= \"2021-10-09T09:44:01.892Z\"" +
+    "\n" +
+    "GROUP BY \"timestamp\",\n" +
+    "         test_schema.measurements.field,\n" +
+    "         test_schema.sensor.name,\n" +
+    "         test_schema.types.name,\n" +
+    "         test_schema.sensor_fields.field_name,\n" +
+    "         test_schema.sensor_fields.id\n" +
+    "\n" +
+    "ORDER BY \"timestamp\",\n" +
+    "         test_schema.sensor_fields.id";
+
+const aggregateQuery60Days = "SELECT AVG(test_schema.measurements.value) as value,\n" +
+    "       date_trunc('hour', test_schema.measurements.timestamp) +\n" +
+    "       (\n" +
+    "           (\n" +
+    "               (\n" +
+    "                   date_part('minute', test_schema.measurements.timestamp)::integer\n" +
+    "                       /\n" +
+    "                   10::integer\n" +
+    "               ) * 10::integer\n" +
+    "           ) || ' minutes'\n" +
+    "       )::interval AS \"timestamp\",\n" +
+    "       test_schema.sensor.name as sensor,\n" +
+    "       test_schema.types.name as field,\n" +
+    "       test_schema.sensor_fields.field_name as \"type\"\n" +
+    "FROM test_schema.measurements\n" +
+    "    LEFT JOIN test_schema.sensor_fields ON test_schema.measurements.field = test_schema.sensor_fields.id\n" +
+    "    LEFT JOIN test_schema.types ON test_schema.sensor_fields.type = test_schema.types.id\n" +
+    "    LEFT JOIN test_schema.sensor ON test_schema.sensor_fields.sensor = test_schema.sensor.id\n" +
+    "WHERE test_schema.measurements.timestamp >= \"2021-09-09T09:44:01.892Z\" OR test_schema.measurements.timestamp <= \"2021-11-09T09:44:01.892Z\"" +
+    "\n" +
+    "GROUP BY \"timestamp\",\n" +
+    "         test_schema.measurements.field,\n" +
+    "         test_schema.sensor.name,\n" +
+    "         test_schema.types.name,\n" +
+    "         test_schema.sensor_fields.field_name,\n" +
+    "         test_schema.sensor_fields.id\n" +
+    "\n" +
+    "ORDER BY \"timestamp\",\n" +
+    "         test_schema.sensor_fields.id";
+
+
+export {
+    create,
+    preseed,
+    aggregateQuery,
+    all,
+    single,
+    aggregateQuery30Days,
+    aggregateQuery60Days
+};

@@ -31,14 +31,16 @@ const runAndMeasure = async (callback, one, documents) => {
 	return {function: callback, time: end - start, start, end, ...data};
 }
 
-const countTimers = (start, create, seed, single, all, avg, insert, del) => {
+const countTimers = (start, create, seed, single, all, avg, avg30, avg60, insert, del) => {
 	return {
 		create: create - start,
 		seed: seed - start,
 		single: single - seed,
 		all: all - single,
 		avg: avg - all,
-		insert: insert - avg,
+        avg30: avg30 - avg,
+        avg60: avg60 - avg30,
+		insert: insert - avg60,
 		del: del - insert,
 	};
 }

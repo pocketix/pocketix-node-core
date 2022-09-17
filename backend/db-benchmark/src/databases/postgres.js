@@ -3,7 +3,13 @@ import pkg from 'pg';
 const {Client} = pkg;
 const host = process.env.postgres || "postgres";
 
-import {aggregateQuery, create, preseed as preseedQuery} from "./sqlQueries.js";
+import {
+    aggregateQuery,
+    aggregateQuery30Days,
+    aggregateQuery60Days,
+    create,
+    preseed as preseedQuery
+} from "./sqlQueries.js";
 
 
 
@@ -72,7 +78,15 @@ const insertMany = async ([client, _], items) => {
 };
 
 const aggregation = async ([_, pg]) => {
-	await pg.query(aggregateQuery);
+    await pg.query(aggregateQuery);
+};
+
+const aggregation30 = async ([_, pg]) => {
+    await pg.query(aggregateQuery30Days);
+};
+
+const aggregation60 = async ([_, pg]) => {
+    await pg.query(aggregateQuery60Days);
 };
 
 const preSeed = async ([_, pg]) => {
@@ -85,5 +99,15 @@ const removeDb = async ([client, pg]) => {
 	await pg.end();
 };
 
-
-export {init, select, insertOne, insertMany, aggregation, createDb, removeDb, preSeed};
+export {
+    init,
+    select,
+    insertOne,
+    insertMany,
+    aggregation,
+    createDb,
+    removeDb,
+    preSeed,
+    aggregation30,
+    aggregation60
+};

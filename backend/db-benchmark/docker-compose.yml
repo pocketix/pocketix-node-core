@@ -72,8 +72,9 @@ services:
       - network
     restart: on-failure
     environment:
-      file: "first100.json"
-      #file: "boiler0910-series.json" this is a large file, and it will take a considerable amount of time to finish
+      #file: "first100.json"
+      #file: "boiler0910-series.json" #this is a large file, and it will take a considerable amount of time to finish
+      file: "data.json"
       postgres: "postgres"
       mongo: "mongo"
       influx: "influxdb"

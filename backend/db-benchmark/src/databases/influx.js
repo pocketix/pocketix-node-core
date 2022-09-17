@@ -33,8 +33,8 @@ const transformToPointTags = ({data, measurement, tags, host="host1"}) => {
 	return data.map(data => {
 		const keys = Object.keys(data).filter(x => ![...tags, "date", measurement].includes(x));
 		const initialPoint = new Point(data[measurement]).timestamp(data.date).tag("host", host);
-		const taggedPoint = tags.reduce((point, tag) => point.tag(tag, data[tag]), initialPoint);
-		return keys.reduce((point, key) => point.floatField(key, data[key]), taggedPoint);
+		//const taggedPoint = tags.reduce((point, tag) => point.tag(tag, data[tag]), initialPoint);
+		return keys.reduce((point, key) => point.floatField(key, data[key]), initialPoint);
 	});
 };
 
