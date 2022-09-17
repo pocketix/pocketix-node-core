@@ -17,22 +17,25 @@ const benchmark = async (file) => {
 		dynamoTest: timeStorage(),
 		postgresTest: timeStorage()
 	};
-	const repeatCount = 15;
+	const repeatCount = 1;
 
 	for (const _ of [...Array(repeatCount).keys()]) {
         values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
         values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
-        values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
-        values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
+		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
+		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
+		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents), 6666));
+		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents), 6666));
 		values.push(await runAndMeasure(postgresTest, cloneDeep(one), cloneDeep(documents)));
 	}
 
 	values.forEach((item) => {
-		const key = item.function.name;
+		const key = item.name;
 		delete item.function;
 		delete item.start;
 		delete item.end;
-		Object.entries(item).forEach(([k, value]) => averages[key][k] += value);
+        averages[key] = {};
+		Object.entries(item).forEach(([k, value]) => averages[key][k] = averages[key][k] ? averages[key][k] + value : value);
 	});
 
 	console.log(averages);

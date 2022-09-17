@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 import {defaultDict} from "../helpers.js";
 const dbName = 'boilerSpeedTest';
 
-const host = process.env.dynamo || "dynamo";
+const host = process.env.dynamo || "localhost";
 
 const defaultDBConfig = {
 	TableName: dbName,
@@ -32,6 +32,7 @@ const defaultConfig = {
 }
 
 const init = async (config=defaultConfig) => {
+    console.log(config);
 	AWS.config.update(config);
 	return new AWS.DynamoDB();
 };
