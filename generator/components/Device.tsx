@@ -44,7 +44,7 @@ const Device: NextPage<{device: DeviceType, onCopy: Function, deviceChange?: Fun
                                               onChange={($event) => assignValue("deviceCount", $event.target.value)}></Form.Control>
                             </FloatingLabel>
                         </Col>
-                        <Col>
+                        <Col className="col-buttons">
                             <Button className="mb-3" variant="primary" onClick={() => {
                                 setParameters([
                                     ...parameters, {
@@ -65,13 +65,11 @@ const Device: NextPage<{device: DeviceType, onCopy: Function, deviceChange?: Fun
                     </Row>
                     {
                         parameters.map(
-                            (parameter: DeviceParameterType) => <DeviceParameter key={parameter.name} deviceParameter={parameter} parameterChange={(parameter: DeviceParameterType) => {
-                                setParameters([
-                                    ...parameters.filter(item => item !== parameter), {
-                                        name: "",
-                                        type: "number" as DeviceParameterTypeType
-                                    } as DeviceParameterType]);
-                                assignValue("parameters", parameters);
+                            (parameter: DeviceParameterType, index: number) =>
+                                <DeviceParameter key={parameter.name} deviceParameter={parameter} parameterChange={(parameter: DeviceParameterType) => {
+                                    parameters[index] = parameter;
+                                    setParameters(parameters);
+                                    console.log(index, parameters);
                             }}/>
                         )
                     }

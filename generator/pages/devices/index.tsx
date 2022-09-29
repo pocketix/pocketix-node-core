@@ -77,20 +77,28 @@ const DevicePage: NextPage<{devices: DeviceType[]}> = (props) => {
                     <Col>
                         <h1>Devices to send against the API</h1>
                     </Col>
-                    <Col>
-                        <Button className="mb-3" variant="primary" onClick={() => devices.forEach(device => save(db, device))}>
+                    <Col className="col-buttons-device">
+                        <Button variant="primary" onClick={() => devices.forEach(device => save(db, device))}>
                             Save
+                        </Button>
+                        <Button variant="outline-primary" onClick={() => {}}>
+                            New Device
                         </Button>
                     </Col>
                 </Row>
                 {
-                    devices?.map(device =>
+                    devices?.map((device, index) =>
                         <Row key={device.name}>
-                            <Device key={device.name} device={device} onCopy={(device: DeviceType) => setDevices([...devices, {
-                                ...device,
-                                id: undefined,
-                                name: device.name + "copy"
-                            }])}/>
+                            <Device key={device.name} device={device}
+                                    onCopy={(device: DeviceType) => setDevices([
+                                        ...devices, {...device, id: undefined, name: device.name + "copy"}
+                                    ])}
+                                    deviceChange={(newDevice: DeviceType) => {
+                                        devices[index] = newDevice;
+                                        console.log(newDevice);
+                                        setDevices(devices);
+                                    }}
+                            />
                         </Row>
                     )
                 }
