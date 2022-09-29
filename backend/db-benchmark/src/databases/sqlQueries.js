@@ -127,7 +127,7 @@ const aggregateQuery30Days = "SELECT AVG(test_schema.measurements.value) as valu
     "    LEFT JOIN test_schema.sensor_fields ON test_schema.measurements.field = test_schema.sensor_fields.id\n" +
     "    LEFT JOIN test_schema.types ON test_schema.sensor_fields.type = test_schema.types.id\n" +
     "    LEFT JOIN test_schema.sensor ON test_schema.sensor_fields.sensor = test_schema.sensor.id\n" +
-    "WHERE test_schema.measurements.timestamp >= \"2021-09-09T09:44:01.892Z\" OR test_schema.measurements.timestamp <= \"2021-10-09T09:44:01.892Z\"" +
+    "WHERE test_schema.measurements.timestamp >= '2021-09-09 09:44:01'::timestamp OR test_schema.measurements.timestamp <= '2021-10-09 09:44:01'::timestamp" +
     "\n" +
     "GROUP BY \"timestamp\",\n" +
     "         test_schema.measurements.field,\n" +
@@ -157,7 +157,7 @@ const aggregateQuery60Days = "SELECT AVG(test_schema.measurements.value) as valu
     "    LEFT JOIN test_schema.sensor_fields ON test_schema.measurements.field = test_schema.sensor_fields.id\n" +
     "    LEFT JOIN test_schema.types ON test_schema.sensor_fields.type = test_schema.types.id\n" +
     "    LEFT JOIN test_schema.sensor ON test_schema.sensor_fields.sensor = test_schema.sensor.id\n" +
-    "WHERE test_schema.measurements.timestamp >= \"2021-09-09T09:44:01.892Z\" OR test_schema.measurements.timestamp <= \"2021-11-09T09:44:01.892Z\"" +
+    "WHERE test_schema.measurements.timestamp >= '2021-09-09 09:44:01'::timestamp OR test_schema.measurements.timestamp <= '2021-11-09 09:44:01'::timestamp" +
     "\n" +
     "GROUP BY \"timestamp\",\n" +
     "         test_schema.measurements.field,\n" +

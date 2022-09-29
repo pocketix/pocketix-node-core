@@ -26,6 +26,8 @@ const commonMongo = async (database, collection, documents, one, series, port) =
 	const single = performance.now();
 	await mongoQuery({query: mongoAll({}), ...settings});
 	const all = performance.now();
+    const query = mongoAggregateAvg30Days({minutes: 15});
+    console.log(JSON.stringify(query));
     await mongoAggregation({query: mongoAggregateAvg({minutes: 15}), ...settings});
     const avg = performance.now();
     await mongoAggregation({query: mongoAggregateAvg30Days({minutes: 15}), ...settings});

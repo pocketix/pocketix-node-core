@@ -17,15 +17,22 @@ const benchmark = async (file) => {
 		dynamoTest: timeStorage(),
 		postgresTest: timeStorage()
 	};
-	const repeatCount = 1;
+	const repeatCount = 20;
 
 	for (const _ of [...Array(repeatCount).keys()]) {
-        values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
-        values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
+        //console.log(`Running dynamo ${_} / ${repeatCount}`);
+        //values.push(await runAndMeasure(dynamoTest, cloneDeep(one), cloneDeep(documents)));
+        console.log(`Running mongo ${_} / ${repeatCount}`);
 		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents)));
+        console.log(`Running mongo series ${_} / ${repeatCount}`);
 		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents)));
+        console.log(`Running mongo6 ${_} / ${repeatCount}`);
 		values.push(await runAndMeasure(mongoTest, cloneDeep(one), cloneDeep(documents), 6666));
+        console.log(`Running mongo6 series ${_} / ${repeatCount}`);
 		values.push(await runAndMeasure(mongoSeriesTest, cloneDeep(one), cloneDeep(documents), 6666));
+        console.log(`Running influx ${_} / ${repeatCount}`);
+        values.push(await runAndMeasure(influxTest, cloneDeep(one), cloneDeep(documents)));
+        console.log(`Running postgres ${_} / ${repeatCount}`);
 		values.push(await runAndMeasure(postgresTest, cloneDeep(one), cloneDeep(documents)));
 	}
 

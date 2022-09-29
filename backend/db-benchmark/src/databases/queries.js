@@ -12,7 +12,7 @@ const influxAggregateAvg = ({bucket, minutes}) => `from(bucket: "${bucket}")
   `;
 
 const influxAggregate30Days = ({bucket, minutes}) => `from(bucket: "${bucket}")
-  |> range(start: 2021-09-09T09:44:01.892Z, stop: 2022-11-10T10:58:02.534Z)
+  |> range(start: 2021-09-09T09:44:01.892Z, stop: 2021-10-10T10:58:02.534Z)
   |> filter(fn: (r) => r["_measurement"] == "boiler")
   |> filter(fn: (r) => r["host"] == "host1")
   |> aggregateWindow(every: ${minutes}m, fn: mean, createEmpty: false)
@@ -20,7 +20,7 @@ const influxAggregate30Days = ({bucket, minutes}) => `from(bucket: "${bucket}")
   `;
 
 const influxAggregate60Days = ({bucket, minutes}) => `from(bucket: "${bucket}")
-  |> range(start: 2021-09-09T09:44:01.892Z, stop: 2022-11-12T10:58:02.534Z)
+  |> range(start: 2021-09-09T09:44:01.892Z, stop: 2021-10-10T10:58:02.534Z)
   |> filter(fn: (r) => r["_measurement"] == "boiler")
   |> filter(fn: (r) => r["host"] == "host1")
   |> aggregateWindow(every: ${minutes}m, fn: mean, createEmpty: false)
@@ -36,6 +36,7 @@ const mongoAll = ({}) => {
 };
 
 const mongoAggregateAvg = ({minutes}) => {
+    console.log(minutes);
     return [{
         '$group': {
             '_id': {
@@ -46,7 +47,7 @@ const mongoAggregateAvg = ({minutes}) => {
                     ]
                 }
             },
-            'date': {'$avg': '$date'},
+            'date': {'$avg': {'$toLong': '$date'}},
             't1_calibration': {'$avg': '$t1_calibration'},
             't1_temperature': {'$avg': '$t1_temperature'},
             't2_calibration': {'$avg': '$t2_calibration'},
@@ -60,7 +61,6 @@ const mongoAggregateAvg = ({minutes}) => {
             'outside_calibration': {'$avg': '$outside_calibration'},
             'outside_temperature': {'$avg': '$outside_temperature'},
             'indoor_calibration': {'$avg': '$indoor_calibration'},
-            'indoor_temperature': {'$avg': '$indoor_temperature'},
             'return_calibration': {'$avg': '$return_calibration'},
             'return_temperature': {'$avg': '$return_temperature'},
             'ch1_internal_temperature': {'$avg': '$ch1_internal_temperature'},
@@ -76,10 +76,10 @@ const mongoAggregateAvg30Days = ({minutes}) => {
         $match: {
             date: {
                 $gte: new Date("2021-09-09T09:44:01.892Z"),
-                $lt: new Date("2022-10-10T10:58:02.534Z")
+                $lt: new Date("2021-10-10T10:58:02.534Z")
             }
         }
-    }, ...mongoAggregateAvg(minutes)];
+    }, ...mongoAggregateAvg({minutes})];
 };
 
 const mongoAggregateAvg60Days = ({minutes}) => {
@@ -87,10 +87,10 @@ const mongoAggregateAvg60Days = ({minutes}) => {
         $match: {
             date: {
                 $gte: new Date("2021-09-09T09:44:01.892Z"),
-                $lt: new Date("2022-11-10T10:58:02.534Z")
+                $lt: new Date("2021-11-10T10:58:02.534Z")
             }
         }
-    }, ...mongoAggregateAvg(minutes)];
+    }, ...mongoAggregateAvg({minutes})];
 };
 
 const dynamoAll = ({table}) => {

@@ -3,6 +3,6 @@ FROM node:17.9
 COPY . .
 
 RUN npm install
-ENV NODE_OPTIONS="--max_old_space_size=8096"
+ENV NODE_OPTIONS="--max_old_space_size=16096"
 
 CMD ["node", "src/index.js"]
