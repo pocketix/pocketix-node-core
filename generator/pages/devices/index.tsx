@@ -1,12 +1,67 @@
 import type { NextPage } from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Col, Container, FloatingLabel, Row} from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import DeviceParameter from "../../components/DeviceParameter";
+import {Button, Col, Container, Row} from "react-bootstrap";
+import {Device} from "../../components/Device";
+import {DeviceType} from "../../lib/types";
+import {useState} from "react";
+import {connect, save, selectAll} from "../../lib/Surreal";
 
+const DEVICES = [
+    {
+        name: "Device 1",
+        messagesPerMinute: 1,
+        delta: 0.2,
+        deviceCount: 50,
+        parameters: [
+            {
+                name: "Parameter 1",
+                type: "number",
+            },
+            {
+                name: "Parameter 2",
+                type: "number",
+            },
+            {
+                name: "Parameter 3",
+                type: "number",
+            }
+        ]
+    },
+    {
+        name: "Device 2",
+        messagesPerMinute: 1,
+        delta: 0.2,
+        deviceCount: 50,
+        parameters: [
+            {
+                name: "Parameter 4",
+                type: "number",
+            },
+            {
+                name: "Parameter 5",
+                type: "number",
+            },
+            {
+                name: "Parameter 6",
+                type: "number",
+            },
+            {
+                name: "Parameter 7",
+                type: "string",
+            },
+            {
+                name: "Parameter 8",
+                type: "enum",
+                value: "a;b;c"
+            }
+        ]
+    }
+] as DeviceType[];
 
+const DevicePage: NextPage<{devices: DeviceType[]}> = (props) => {
+    const db = connect();
+    const [devices, setDevices] = useState(props.devices);
 
-const Device: NextPage = () => {
     return (
         <>
             <header>
@@ -20,38 +75,40 @@ const Device: NextPage = () => {
             <Container fluid>
                 <Row>
                     <Col>
-                        <FloatingLabel label="Device Name" controlId="deviceName" className="mb-3">
-                            <Form.Control type="text" placeholder=" "></Form.Control>
-                        </FloatingLabel>
+                        <h1>Devices to send against the API</h1>
                     </Col>
                     <Col>
-                        <FloatingLabel label="Messages per minute" controlId="messagesPerMinute" className="mb-3">
-                            <Form.Control type="number" placeholder=" "></Form.Control>
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Minutes delta in 3sigma" controlId="delta" className="mb-3">
-                            <Form.Control type="number" placeholder=" "></Form.Control>
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Similar device count" controlId="delta" className="mb-3">
-                            <Form.Control type="number" placeholder=" "></Form.Control>
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <Button variant="primary">
-                            Add parameter
-                        </Button>
-                        <Button variant="secondary">
-                            Copy Device
+                        <Button className="mb-3" variant="primary" onClick={() => devices.forEach(device => save(db, device))}>
+                            Save
                         </Button>
                     </Col>
                 </Row>
-                <DeviceParameter/>
+                {
+                    devices?.map(device =>
+                        <Row key={device.name}>
+                            <Device key={device.name} device={device} onCopy={(device: DeviceType) => setDevices([...devices, {
+                                ...device,
+                                id: undefined,
+                                name: device.name + "copy"
+                            }])}/>
+                        </Row>
+                    )
+                }
             </Container>
         </>
     );
 }
 
-export default Device;
+
+export async function getServerSideProps() {
+    const db = await connect();
+    const devices = await selectAll(db) || DEVICES;
+    console.log(devices, devices.length, devices.length ? devices : DEVICES);
+    db.close();
+    return {
+        props: {devices: devices.length ? devices : DEVICES}, // will be passed to the page component as props
+    }
+}
+
+export default DevicePage;
+
