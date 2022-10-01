@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Col, Container, Row} from "react-bootstrap";
 import {Device} from "../../components/Device";
-import {DeviceType} from "../../lib/types";
+import {DeviceParameter, DeviceType} from "../../lib/types";
 import {useState} from "react";
 import {connect, save, selectAll} from "../../lib/Surreal";
 
@@ -81,14 +81,25 @@ const DevicePage: NextPage<{devices: DeviceType[]}> = (props) => {
                         <Button variant="primary" onClick={() => devices.forEach(device => save(db, device))}>
                             Save
                         </Button>
-                        <Button variant="outline-primary" onClick={() => {}}>
+                        <Button variant="outline-primary" onClick={() => {
+                            setDevices([
+                                ...devices,
+                                {
+                                    name: "",
+                                    messagesPerMinute: 1,
+                                    deviceCount: 1,
+                                    delta: 0,
+                                    parameters: [] as DeviceParameter[]
+                                } as DeviceType
+                            ]);
+                        }}>
                             New Device
                         </Button>
                     </Col>
                 </Row>
                 {
                     devices?.map((device, index) =>
-                        <Row key={device.name}>
+                        <Row key={index}>
                             <Device key={device.name} device={device}
                                     onCopy={(device: DeviceType) => setDevices([
                                         ...devices, {...device, id: undefined, name: device.name + "copy"}

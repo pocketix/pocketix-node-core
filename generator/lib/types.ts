@@ -1,10 +1,12 @@
 type DeviceParameterType = "number" | "string" | "enum";
 
+type DeviceParameterValue = string | number;
+
 type DeviceParameter = {
     id?: number;
     name: string;
     type: DeviceParameterType;
-    value?: string | number;
+    value?: DeviceParameterValue;
 }
 
 type DeviceType = {
@@ -17,8 +19,16 @@ type DeviceType = {
     parameters: DeviceParameter[]
 }
 
+type ConcreteDevice = {
+    deviceUid: string;
+    abstractDevice: DeviceType;
+    deviceValues: {[deviceId: string]: DeviceParameterValue};
+}
+
 export type {
     DeviceParameter,
     DeviceType,
-    DeviceParameterType
+    DeviceParameterType,
+    DeviceParameterValue,
+    ConcreteDevice
 }

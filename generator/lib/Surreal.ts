@@ -15,8 +15,8 @@ const save = async (db: Promise<Surreal>, item: DeviceType) => {
     return await item.id ? database.update(data.id.toString(), data) : database.create("device", data);
 };
 
-const selectAll = async (db: Surreal) => {
-    return await db.select("device");
+const selectAll = async (db: Surreal, thing: string = "device") => {
+    return await db.select(thing);
 };
 
 export {connect, save, selectAll};
