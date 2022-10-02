@@ -20,7 +20,7 @@ type DeviceType = {
 }
 
 type ConcreteDevice = {
-    deviceUid: string;
+    deviceUid?: string;
     abstractDeviceId: string;
     deviceValues: {[deviceId: string]: DeviceParameterValue};
 }

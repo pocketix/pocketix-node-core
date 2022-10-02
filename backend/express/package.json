@@ -15,7 +15,8 @@
     "dev": "nodemon",
     "stage": "npm run build && ts-node ./src/server.ts",
     "generate": "npm run build && ng-openapi-gen --input src/swagger.json --output ../../frontend/src/app/generated",
-    "schema": "typescript-json-schema \"../../frontend/src/app/generated/models/*.ts\" \"*\" --defaultProps true --noExtraProps true --required true --id Api -o \"../influx-lambda/src/Api.json\""
+    "schema": "typescript-json-schema \"../../frontend/src/app/generated/models/*.ts\" \"*\" --defaultProps true --noExtraProps true --required true --id Api -o \"../influx-lambda/src/Api.json\"",
+    "generate-next": "openapi --input src/swagger.json --output ../../generator/express-api"
   },
   "keywords": [],
   "author": "",
@@ -43,10 +44,12 @@
     "@influxdata/influxdb-client-apis": "^1.18.0",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
+    "dip": "file:../..",
     "express": "^4.17.2",
     "express-validator": "^6.14.0",
     "mongodb": "^3.7.3",
     "mysql": "^2.18.1",
+    "openapi-typescript-codegen": "^0.23.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "swagger-express-ts": "^1.1.0",
