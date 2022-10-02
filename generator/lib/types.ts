@@ -3,14 +3,14 @@ type DeviceParameterType = "number" | "string" | "enum";
 type DeviceParameterValue = string | number;
 
 type DeviceParameter = {
-    id?: number;
+    id?: string;
     name: string;
     type: DeviceParameterType;
     value?: DeviceParameterValue;
 }
 
 type DeviceType = {
-    id?: number;
+    id?: string;
     name: string;
     uid?: string;
     messagesPerMinute: number;
@@ -21,7 +21,7 @@ type DeviceType = {
 
 type ConcreteDevice = {
     deviceUid: string;
-    abstractDevice: DeviceType;
+    abstractDeviceId: string;
     deviceValues: {[deviceId: string]: DeviceParameterValue};
 }
 

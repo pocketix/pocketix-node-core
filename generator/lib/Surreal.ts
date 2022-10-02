@@ -11,7 +11,12 @@ const connect = async () => {
 
 const save = async (db: Promise<Surreal>, item: DeviceType) => {
     const database = await db;
-    const data = {...item, id: item.id ?? Math.random().toString(36).substring(2, 10)};
+    const data = {
+        ...item,
+        id: item.id ?? Math.random().toString(36).substring(2, 10),
+        parameters: item.parameters.map(parameter => ({...parameter, id: parameter.id ?? Math.random().toString(36).substring(2, 10)}))
+    };
+
     return await item.id ? database.update(data.id.toString(), data) : database.create("device", data);
 };
 
