@@ -1,0 +1,7 @@
+service: layers
+provider:
+  name: aws
+  runtime: nodejs14.x
+layers:
+  influx:
+    path: influx

@@ -7,6 +7,10 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
+    #includeModules:
+    #  forceExclude:
+    #    - @influxdata/influxdb-client
+    #    - @influxdata/influxdb-client-apis
 
   serverless-offline:
     httpPort: 4000
@@ -48,6 +52,8 @@ functions:
           cors: true
     memorySize: 1024 # optional, in MB, default is 1024
     timeout: 29 # optional, in seconds, default is 6
+    #layers:
+    #  - arn:aws:lambda:us-east-1:XXXXXXXXXXXX:layer:influx:1
 
   aggregate:
     handler: src/main.aggregate
