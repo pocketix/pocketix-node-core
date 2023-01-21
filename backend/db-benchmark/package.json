@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
 	"run": "node src/index.js --benchmark first100.json",
-	"benchmark": "node src/index.js --benchmark first100.json"
+	"benchmark": "node src/index.js --benchmark data.json",
+	"temp": "node src/index.js -t dataAsJson2.json"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +19,8 @@
   },
   "dependencies": {
     "@fast-csv/parse": "^4.3.6",
-    "@influxdata/influxdb-client": "^1.18.0",
-    "@influxdata/influxdb-client-apis": "^1.18.0",
+    "@influxdata/influxdb-client": "^1.33.0",
+    "@influxdata/influxdb-client-apis": "^1.33.0",
     "aws-sdk": "^2.816.0",
     "commander": "^8.2.0",
     "dotenv": "^10.0.0",

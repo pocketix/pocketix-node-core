@@ -36,7 +36,6 @@ const mongoAll = ({}) => {
 };
 
 const mongoAggregateAvg = ({minutes}) => {
-    console.log(minutes);
     return [{
         '$group': {
             '_id': {
@@ -119,6 +118,45 @@ const dynamoSingle = ({table}) => {
     return {TableName: table, Key: {"date": "2021-09-09T09:44:01.892"}, ProjectionExpression: 'ATTRIBUTE_NAME'}
 }
 
+const influxAggregateAvgTemperature = ({start, stop, sensor, bucket, minutes}) => `from(bucket: "${bucket}")
+  |> range(start: ${start}, stop: ${stop})
+  |> filter(fn: (r) => r["_measurement"] == ${sensor}")
+  |> filter(fn: (r) => r["host"] == "host1")
+  |> aggregateWindow(every: ${minutes}m, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+  `;
+const mongoAggregateAvgTemperature = ({start, stop, sensor, minutes}) => {
+    return [{
+        $match: {
+            sensor: {$eq: sensor}
+        }
+    },
+        {
+            $match: {
+                date: {
+                    $gte: start,
+                    $lt: stop
+                }
+            }
+        }, {
+            '$group': {
+                '_id': {
+                    '$toDate': {
+                        '$subtract': [
+                            {'$toLong': {'$toDate': '$date'}},
+                            {'$mod': [{'$toLong': {'$toDate': '$date'}}, 1000 * minutes]}
+                        ]
+                    }
+                },
+                'date': {'$avg': {'$toLong': '$date'}},
+                'battery': {'$avg': 'battery'},
+                'humidity': {'$avg': 'humidity'},
+                'signal': {'$avg': 'signal'},
+                'temperature': {'$avg': 'temperature'}
+            }
+        }];
+};
+
 export {
     influxSingle,
     influxAll,
@@ -133,5 +171,7 @@ export {
     influxAggregate60Days,
     influxAggregate30Days,
     dynamoAll60Days,
-    dynamoAll30Days
+    dynamoAll30Days,
+    influxAggregateAvgTemperature,
+    mongoAggregateAvgTemperature
 };

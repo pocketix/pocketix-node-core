@@ -9,7 +9,7 @@ const prepareMany = (file) => {
 	const data = JSON.parse(fs.readFileSync(file));
 	return data.map((item) => {
 		delete item["_id"];
-		const date = item["date"]["$date"];
+		const date = item["date"]["$date"] ?? item["date"];
 		delete item["date"];
 		item["date"] = date;
 		return item;
@@ -44,6 +44,19 @@ const countTimers = (start, create, seed, single, all, avg, avg30, avg60, insert
 		del: del - insert,
 	};
 }
+
+const countTimersTemp = (start, create, seed, avg30, avg60, avg30daysBefore120days, avg120, del) => {
+    return {
+        create: create - start,
+        seed: seed - start,
+        avg30: avg30 - seed,
+        avg60: avg60 - avg30,
+        avg30daysBefore120days: avg30daysBefore120days - avg60,
+        avg120: avg120 - avg30daysBefore120days,
+        del: del - avg120
+    };
+}
+
 
 const defaultDict = () => {
 	return new Proxy({}, {get: (target, name) => name in target ? target[name] : 0});
@@ -91,4 +104,13 @@ const tempParser = async () => {
 	return accumulator
 };
 
-export {prepareOne, prepareMany, runAndMeasure, countTimers, defaultDict, timeStorage, tempParser};
+export {
+    prepareOne,
+    prepareMany,
+    runAndMeasure,
+    countTimers,
+    defaultDict,
+    timeStorage,
+    tempParser,
+    countTimersTemp
+};
