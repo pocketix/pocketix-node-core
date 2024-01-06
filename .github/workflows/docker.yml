@@ -1,0 +1,37 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Docker CI
+
+on: 
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Build frontend
+        run: |
+          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-frontend:latest -f ./frontend/Dockerfile .
+          echo "Done frontend"
+
+      - name: Build backend
+        run: |
+          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-backend:latest -f ./backend/Dockerfile .
+          echo "Done backend"
+
+      - name: Build subscriber
+        run: |
+          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-subscriber:latest -f ./go-subscribe/Dockerfile .
+          echo "Done subscriber"
