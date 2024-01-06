@@ -11,7 +11,7 @@ ARG port=80
 RUN echo $configuration
 RUN echo $port
 WORKDIR /usr/src/app
-ENV NODE_OPTIONS="--max_old_space_size=4096"
+ENV NODE_OPTIONS="--max_old_space_size=8192"
 COPY . .
 
 RUN npm install --omit=optional
