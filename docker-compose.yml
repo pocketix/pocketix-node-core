@@ -20,6 +20,8 @@ services:
     restart: unless-stopped
 
   serverless:
+    profiles:
+      - serverless
     build:
       context: backend
       dockerfile: ServerlessDockerfile
@@ -74,6 +76,8 @@ services:
       - express
 
   frontend-serverless:
+    profiles:
+      - serverless
     build:
       context: frontend
       dockerfile: DockerfileServerless

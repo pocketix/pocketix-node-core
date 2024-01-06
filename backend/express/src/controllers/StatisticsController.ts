@@ -1,24 +1,14 @@
 import {InfluxService} from '../services/InfluxService';
-import {Inject, Service, Container} from 'typedi';
-import {
-    Body,
-    Controller,
-    Middlewares,
-    Post,
-    Query,
-    Route,
-    SuccessResponse,
-    Request,
-    Path,
-    Tags
-} from 'tsoa';
+import {Container, Inject, Service} from 'typedi';
+import {Body, Controller, Middlewares, Path, Post, Query, Request, Route, SuccessResponse, Tags} from 'tsoa';
 
 import {
     ComparisonOperator,
     InfluxQueryInput,
     InfluxQueryInputParam,
     InfluxQueryResult,
-    Operation, SingleSimpleValue
+    Operation,
+    SingleSimpleValue
 } from '../../../InfluxDataBase/api/influxTypes';
 import {fromDateBeforeToDate} from '../validators/fromDateBeforeToDate';
 import {ExitValidator} from '../middlewares/ExitValidator';
@@ -27,9 +17,6 @@ import {createBucketName} from '../utility/createBucketName';
 import {ReadRequestBody} from '../types/ReadRequestBody';
 import {WriteRequestBody} from '../types/WriteRequestBody';
 import {DeviceService} from "../services/DeviceService";
-import {MongoService} from "../services/MongoService";
-import {performance, PerformanceObserver} from "perf_hooks";
-
 
 @Service()
 @Route('statistics')
@@ -39,20 +26,10 @@ class StatisticsController extends Controller {
     private influxService: InfluxService;
     @Inject()
     private deviceService: DeviceService;
-    @Inject()
-    private mongoService: MongoService;
-    private performanceObserver: PerformanceObserver;
 
     constructor() {
         super();
         this.influxService = Container.get(InfluxService);
-        this.performanceObserver = new PerformanceObserver((items) => {
-            items.getEntries().forEach((entry => {
-                console.log(entry);
-            }));
-        });
-
-        this.performanceObserver.observe({entryTypes: ["measure"], buffered: true})
     }
 
     /**
@@ -76,16 +53,8 @@ class StatisticsController extends Controller {
             bucket: createBucketName(body.bucket),
             param: {sensors: body.sensors, from: fromString, to: toString} as InfluxQueryInputParam
         } as InfluxQueryInput;
-        performance.mark("statistics-influx-start");
-        const influxResult = await this.influxService.statistics(influxQuery)
-        performance.mark("statistics-influx-end");
-        performance.mark("statistics-mongo-start");
-        const mongoResult = await this.mongoService.statistics(influxQuery);
-        performance.mark("statistics-mongo-end");
 
-        performance.measure("statistics-influx", "statistics-influx-start", "statistics-influx-end");
-        performance.measure("statistics-mongo", "statistics-mongo-start", "statistics-mongo-end");
-        return influxResult;
+        return await this.influxService.statistics(influxQuery);
     }
 
     /**
@@ -119,16 +88,7 @@ class StatisticsController extends Controller {
                 timezone: body.timezone
             } as InfluxQueryInputParam
         } as InfluxQueryInput;
-        performance.mark("aggregate-influx-start");
-        const influxResult = await this.influxService.average(influxQuery);
-        performance.mark("aggregate-influx-end");
-        performance.mark("aggregate-mongo-start");
-        const mongoResult = await this.mongoService.average(influxQuery);
-        performance.mark("aggregate-mongo-end");
-
-        performance.measure("aggregate-influx", "aggregate-influx-start", "aggregate-influx-end");
-        performance.measure("aggregate-mongo", "aggregate-mongo-start", "aggregate-mongo-end");
-        return influxResult;
+        return await this.influxService.average(influxQuery);
     }
 
     /**
@@ -138,19 +98,8 @@ class StatisticsController extends Controller {
     @Post('data')
     @SuccessResponse('201', 'Created')
     public async saveData(@Body() body: WriteRequestBody): Promise<void> {
-        performance.mark("save-influx-start");
         await this.influxService.saveData(body.data, body.bucket);
-        performance.mark("save-influx-stop");
-        performance.mark("save-mongo-start");
-        await this.mongoService.saveData(body.data, body.bucket);
-        performance.mark("save-mongo-stop");
-        performance.mark("save-sqlUpdate-start");
-        await this.deviceService.updateDeviceIfExists(body.data[body.data.length - 1]);
-        performance.mark("save-sqlUpdate-stop");
-
-        performance.measure("save-influx", "save-influx-start", "save-influx-end");
-        performance.measure("save-mongo", "save-mongo-start", "save-mongo-end");
-        performance.measure("save-sqlUpdate", "save-sqlUpdate-start", "save-sqlUpdate-end");
+        await Promise.all(body.data.map(async data => await this.deviceService.updateDeviceIfExists(data)));
     }
 
     /**

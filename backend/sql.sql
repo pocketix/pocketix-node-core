@@ -248,7 +248,7 @@ ALTER TABLE ONLY public.parameter_value ALTER COLUMN id SET DEFAULT nextval('pub
 -- Data for Name: device; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.device VALUES ('boiler', 'Boiler', 'static/images/bruli.jpg', '2022-04-10 03:34:48', '2022-04-10 03:34:56', 'Bruli boiler for home use by eSterkovnik', 49.9753169, 16.866098, 1);
+INSERT INTO public.device VALUES ('200164193836383730385117003E0046', 'Boiler', 'static/images/bruli.jpg', '2022-04-10 03:34:48', '2022-04-10 03:34:56', 'Bruli boiler for home use by eSterkovnik', 49.9753169, 16.866098, 1);
 INSERT INTO public.device VALUES ('NodeMCU', 'Node MCU', '', '2022-04-23 21:35:13', '2022-04-23 21:35:17', 'Office Node MCU measuring light inside the room using photoreristor', 49.9753169, 16.866098, 2);
 INSERT INTO public.device VALUES ('NodeMCU2', 'Soil sensor', '', '2022-04-24 23:32:55', '2022-04-24 23:33:00', 'Node MCU with cheap soil sensor and DHT22', 49.9753169, 16.866098, 3);
 INSERT INTO public.device VALUES ('Arduino2', 'Bedroom Arduino', '', '2022-04-23 21:35:13', '2022-04-23 21:35:17', 'Bedroom Arduino UNO measuring light using photoreristor', 49.9753169, 16.866098, 2);
@@ -306,25 +306,25 @@ INSERT INTO public.parameter_type VALUES (26, 'out_pomp1', 'Output Pump 1 Status
 -- Data for Name: parameter_value; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.parameter_value VALUES (3, NULL, 1, 'boiler', 5, 3);
-INSERT INTO public.parameter_value VALUES (4, NULL, 2, 'boiler', 22.06, 3);
-INSERT INTO public.parameter_value VALUES (5, NULL, 3, 'boiler', 0.27, 3);
-INSERT INTO public.parameter_value VALUES (6, NULL, 4, 'boiler', 21.37, 3);
-INSERT INTO public.parameter_value VALUES (7, NULL, 5, 'boiler', 21.1, 3);
-INSERT INTO public.parameter_value VALUES (8, NULL, 6, 'boiler', 19.2, 3);
-INSERT INTO public.parameter_value VALUES (9, NULL, 7, 'boiler', 20.44, 3);
-INSERT INTO public.parameter_value VALUES (10, NULL, 8, 'boiler', 0.89, 3);
-INSERT INTO public.parameter_value VALUES (11, NULL, 9, 'boiler', 37.93, 3);
-INSERT INTO public.parameter_value VALUES (12, NULL, 10, 'boiler', 1.64, 3);
-INSERT INTO public.parameter_value VALUES (13, NULL, 11, 'boiler', 19.37, 3);
-INSERT INTO public.parameter_value VALUES (14, NULL, 12, 'boiler', 0, 3);
-INSERT INTO public.parameter_value VALUES (15, NULL, 13, 'boiler', -1.8, 3);
-INSERT INTO public.parameter_value VALUES (16, NULL, 14, 'boiler', 1.46, 3);
-INSERT INTO public.parameter_value VALUES (17, NULL, 15, 'boiler', 20.77, 3);
-INSERT INTO public.parameter_value VALUES (18, NULL, 16, 'boiler', 0, 3);
-INSERT INTO public.parameter_value VALUES (19, NULL, 17, 'boiler', 20.08, 3);
-INSERT INTO public.parameter_value VALUES (20, NULL, 18, 'boiler', 0, 3);
-INSERT INTO public.parameter_value VALUES (21, NULL, 19, 'boiler', 20.44, 3);
+INSERT INTO public.parameter_value VALUES (3, NULL, 1, '200164193836383730385117003E0046', 5, 3);
+INSERT INTO public.parameter_value VALUES (4, NULL, 2, '200164193836383730385117003E0046', 22.06, 3);
+INSERT INTO public.parameter_value VALUES (5, NULL, 3, '200164193836383730385117003E0046', 0.27, 3);
+INSERT INTO public.parameter_value VALUES (6, NULL, 4, '200164193836383730385117003E0046', 21.37, 3);
+INSERT INTO public.parameter_value VALUES (7, NULL, 5, '200164193836383730385117003E0046', 21.1, 3);
+INSERT INTO public.parameter_value VALUES (8, NULL, 6, '200164193836383730385117003E0046', 19.2, 3);
+INSERT INTO public.parameter_value VALUES (9, NULL, 7, '200164193836383730385117003E0046', 20.44, 3);
+INSERT INTO public.parameter_value VALUES (10, NULL, 8, '200164193836383730385117003E0046', 0.89, 3);
+INSERT INTO public.parameter_value VALUES (11, NULL, 9, '200164193836383730385117003E0046', 37.93, 3);
+INSERT INTO public.parameter_value VALUES (12, NULL, 10, '200164193836383730385117003E0046', 1.64, 3);
+INSERT INTO public.parameter_value VALUES (13, NULL, 11, '200164193836383730385117003E0046', 19.37, 3);
+INSERT INTO public.parameter_value VALUES (14, NULL, 12, '200164193836383730385117003E0046', 0, 3);
+INSERT INTO public.parameter_value VALUES (15, NULL, 13, '200164193836383730385117003E0046', -1.8, 3);
+INSERT INTO public.parameter_value VALUES (16, NULL, 14, '200164193836383730385117003E0046', 1.46, 3);
+INSERT INTO public.parameter_value VALUES (17, NULL, 15, '200164193836383730385117003E0046', 20.77, 3);
+INSERT INTO public.parameter_value VALUES (18, NULL, 16, '200164193836383730385117003E0046', 0, 3);
+INSERT INTO public.parameter_value VALUES (19, NULL, 17, '200164193836383730385117003E0046', 20.08, 3);
+INSERT INTO public.parameter_value VALUES (20, NULL, 18, '200164193836383730385117003E0046', 0, 3);
+INSERT INTO public.parameter_value VALUES (21, NULL, 19, '200164193836383730385117003E0046', 20.44, 3);
 INSERT INTO public.parameter_value VALUES (22, NULL, 20, 'Arduino', 79.69, 3);
 INSERT INTO public.parameter_value VALUES (23, NULL, 20, 'Arduino2', 87.4, 3);
 INSERT INTO public.parameter_value VALUES (24, NULL, 20, 'NodeMCU', 100.1, 3);
@@ -332,8 +332,8 @@ INSERT INTO public.parameter_value VALUES (25, NULL, 21, 'NodeMCU2', 40, 3);
 INSERT INTO public.parameter_value VALUES (26, NULL, 22, 'NodeMCU2', 23.8, 3);
 INSERT INTO public.parameter_value VALUES (27, NULL, 23, 'NodeMCU2', 52.2, 3);
 INSERT INTO public.parameter_value VALUES (28, NULL, 24, 'NodeMCU2', -84, 3);
-INSERT INTO public.parameter_value VALUES (29, NULL, 25, 'boiler', 0, 4);
-INSERT INTO public.parameter_value VALUES (30, NULL, 26, 'boiler', 0, 4);
+INSERT INTO public.parameter_value VALUES (29, NULL, 25, '200164193836383730385117003E0046', 0, 4);
+INSERT INTO public.parameter_value VALUES (30, NULL, 26, '200164193836383730385117003E0046', 0, 4);
 
 
 --

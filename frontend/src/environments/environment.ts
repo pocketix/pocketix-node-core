@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  bucket: "Home",
+  bucket: "bucket",
   api: "http://localhost:3000",
   influxApi: "http://localhost:3000"
 };

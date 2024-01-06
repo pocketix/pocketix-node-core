@@ -13,6 +13,7 @@
     "local": "ts-node ./src/server.ts",
     "start": "npm run build && ts-node ./src/server.ts",
     "dev": "nodemon",
+	"run": "node dist/express/src/server.js",
     "stage": "npm run build && ts-node ./src/server.ts",
     "generate": "npm run build && ng-openapi-gen --input src/swagger.json --output ../../frontend/src/app/generated",
     "schema": "typescript-json-schema \"../../frontend/src/app/generated/models/*.ts\" \"*\" --defaultProps true --noExtraProps true --required true --id Api -o \"../influx-lambda/src/Api.json\"",
@@ -27,7 +28,6 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "codelyzer": "^6.0.2",
-    "dotenv": "^8.6.0",
     "eslint": "^8.8.0",
     "jest": "^27.5.1",
     "multer": "^1.4.4",
@@ -57,6 +57,7 @@
     "ts-json-schema-generator": "^0.98.0",
     "tsoa": "^4.0.0-beta.0",
     "typedi": "^0.10.0",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm-naming-strategies": "^4.1.0",
+	"dotenv": "^8.6.0"
   }
 }

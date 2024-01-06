@@ -12,7 +12,7 @@ const createDatasource = async () => {
         database: process.env.POSTGRES_NAME,
         entities: ["./src/model/*.ts"],
         synchronize: false,
-        logging: true
+        logging: false
     });
 
     await dataSource.initialize();
