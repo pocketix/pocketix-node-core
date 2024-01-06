@@ -14,7 +14,7 @@ WORKDIR /usr/src/app
 ENV NODE_OPTIONS="--max_old_space_size=8192"
 COPY . .
 
-RUN npm install --omit=optional
+RUN npm ci
 RUN ng build --configuration $configuration
 
 # release stage
