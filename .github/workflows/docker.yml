@@ -23,7 +23,7 @@ jobs:
 
       - name: Build frontend
         run: |
-          docker buildx build --platform linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-frontend:latest -f ./frontend/Dockerfile ./frontend
+          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-frontend:latest -f ./frontend/Dockerfile ./frontend
           echo "Done frontend"
 
       - name: Build backend
