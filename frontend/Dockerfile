@@ -16,7 +16,7 @@ RUN npm install --omit=optional
 RUN ng build --configuration $configuration
 
 # release stage
-FROM nginx:latest AS release
+FROM nginx:alpine AS release
 
 EXPOSE $port
 

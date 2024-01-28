@@ -10,7 +10,7 @@ const createDatasource = async () => {
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_NAME,
-        entities: ["./src/model/*.ts"],
+        entities: [process.env.ENTITIES_PATH],
         synchronize: false,
         logging: false
     });

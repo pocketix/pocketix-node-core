@@ -27,8 +27,10 @@
         </div>
       </ng-template>
       <ng-template pTemplate="subtitle">
-        <div class="flex flex-row justify-content-between">
+        <div class="">
           <key-value-display key="Device UID" value="{{device.deviceUid}}"></key-value-display>
+        </div>
+        <div class="flex flex-row justify-content-between">
           <key-value-display key="Last seen" value="{{device.lastSeenDate | date}}"></key-value-display>
           <key-value-display key="Registered" value="{{device.registrationDate | date}}"></key-value-display>
         </div>
