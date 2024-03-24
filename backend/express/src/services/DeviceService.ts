@@ -34,7 +34,8 @@ class DeviceService {
                 deviceUid
             },
             relations: {
-                parameterValues: true
+                parameterValues: true,
+                capabilities: true,
             }
         });
     }

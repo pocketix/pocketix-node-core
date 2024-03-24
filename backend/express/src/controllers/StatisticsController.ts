@@ -20,7 +20,7 @@ import {DeviceService} from "../services/DeviceService";
 
 @Service()
 @Route('statistics')
-@Tags('Influx', 'Api')
+@Tags("statistics")
 class StatisticsController extends Controller {
     @Inject()
     private influxService: InfluxService;

@@ -11,7 +11,7 @@ const createDatasource = async () => {
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_NAME,
         entities: [process.env.ENTITIES_PATH],
-        synchronize: false,
+        synchronize: true,
         logging: false
     });
 

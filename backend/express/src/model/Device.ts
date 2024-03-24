@@ -1,6 +1,8 @@
 import {ParameterValue} from "./ParameterValue";
-import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from "typeorm";
+import {Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryColumn} from "typeorm";
 import {DeviceType} from "./DeviceType";
+import {DeviceCapability} from "./DeviceCapability";
+import {Group} from "./Group";
 
 @Entity()
 class Device {
@@ -66,6 +68,12 @@ class Device {
      */
     @ManyToOne(() => DeviceType, (deviceType) => deviceType.devices, {eager: true})
     type: DeviceType;
+
+    @OneToMany(() => DeviceCapability, capability => capability.device, { cascade: true })
+    capabilities?: DeviceCapability[];
+
+    @ManyToMany(() => Group, group => group.devices)
+    groups: Group[];
 }
 
 export {Device};
