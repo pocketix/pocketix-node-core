@@ -70,7 +70,10 @@ export class ProgramController extends Controller {
                 .setReferenceManager(this.referenceManagerAndCommander)
                 .parseProgram(program);
             const {commands} = await runner.run();
-            return commands;
+            return commands.map(command => ({
+                name: `${command.deviceId}.${command.commandId}`,
+                params: command.params
+            }));
         } catch (e) {
             console.log(e);
             throw e;

@@ -38,9 +38,9 @@ class ReferenceManagerAndCommander implements ICommander, IReferenceManager {
         for (const command of commands) {
             const device = await this.loadDeviceIfNotLoaded(command.deviceId);
             const commandToLaunch = device.capabilities.find(capability => capability.id === command.commandId);
-            const commandValue = command.commandValue ?? command?.params !== undefined ? command.params[0] : undefined;
+            //const commandValue = command. ?? command?.params !== undefined ? command.params[0] : undefined;
 
-            commandToLaunch.parameters = [{"param": commandValue}];
+            commandToLaunch.parameters = [{"param": ""}];
             commandToLaunch.type = CapabilityType.SCHEDULED;
 
             if (dry) {
