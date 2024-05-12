@@ -23,15 +23,15 @@ jobs:
 
       - name: Build frontend
         run: |
-          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-legacy/frontend:latest -f ./frontend/Dockerfile ./frontend
+          docker buildx build --platform linux/amd64,linux/arm/v8,linux/arm64  --push -t dexter.fit.vutbr.cz/jiap-legacy/frontend:latest -f ./frontend/Dockerfile ./frontend
           echo "Done frontend"
 
       - name: Build backend
         run: |
-          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-legacy/backend:latest -f ./backend/Dockerfile ./backend
+          docker buildx build --platform linux/amd64,linux/arm/v8,linux/arm64  --push -t dexter.fit.vutbr.cz/jiap-legacy/backend:latest -f ./backend/Dockerfile ./backend
           echo "Done backend"
 
       - name: Build subscriber
         run: |
-          docker buildx build --platform linux/amd64,linux/arm/v8  --push -t dexter.fit.vutbr.cz/jiap-legacy/subscriber:latest -f ./go-subscribe/Dockerfile ./go-subscribe
+          docker buildx build --platform linux/amd64,linux/arm/v8,linux/arm64  --push -t dexter.fit.vutbr.cz/jiap-legacy/subscriber:latest -f ./go-subscribe/Dockerfile ./go-subscribe
           echo "Done subscriber"
