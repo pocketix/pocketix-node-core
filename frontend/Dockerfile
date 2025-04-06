@@ -12,7 +12,8 @@ RUN echo $port
 WORKDIR /usr/src/app
 COPY . .
 
-RUN npm install --omit=optional
+RUN npm update -g npm
+RUN npm ci --maxsockets 1 --omit=optional
 RUN ng build --configuration $configuration
 
 # release stage

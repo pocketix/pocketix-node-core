@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   bucket: "bucket",
-  api: "http://localhost:3000",
-  influxApi: "http://localhost:3000"
+  api: "https://api.iot.petr-john.cz",
+  influxApi: "https://api.iot.petr-john.cz"
 };

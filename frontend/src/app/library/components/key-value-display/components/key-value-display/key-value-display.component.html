@@ -4,5 +4,5 @@
   tooltipPosition="top"
 >
   <span class="key" [style.font-size.px]="keySize">{{key}}</span>
-  <span class="value" [style.font-size.px]="valueSize">{{value}}</span>
+  <span class="value wrap-text" [style.font-size.px]="valueSize" [innerHTML]="value | breakAtSlash:split"></span>
 </div>

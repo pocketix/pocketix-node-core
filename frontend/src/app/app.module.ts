@@ -28,7 +28,7 @@ import {BaseDashboardComponent} from './components/base-dashboard/base-dashboard
 import {ToastModule} from "primeng/toast";
 import {environment} from "../environments/environment";
 import { RouterTestingModule } from "@angular/router/testing";
-import {DeviceService, InfluxService} from "./generated/services";
+import {DeviceService, StatisticsService} from "./generated/services";
 
 
 @NgModule({
@@ -64,8 +64,8 @@ import {DeviceService, InfluxService} from "./generated/services";
       new DeviceService({rootUrl: environment.api}, http),
     deps: [HttpClient]
   }, {
-    provide: InfluxService, useFactory: (http: HttpClient) =>
-      new InfluxService({rootUrl: environment.influxApi}, http),
+    provide: StatisticsService, useFactory: (http: HttpClient) =>
+      new StatisticsService({rootUrl: environment.influxApi}, http),
     deps: [HttpClient]
   }],
   exports: [],

@@ -3,7 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {DeviceService} from "../../generated/services/device.service";
 import {Device} from "../../generated/models/device";
 import {OutputData} from "../../generated/models/output-data";
-import {InfluxService} from "../../generated/services/influx.service";
+import {StatisticsService} from "../../generated/services/statistics.service";
 import {SingleSimpleValue} from "../../generated/models/single-simple-value";
 import {environment} from "../../../environments/environment";
 import {Operation} from "../../generated/models/operation";
@@ -60,7 +60,7 @@ export class CategoricalDashboardComponent implements OnInit {
   } as PastDaysState;
   private to: Date = new Date();
 
-  constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: InfluxService) { }
+  constructor(private route: ActivatedRoute, private deviceService: DeviceService, private influxService: StatisticsService) { }
 
   async ngOnInit(): Promise<void> {
     this.type = this.route.snapshot.params["type"] ?? "";

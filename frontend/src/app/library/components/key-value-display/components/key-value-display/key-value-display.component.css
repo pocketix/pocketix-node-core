@@ -5,3 +5,7 @@
 .key {
   color: var(--text-color);
 }
+
+.wrap-text {
+  word-wrap: break-word;
+}

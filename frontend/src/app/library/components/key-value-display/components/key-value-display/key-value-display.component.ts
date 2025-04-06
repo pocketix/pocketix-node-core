@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {split} from "lodash";
 
 @Component({
   selector: 'key-value-display',
@@ -16,6 +17,8 @@ export class KeyValueDisplayComponent implements OnInit {
   keySize: number = 16;
   @Input()
   valueSize: number = 16;
+  @Input()
+  split: boolean = false;
 
   constructor() { }
 

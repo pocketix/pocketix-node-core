@@ -13,7 +13,7 @@ import {ApexAxisChartSeries} from "ng-apexcharts";
 import {BulletsState, SparklineState} from "../../library/dashboards/model/dashboards.model";
 import {DataItem} from "@swimlane/ngx-charts/lib/models/chart-data.model";
 import {Device} from "../../generated/models/device";
-import {InfluxService} from "../../generated/services/influx.service";
+import {StatisticsService} from "../../generated/services/statistics.service";
 import {MessageService} from "primeng/api";
 import {DeviceService} from "../../generated/services/device.service";
 import {environment} from "../../../environments/environment";
@@ -66,7 +66,7 @@ export class BaseDashboardComponent implements OnInit {
   to: Date = new Date();
 
   constructor(private route: ActivatedRoute,
-              protected influxService: InfluxService,
+              protected influxService: StatisticsService,
               protected deviceService: DeviceService,
               protected messageService: MessageService) { }
 
