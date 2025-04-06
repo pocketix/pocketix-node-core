@@ -1,5 +1,5 @@
-import {Route, Controller, Get, Post, Put, Delete, Path, Body, Query, Tags} from 'tsoa';
-import { Group } from '../model/Group';
+import {Body, Controller, Delete, Get, Path, Post, Put, Query, Route, Tags} from 'tsoa';
+import {Group} from '../model/Group';
 import {DataSource, Repository, SelectQueryBuilder} from 'typeorm';
 import {Container, Service} from "typedi";
 
@@ -30,7 +30,7 @@ export class GroupController extends Controller {
             query = query.leftJoinAndSelect('group.devices', 'device');
         }
 
-        return query.getMany();
+        return await query.getMany();
     }
 
     @Post()

@@ -11,6 +11,8 @@ type VoidableResponse = Response | void;
  * @param next next middleware or a controller
  */
 const errorHandler = (error: unknown, request: Request, response: Response, next: NextFunction): VoidableResponse => {
+    console.log(error);
+
     if (error instanceof ValidateError) {
         return response.status(422).json({
             message: 'Validation errors',

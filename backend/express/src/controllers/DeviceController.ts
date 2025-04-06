@@ -1,6 +1,6 @@
 import {DeviceService} from "../services/DeviceService";
 import {Inject, Service} from "typedi";
-import {Get, Path, Route, Tags} from "tsoa";
+import {Get, Path, Query, Route, Tags} from "tsoa";
 import {Device} from "../model/Device";
 
 @Service()
@@ -17,8 +17,8 @@ class DeviceController {
      * Get device by deviceUid
      * @param deviceUid deviceUid to search by
      */
-    @Get('{deviceUid}')
-    public async getDeviceById(@Path() deviceUid: string): Promise<Device> {
+    @Get('byUid')
+    public async getDeviceById(@Query() deviceUid: string): Promise<Device> {
         return await this.deviceService.getDevice(deviceUid);
     }
 

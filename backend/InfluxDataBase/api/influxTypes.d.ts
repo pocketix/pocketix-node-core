@@ -5,7 +5,7 @@ export interface InputData {
     /**
      * Timestamp, either as JavaScript Date object or as a number representing unix timestamp
      */
-    tst: number | Date | string;
+    tst?: number | Date | string | null;
 
     /**
      * Other values to save
