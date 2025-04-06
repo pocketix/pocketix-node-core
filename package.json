@@ -1,5 +1,5 @@
 {
-  "name": "dip",
+  "name": "pocketix-node-core",
   "workspaces": [],
   "version": "1.0.0",
   "description": "",
@@ -24,9 +24,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "surrealdb.ts": "^0.0.1-beta.3.6"
-  },
   "devDependencies": {
     "concurrently": "^7.1.0"
   }

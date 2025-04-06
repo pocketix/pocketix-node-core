@@ -33,5 +33,5 @@ jobs:
 
       - name: Build subscriber
         run: |
-          docker buildx build --platform linux/amd64,linux/arm/v8,linux/arm64  --push -t dexter.fit.vutbr.cz/jiap-legacy/subscriber:latest -f ./go-subscribe/Dockerfile ./go-subscribe
+          docker buildx build --platform linux/amd64,linux/arm/v8,linux/arm64  --push -t dexter.fit.vutbr.cz/jiap-legacy/subscriber:latest -f ./backend/go-subscribe/Dockerfile ./go-subscribe
           echo "Done subscriber"

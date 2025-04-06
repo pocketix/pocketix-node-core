@@ -15,6 +15,7 @@ Contains all backend resources and services:
 - 💾 **`InfluxDataBase`**: Wrapper for the Influx.js client, acting as a bridge to environment-dependent controllers or AWS Lambda handlers.
 - 🌐 **`express`**: Express.js application for accessing data from both InfluxDB and PostgreSQL. Does **not** handle MQTT messages (use solutions like [The Things Network](https://www.thethingsnetwork.org/)).
 - ☁️ **`influx-lambda`**: Serverless AWS Lambda integration for working with InfluxDataBase (for testing and cloud-based use).
+- 📡 **`go-subscribe`**: A tool converting MQTT messages into `express` API calls
 
 ### **Frontend**
 Contains the Angular-based frontend for the Pocketix ecosystem:
