@@ -1,11 +1,11 @@
-import {Route, Controller, Get, Post, Path, Body, Tags} from 'tsoa';
+import {Route, Controller, Get, Post, Path, Body, Tags} from "@tsoa/runtime";
 import {Program, Version} from '../model/Program';
 import {Inject, Service} from "typedi";
 import {DataSource, Repository} from 'typeorm';
 import {Group} from "../model/Group";
 import {Container} from "typedi";
 import {ReferenceManagerAndCommander} from "../services/ReferenceManagerAndCommander";
-import {ProgramRunner as PrototypeProgramRunner} from "../../../ProgrammingLogimicPrototype";
+import {ProgramRunner as PrototypeProgramRunner} from "@pocketix/pocketix-node";
 import {DeviceService} from "../services/DeviceService";
 
 @Service()
@@ -78,7 +78,6 @@ export class ProgramController extends Controller {
             console.log(e);
             throw e;
         }
-
     }
 
     @Get('meta/{version}')

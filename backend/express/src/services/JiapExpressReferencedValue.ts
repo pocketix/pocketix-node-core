@@ -1,5 +1,5 @@
-import {ReferencedValue, ValueType} from "../../../ProgrammingLogimicPrototype";
 import {ParameterValue} from "../model/ParameterValue";
+import { ReferencedValue, ValueType } from "@pocketix/pocketix-node";
 
 class JiapExpressReferencedValue extends ReferencedValue {
     constructor(deviceUid: string, parameter: ParameterValue) {

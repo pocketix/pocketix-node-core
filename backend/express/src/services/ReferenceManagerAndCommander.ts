@@ -4,7 +4,7 @@ import {
     IReferenceManager,
     ReferencedValue,
     ReferencedValueItemsAsObject
-} from "../../../ProgrammingLogimicPrototype";
+} from "@pocketix/pocketix-node";
 import {Device} from "../model/Device";
 import {DeviceService} from "./DeviceService";
 import {Inject, Service} from "typedi";

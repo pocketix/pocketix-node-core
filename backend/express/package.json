@@ -43,6 +43,7 @@
     "@fullerstack/nax-ipware": "^0.10.0",
     "@influxdata/influxdb-client": "^1.20.0",
     "@influxdata/influxdb-client-apis": "^1.18.0",
+    "@pocketix/pocketix-node": "github:pocketix/pocketix-node",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dip": "file:../..",
