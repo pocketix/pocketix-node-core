@@ -9,7 +9,7 @@ import {
     InfluxQueryResult,
     Operation,
     SingleSimpleValue
-} from '../../../InfluxDataBase/api/influxTypes';
+} from '../../../influx-database/api/influxTypes';
 import {fromDateBeforeToDate} from '../validators/fromDateBeforeToDate';
 import {ExitValidator} from '../middlewares/ExitValidator';
 import {Request as ExpressRequest} from 'express';

@@ -1,5 +1,5 @@
 {
-  "name": "dip",
+  "name": "pocketix-node-core-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,13 @@
     "test": "ng test",
     "single-test": "ng test --browsers ChromeHeadless --watch=false"
   },
-  "private": true,
+  "keywords": ["IoT", "Time Series", "AWS", "Influx"],
+  "author": "Petr John",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pocketix/pocketix-node-core/issues"
+  },
+  "homepage": "https://github.com/pocketix/pocketix-node-core#readme",
   "dependencies": {
     "@angular/animations": "~13.0.2",
     "@angular/cdk": "^12.2.6",

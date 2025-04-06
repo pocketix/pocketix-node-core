@@ -1,4 +1,4 @@
-import {Sensors} from '../../../InfluxDataBase/api/influxTypes';
+import {Sensors} from '../../../influx-database/api/influxTypes';
 
 /**
  * Interface representing the body of a read request

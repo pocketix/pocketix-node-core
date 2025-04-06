@@ -1,7 +1,7 @@
 import {DataSource} from "typeorm";
 import {Container, Service} from "typedi";
 import {Device} from "../model/Device";
-import {InputData,} from '../../../InfluxDataBase/api/influxTypes';
+import {InputData,} from '../../../influx-database/api/influxTypes';
 import {ParameterValue} from "../model/ParameterValue";
 import {ParameterType} from "../model/ParameterType";
 import {DeviceType} from "../model/DeviceType";

@@ -3,7 +3,7 @@ import {
     InfluxQueryInput,
     InfluxQueryResult,
     InputData, SingleSimpleValue
-} from '../../../../InfluxDataBase/api/influxTypes';
+} from '../../../../influx-database/api/influxTypes';
 
 /**
  * Simple service that wraps the 'Influx' class into an injectable service

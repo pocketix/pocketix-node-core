@@ -1,4 +1,4 @@
-import {Influx} from '../../../InfluxDataBase/api/Influx';
+import {Influx} from '../../../influx-database/api/Influx';
 import {Service} from 'typedi';
 import {
     ComparisonOperator,
@@ -6,7 +6,7 @@ import {
     InfluxQueryResult,
     InputData,
     SingleSimpleValue
-} from '../../../InfluxDataBase/api/influxTypes';
+} from '../../../influx-database/api/influxTypes';
 import {StatisticsService} from "./StatisticsService";
 
 /**

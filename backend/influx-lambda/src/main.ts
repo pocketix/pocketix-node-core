@@ -44,8 +44,8 @@ const headers = {
     "Access-Control-Allow-Methods": "POST"
 };
 
-import {IInflux} from "../../InfluxDataBase/api/IInflux"
-import {Influx} from "../../InfluxDataBase/api/Influx";
+import {IInflux} from "../../influx-database/api/IInflux"
+import {Influx} from "../../influx-database/api/Influx";
 
 const influx: IInflux = new Influx(
     process.env.URL || "",

@@ -1,4 +1,4 @@
-import {InputData} from '../../../InfluxDataBase/api/influxTypes';
+import {InputData} from '../../../influx-database/api/influxTypes';
 
 interface WriteRequestBody {
     bucket: string;

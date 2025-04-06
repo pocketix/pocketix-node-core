@@ -10,9 +10,13 @@
 	"benchmark": "node src/index.js --benchmark data.json",
 	"temp": "node src/index.js -t dataAsJson2.json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["IoT", "Time Series", "AWS", "Influx"],
+  "author": "Petr John",
+  "license": "MIT",
+  "bugs": {
+	"url": "https://github.com/pocketix/pocketix-node-core/issues"
+  },
+  "homepage": "https://github.com/pocketix/pocketix-node-core#readme",
   "devDependencies": {
     "@types/node": "^16.10.3",
     "typescript": "^4.4.3"

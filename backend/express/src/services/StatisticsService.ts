@@ -3,7 +3,7 @@ import {
     InfluxQueryInput,
     InfluxQueryResult,
     InputData, SingleSimpleValue
-} from "../../../InfluxDataBase/api/influxTypes";
+} from "../../../influx-database/api/influxTypes";
 
 interface StatisticsService {
     statistics(query: InfluxQueryInput): Promise<InfluxQueryResult>;

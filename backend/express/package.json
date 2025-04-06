@@ -20,9 +20,13 @@
     "generate-next": "tsoa spec-and-routes && openapi --input src/swagger.json --output ../../generator/express-api",
     "generate-axios": "tsoa spec-and-routes && openapi --input src/swagger.json --output generated --client axios --useUnionTypes"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["IoT", "Time Series", "AWS", "Influx"],
+  "author": "Petr John",
+  "license": "MIT",
+  "bugs": {
+	"url": "https://github.com/pocketix/pocketix-node-core/issues"
+  },
+  "homepage": "https://github.com/pocketix/pocketix-node-core#readme",
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",

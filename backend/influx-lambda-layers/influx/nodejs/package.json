@@ -1,15 +1,15 @@
 {
-  "name": "influx-aws-lambda",
+  "name": "influx-lambda-layers",
   "version": "1.0.0",
-  "description": "",
+  "description": "Layers for quicker AWS Lambda Deployment",
   "main": "aws_api/index.ts",
-  "scripts": {
-    "test": "jest",
-    "run": "node aws_api/index.ts"
+  "keywords": ["IoT", "Time Series", "AWS", "Influx"],
+  "author": "Petr John",
+  "license": "MIT",
+  "bugs": {
+	"url": "https://github.com/pocketix/pocketix-node-core/issues"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/pocketix/pocketix-node-core#readme",
   "dependencies": {
     "@influxdata/influxdb-client": "^1.31.0",
     "@influxdata/influxdb-client-apis": "^1.31.0"

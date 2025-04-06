@@ -1,6 +1,6 @@
 import {Service} from "typedi";
 import {Device} from "../../model/Device";
-import {InputData} from "../../../../InfluxDataBase/api/influxTypes";
+import {InputData} from "../../../../influx-database/api/influxTypes";
 
 @Service()
 class DeviceService {
